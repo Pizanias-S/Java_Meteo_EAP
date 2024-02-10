@@ -1,60 +1,7 @@
-Sat Feb 10 19:40:59 EET 2024 : Apache Derby Network Server - 10.16.1.1 - (1901046) started and ready to accept connections on port 1527
+Sat Feb 10 20:19:27 EET 2024 : Apache Derby Network Server - 10.16.1.1 - (1901046) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Sat Feb 10 19:40:59 EET 2024:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.16.1.1 - (1901046): instance a816c00e-018d-941b-b2ec-ffffdd1b1c46 
-on database directory C:\Users\perol\Documents\NetBeansProjects\mavenproject1\derbydb with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@73d16e93 
-Loaded from file:/C:/db-derby-10.16.1.1-bin/lib/derby.jar
-java.vendor=Oracle Corporation
-java.runtime.version=17.0.10+11-LTS-240
-user.dir=C:\db-derby-10.16.1.1-bin
-os.name=Windows 10
-os.arch=amd64
-os.version=10.0
-derby.system.home=C:\Users\perol\Documents\NetBeansProjects\mavenproject1
-Database Class Loader started - derby.database.classpath=''
-Sat Feb 10 19:41:00 EET 2024 Thread[DRDAConnThread_2,5,main] (DATABASE = derbydb), (DRDAID = ????????.????-4471228297461910598{1}), Java exception: ': org.apache.derby.shared.common.error.ShutdownException'.
-Sat Feb 10 19:41:00 EET 2024 : Java exception: ': org.apache.derby.shared.common.error.ShutdownException'.
-java.sql.SQLException: Java exception: ': org.apache.derby.shared.common.error.ShutdownException'.
-	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(SQLExceptionFactory.java:115)
-	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(SQLExceptionFactory.java:141)
-	at org.apache.derby.impl.jdbc.Util.seeNextException(Util.java:252)
-	at org.apache.derby.impl.jdbc.Util.javaException(Util.java:274)
-	at org.apache.derby.impl.jdbc.TransactionResourceImpl.wrapInSQLException(TransactionResourceImpl.java:444)
-	at org.apache.derby.impl.jdbc.TransactionResourceImpl.handleException(TransactionResourceImpl.java:360)
-	at org.apache.derby.impl.jdbc.EmbedConnection.handleException(EmbedConnection.java:2400)
-	at org.apache.derby.impl.jdbc.EmbedConnection.rollback(EmbedConnection.java:1962)
-	at org.apache.derby.impl.drda.Database.close(Database.java:370)
-	at org.apache.derby.impl.drda.Session.close(Session.java:117)
-	at org.apache.derby.impl.drda.DRDAConnThread.closeSession(DRDAConnThread.java:8729)
-	at org.apache.derby.impl.drda.DRDAConnThread.run(DRDAConnThread.java:319)
-Caused by: ERROR XJ001: Java exception: ': org.apache.derby.shared.common.error.ShutdownException'.
-	at org.apache.derby.shared.common.error.StandardException.newException(StandardException.java:299)
-	at org.apache.derby.impl.jdbc.SQLExceptionFactory.wrapArgsForTransportAcrossDRDA(SQLExceptionFactory.java:170)
-	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(SQLExceptionFactory.java:75)
-	... 11 more
-Caused by: org.apache.derby.shared.common.error.ShutdownException: 
-	at org.apache.derby.iapi.services.context.ContextManager.checkInterrupt(ContextManager.java:468)
-	at org.apache.derby.iapi.services.context.ContextManager.getContext(ContextManager.java:160)
-	at org.apache.derby.impl.sql.conn.GenericLanguageConnectionContext.getStatementContext(GenericLanguageConnectionContext.java:2999)
-	at org.apache.derby.impl.sql.conn.GenericLanguageConnectionContext.doRollback(GenericLanguageConnectionContext.java:1725)
-	at org.apache.derby.impl.sql.conn.GenericLanguageConnectionContext.userRollback(GenericLanguageConnectionContext.java:1688)
-	at org.apache.derby.impl.jdbc.TransactionResourceImpl.rollback(TransactionResourceImpl.java:252)
-	at org.apache.derby.impl.jdbc.EmbedConnection.rollback(EmbedConnection.java:1958)
-	... 4 more
-Sat Feb 10 19:41:00 EET 2024 Thread[DRDAConnThread_2,5,main] (DATABASE = derbydb), (DRDAID = ????????.????-4471228297461910598{1}), Execution failed because of Permanent Agent Error: SVRCOD = 40; RDBNAM = derbydb;create=true; diagnostic msg = Java exception: ': org.apache.derby.shared.common.error.ShutdownException'.
-Sat Feb 10 19:41:00 EET 2024 : Execution failed because of Permanent Agent Error: SVRCOD = 40; RDBNAM = derbydb;create=true; diagnostic msg = Java exception: ': org.apache.derby.shared.common.error.ShutdownException'.
-org.apache.derby.impl.drda.DRDAProtocolException: Execution failed because of Permanent Agent Error: SVRCOD = 40; RDBNAM = derbydb;create=true; diagnostic msg = Java exception: ': org.apache.derby.shared.common.error.ShutdownException'.
-	at org.apache.derby.impl.drda.DRDAProtocolException.newAgentError(DRDAProtocolException.java:340)
-	at org.apache.derby.impl.drda.DRDAConnThread.sendUnexpectedException(DRDAConnThread.java:8803)
-	at org.apache.derby.impl.drda.DRDAConnThread.closeSession(DRDAConnThread.java:8735)
-	at org.apache.derby.impl.drda.DRDAConnThread.run(DRDAConnThread.java:319)
-----------------------------------------------------------------
-Sat Feb 10 19:41:00 EET 2024:
-Shutting down instance a816c00e-018d-941b-b2ec-ffffdd1b1c46 on database directory C:\Users\perol\Documents\NetBeansProjects\mavenproject1\derbydb with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@73d16e93 
-Sat Feb 10 19:41:00 EET 2024 Thread[DRDAConnThread_3,5,main] (DATABASE = derbydb), (DRDAID = {2}), Database 'derbydb' shutdown.
-----------------------------------------------------------------
-Sat Feb 10 19:41:23 EET 2024:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.16.1.1 - (1901046): instance 97e00100-018d-941b-b2ec-ffffdd1b1c46 
+Sat Feb 10 20:19:27 EET 2024:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.16.1.1 - (1901046): instance a816c00e-018d-943e-e89a-ffffdd1b1c46 
 on database directory C:\Users\perol\Documents\NetBeansProjects\mavenproject1\derbydb with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@73d16e93 
 Loaded from file:/C:/db-derby-10.16.1.1-bin/lib/derby.jar
 java.vendor=Oracle Corporation
