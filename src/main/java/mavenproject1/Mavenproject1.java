@@ -1,5 +1,5 @@
 
-package com.mycompany.mavenproject1;
+package mavenproject1;
 
 import Menu.EventMenu;
 import Menu.Forecast;
