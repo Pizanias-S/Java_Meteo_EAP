@@ -1,6 +1,6 @@
 
 package mavenproject1;
-
+import Database.Database;
 import Menu.EventMenu;
 import Menu.Forecast;
 import Menu.CityList;
@@ -13,6 +13,10 @@ public class Mavenproject1 extends javax.swing.JFrame {
 
     
     public Mavenproject1() {
+        Database connectDB = Database.getConnectionInstance();
+        connectDB.createTableCity();
+        connectDB.createTableMeteoData();
+
         initComponents();
         setBackground(new Color(0.0f,0.0f,0.0f,0.0f));
         init();
