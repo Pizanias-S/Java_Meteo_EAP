@@ -1,2 +1,5 @@
 /target/
 /derby.log/
+/derbydb2/
+/derbydb/
+/derby.log
