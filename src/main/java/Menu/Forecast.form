@@ -81,7 +81,7 @@
                               <Group type="102" attributes="0">
                                   <Component id="city_icon" min="-2" pref="34" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                                  <Component id="city" min="-2" pref="245" max="-2" attributes="0"/>
+                                  <Component id="cityLabel" min="-2" pref="245" max="-2" attributes="0"/>
                               </Group>
                               <Group type="103" alignment="0" groupAlignment="1" attributes="0">
                                   <Component id="description" min="-2" pref="140" max="-2" attributes="0"/>
@@ -127,7 +127,7 @@
                       <Group type="102" attributes="0">
                           <Component id="cur_temp" min="-2" pref="60" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="city" min="-2" pref="39" max="-2" attributes="0"/>
+                              <Component id="cityLabel" min="-2" pref="39" max="-2" attributes="0"/>
                               <Component id="city_icon" min="-2" pref="35" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -243,7 +243,7 @@
         <Property name="verticalTextPosition" type="int" value="1"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="city">
+    <Component class="javax.swing.JLabel" name="cityLabel">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Avenir Next" size="24" style="1"/>

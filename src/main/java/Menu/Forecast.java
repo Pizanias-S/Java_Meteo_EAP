@@ -1,7 +1,14 @@
 package Menu;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import java.awt.Image;
 import javax.swing.ImageIcon;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
 
 public class Forecast extends javax.swing.JPanel {
@@ -15,8 +22,8 @@ public class Forecast extends javax.swing.JPanel {
         // City Label & Location Icon
         c_icon = iconRender("/Icons/location.png", 27, 27);
         city_icon.setIcon(c_icon);
-        city.repaint();
-        city.setText(main_city);
+        cityLabel.repaint();
+        cityLabel.setText(main_city);
         
         // Current Conditions icon
         cur_con_icon =  iconRender("/Icons/cur_partly_cloudy.png", 100, 100);
@@ -68,7 +75,7 @@ public class Forecast extends javax.swing.JPanel {
     private void initComponents() {
 
         cur_temp = new javax.swing.JLabel();
-        city = new javax.swing.JLabel();
+        cityLabel = new javax.swing.JLabel();
         city_icon = new javax.swing.JLabel();
         cur_conditions = new javax.swing.JLabel();
         description = new javax.swing.JLabel();
@@ -121,11 +128,11 @@ public class Forecast extends javax.swing.JPanel {
         cur_temp.setAlignmentX(1.5F);
         cur_temp.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
 
-        city.setFont(new java.awt.Font("Avenir Next", 1, 24)); // NOI18N
-        city.setForeground(new java.awt.Color(200, 200, 200));
-        city.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        city.setText("City");
-        city.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        cityLabel.setFont(new java.awt.Font("Avenir Next", 1, 24)); // NOI18N
+        cityLabel.setForeground(new java.awt.Color(200, 200, 200));
+        cityLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        cityLabel.setText("City");
+        cityLabel.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
         description.setFont(new java.awt.Font("Avenir Next", 0, 18)); // NOI18N
         description.setForeground(new java.awt.Color(220, 220, 220));
@@ -157,7 +164,6 @@ public class Forecast extends javax.swing.JPanel {
         line.setToolTipText("");
         line.setMinimumSize(new java.awt.Dimension(100, 3));
         line.setPreferredSize(new java.awt.Dimension(100, 6));
-        line.setSize(new java.awt.Dimension(100, 5));
 
         javax.swing.GroupLayout lineLayout = new javax.swing.GroupLayout(line);
         line.setLayout(lineLayout);
@@ -174,7 +180,6 @@ public class Forecast extends javax.swing.JPanel {
         line1.setForeground(new java.awt.Color(150, 150, 150));
         line1.setToolTipText("");
         line1.setMinimumSize(new java.awt.Dimension(100, 3));
-        line1.setSize(new java.awt.Dimension(100, 5));
 
         javax.swing.GroupLayout line1Layout = new javax.swing.GroupLayout(line1);
         line1.setLayout(line1Layout);
@@ -430,7 +435,7 @@ public class Forecast extends javax.swing.JPanel {
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(city_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(0, 0, 0)
-                                    .addComponent(city, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(cityLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(description, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
@@ -463,7 +468,7 @@ public class Forecast extends javax.swing.JPanel {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(cur_temp, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(city, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cityLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(city_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(searchBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -551,11 +556,51 @@ public class Forecast extends javax.swing.JPanel {
 
     private void searchBar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBar1ActionPerformed
 
+         try {
+            String city = searchBar1.getText();                                      
+            String urlToCall = "https://wttr.in/" + city + "?format=j1";              
+            OkHttpClient client = new OkHttpClient();                               
+            Request request = new Request.Builder().url(urlToCall).build();  
+            
+    try (okhttp3.Response response = client.newCall(request).execute()) {     
+        if (response.isSuccessful() && response.body() != null) {
+            String responseString = response.body().string();                   
+            GsonBuilder builder = new GsonBuilder();                             
+            builder.setPrettyPrinting();
+            Gson gson = builder.create();
+            JsonObject json = gson.fromJson(responseString, JsonObject.class); 
+            JsonArray array = json.get("nearest_area").getAsJsonArray();        
+            System.out.println(array);
+            String name = null;
+            
+            for (JsonElement jsonElement : array) {                              
+                JsonObject object = jsonElement.getAsJsonObject();
+                JsonArray areaName = object.get("areaName").getAsJsonArray();
+                for (JsonElement jsonElement2 : areaName) {                      
+                    JsonObject object1 = jsonElement2.getAsJsonObject();         
+                    name = object1.get("value").getAsString();
+                    cityLabel.setText(name);                                          
+                }
+            }
+        }
+           }  catch (Exception e) {
+                   System.out.println("It doesn't exist");
+                            }
+          }   catch (Exception e) {
+                   System.out.println("It doesn't exist");
+                            }
+
+        
+        
+        
+        
+        
+        
     }//GEN-LAST:event_searchBar1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel city;
+    private javax.swing.JLabel cityLabel;
     private javax.swing.JLabel city_icon;
     private javax.swing.JPanel column;
     private javax.swing.JPanel column1;
