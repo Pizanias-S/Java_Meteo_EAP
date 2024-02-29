@@ -1,9 +1,7 @@
 package Menu;
 
-import java.awt.ComponentOrientation;
 import java.awt.Image;
 import javax.swing.ImageIcon;
-import javax.swing.SwingConstants;
 
 
 public class Forecast extends javax.swing.JPanel {
@@ -551,7 +549,7 @@ public class Forecast extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void searchBar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBar1ActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_searchBar1ActionPerformed
 
 
