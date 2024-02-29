@@ -9,13 +9,14 @@ public class Forecast extends javax.swing.JPanel {
     private ImageIcon c_icon, cur_con_icon, h_icn, ws_icn, uv_icn, fm_icn, fn_icn, fe_icn, fnt_icn;
     
         
-    public Forecast() {
+    public Forecast(String main_city) {
         initComponents();
         setOpaque(false);
         // City Label & Location Icon
         c_icon = iconRender("/Icons/location.png", 27, 27);
         city_icon.setIcon(c_icon);
         city.repaint();
+        city.setText(main_city);
         
         // Current Conditions icon
         cur_con_icon =  iconRender("/Icons/cur_partly_cloudy.png", 100, 100);
