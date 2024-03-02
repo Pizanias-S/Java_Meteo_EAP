@@ -112,11 +112,16 @@ public class Forecast extends javax.swing.JPanel {
         fnt_ws = new javax.swing.JLabel();
         fnt_uv = new javax.swing.JLabel();
         searchBar1 = new Components.SearchBar();
+        editButton1 = new Components.EditButton();
+        deleteButton1 = new Components.DeleteButton();
+        saveButton1 = new Components.SaveButton();
+        dateLabel = new javax.swing.JLabel();
+        searchError = new javax.swing.JLabel();
 
         cur_temp.setFont(new java.awt.Font("Avenir Next", 1, 48)); // NOI18N
         cur_temp.setForeground(new java.awt.Color(200, 200, 200));
         cur_temp.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        cur_temp.setText("20˚C");
+        cur_temp.setText("--˚C");
         cur_temp.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         cur_temp.setAlignmentX(1.5F);
         cur_temp.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
@@ -129,7 +134,7 @@ public class Forecast extends javax.swing.JPanel {
 
         description.setFont(new java.awt.Font("Avenir Next", 0, 18)); // NOI18N
         description.setForeground(new java.awt.Color(220, 220, 220));
-        description.setText("Partly Cloudy");
+        description.setText("Conditions");
 
         ws_icon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
@@ -140,24 +145,23 @@ public class Forecast extends javax.swing.JPanel {
         h.setFont(new java.awt.Font("Avenir Next", 0, 14)); // NOI18N
         h.setForeground(new java.awt.Color(200, 200, 200));
         h.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        h.setText("62%");
+        h.setText("--%");
 
         ws.setFont(new java.awt.Font("Avenir Next", 0, 14)); // NOI18N
         ws.setForeground(new java.awt.Color(200, 200, 200));
         ws.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        ws.setText("2 Bft");
+        ws.setText("- Km/h");
 
         uv.setFont(new java.awt.Font("Avenir Next", 0, 14)); // NOI18N
         uv.setForeground(new java.awt.Color(200, 200, 200));
         uv.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        uv.setText("3");
+        uv.setText("--");
 
         line.setBackground(new java.awt.Color(150, 150, 150));
         line.setForeground(new java.awt.Color(150, 150, 150));
         line.setToolTipText("");
         line.setMinimumSize(new java.awt.Dimension(100, 3));
         line.setPreferredSize(new java.awt.Dimension(100, 6));
-        line.setSize(new java.awt.Dimension(100, 5));
 
         javax.swing.GroupLayout lineLayout = new javax.swing.GroupLayout(line);
         line.setLayout(lineLayout);
@@ -174,7 +178,6 @@ public class Forecast extends javax.swing.JPanel {
         line1.setForeground(new java.awt.Color(150, 150, 150));
         line1.setToolTipText("");
         line1.setMinimumSize(new java.awt.Dimension(100, 3));
-        line1.setSize(new java.awt.Dimension(100, 5));
 
         javax.swing.GroupLayout line1Layout = new javax.swing.GroupLayout(line1);
         line1.setLayout(line1Layout);
@@ -212,27 +215,27 @@ public class Forecast extends javax.swing.JPanel {
         fm_temp.setFont(new java.awt.Font("Avenir Next", 1, 18)); // NOI18N
         fm_temp.setForeground(new java.awt.Color(220, 220, 220));
         fm_temp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fm_temp.setText("25˚C");
+        fm_temp.setText("--˚C");
 
         fm_description.setFont(new java.awt.Font("Avenir Next", 0, 14)); // NOI18N
         fm_description.setForeground(new java.awt.Color(220, 220, 220));
         fm_description.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fm_description.setText("Sunny");
+        fm_description.setText("--");
 
         fm_h.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
         fm_h.setForeground(new java.awt.Color(180, 180, 180));
         fm_h.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fm_h.setText("Humidity: 55%");
+        fm_h.setText("Humidity: --%");
 
         fm_ws.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
         fm_ws.setForeground(new java.awt.Color(180, 180, 180));
         fm_ws.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fm_ws.setText("Windspeed: 4 Bft");
+        fm_ws.setText("Windspeed: - Km/h");
 
         fm_uv.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
         fm_uv.setForeground(new java.awt.Color(180, 180, 180));
         fm_uv.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fm_uv.setText("UV: 8");
+        fm_uv.setText("UV: --");
 
         fn.setFont(new java.awt.Font("Avenir Next", 2, 12)); // NOI18N
         fn.setForeground(new java.awt.Color(220, 220, 220));
@@ -259,27 +262,27 @@ public class Forecast extends javax.swing.JPanel {
         fn_temp.setFont(new java.awt.Font("Avenir Next", 1, 18)); // NOI18N
         fn_temp.setForeground(new java.awt.Color(220, 220, 220));
         fn_temp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fn_temp.setText("23˚C");
+        fn_temp.setText("--˚C");
 
         fn_description.setFont(new java.awt.Font("Avenir Next", 0, 14)); // NOI18N
         fn_description.setForeground(new java.awt.Color(220, 220, 220));
         fn_description.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fn_description.setText("Mostly Sunny");
+        fn_description.setText("--");
 
         fn_h.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
         fn_h.setForeground(new java.awt.Color(180, 180, 180));
         fn_h.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fn_h.setText("Humidity: 58%");
+        fn_h.setText("Humidity: --%");
 
         fn_ws.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
         fn_ws.setForeground(new java.awt.Color(180, 180, 180));
         fn_ws.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fn_ws.setText("Windspeed: 3 Bft");
+        fn_ws.setText("Windspeed: - Km/h");
 
         fn_uv.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
         fn_uv.setForeground(new java.awt.Color(180, 180, 180));
         fn_uv.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fn_uv.setText("UV: 6");
+        fn_uv.setText("UV: --");
 
         fe.setFont(new java.awt.Font("Avenir Next", 2, 12)); // NOI18N
         fe.setForeground(new java.awt.Color(220, 220, 220));
@@ -306,27 +309,27 @@ public class Forecast extends javax.swing.JPanel {
         fe_temp.setFont(new java.awt.Font("Avenir Next", 1, 18)); // NOI18N
         fe_temp.setForeground(new java.awt.Color(220, 220, 220));
         fe_temp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fe_temp.setText("20˚C");
+        fe_temp.setText("--˚C");
 
         fe_description.setFont(new java.awt.Font("Avenir Next", 0, 14)); // NOI18N
         fe_description.setForeground(new java.awt.Color(220, 220, 220));
         fe_description.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fe_description.setText("Partly Cloudy");
+        fe_description.setText("--");
 
         fe_h.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
         fe_h.setForeground(new java.awt.Color(180, 180, 180));
         fe_h.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fe_h.setText("Humidity: 62%");
+        fe_h.setText("Humidity: --%");
 
         fe_ws.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
         fe_ws.setForeground(new java.awt.Color(180, 180, 180));
         fe_ws.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fe_ws.setText("Windspeed: 3 Bft");
+        fe_ws.setText("Windspeed: - Km/h");
 
         fe_uv.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
         fe_uv.setForeground(new java.awt.Color(180, 180, 180));
         fe_uv.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fe_uv.setText("UV: 3");
+        fe_uv.setText("UV: --");
 
         fnt.setFont(new java.awt.Font("Avenir Next", 2, 12)); // NOI18N
         fnt.setForeground(new java.awt.Color(220, 220, 220));
@@ -338,27 +341,27 @@ public class Forecast extends javax.swing.JPanel {
         fnt_temp.setFont(new java.awt.Font("Avenir Next", 1, 18)); // NOI18N
         fnt_temp.setForeground(new java.awt.Color(220, 220, 220));
         fnt_temp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fnt_temp.setText("16˚C");
+        fnt_temp.setText("--˚C");
 
         fnt_description.setFont(new java.awt.Font("Avenir Next", 0, 14)); // NOI18N
         fnt_description.setForeground(new java.awt.Color(220, 220, 220));
         fnt_description.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fnt_description.setText("Rain");
+        fnt_description.setText("--");
 
         fnt_h.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
         fnt_h.setForeground(new java.awt.Color(180, 180, 180));
         fnt_h.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fnt_h.setText("Humidity: 68%");
+        fnt_h.setText("Humidity: --%");
 
         fnt_ws.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
         fnt_ws.setForeground(new java.awt.Color(180, 180, 180));
         fnt_ws.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fnt_ws.setText("Windspeed: 2 Bft");
+        fnt_ws.setText("Windspeed: - Km/h");
 
         fnt_uv.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
         fnt_uv.setForeground(new java.awt.Color(180, 180, 180));
         fnt_uv.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fnt_uv.setText("UV: 0");
+        fnt_uv.setText("UV: --");
 
         searchBar1.setForeground(new java.awt.Color(220, 220, 220));
         searchBar1.setFont(new java.awt.Font("Avenir Next", 0, 14)); // NOI18N
@@ -368,6 +371,31 @@ public class Forecast extends javax.swing.JPanel {
             }
         });
 
+        editButton1.setForeground(new java.awt.Color(220, 220, 220));
+        editButton1.setText("Edit");
+        editButton1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        editButton1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+
+        deleteButton1.setForeground(new java.awt.Color(220, 220, 220));
+        deleteButton1.setText("Delete");
+        deleteButton1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        deleteButton1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+
+        saveButton1.setForeground(new java.awt.Color(220, 220, 220));
+        saveButton1.setText("Save");
+        saveButton1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        saveButton1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+
+        dateLabel.setFont(new java.awt.Font("Avenir Next", 2, 10)); // NOI18N
+        dateLabel.setForeground(new java.awt.Color(220, 220, 220));
+        dateLabel.setText("Last Update: --");
+
+        searchError.setFont(new java.awt.Font("Avenir Next", 0, 10)); // NOI18N
+        searchError.setForeground(new java.awt.Color(120, 120, 120));
+        searchError.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        searchError.setText("City not found");
+        searchError.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -375,54 +403,6 @@ public class Forecast extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(100, 100, 100)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(50, 50, 50)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(fm_temp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fm_description, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fm_h, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fm_ws, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-                                    .addComponent(fm_uv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fm_icon, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(15, 15, 15)
-                                .addComponent(column, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(15, 15, 15)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(fn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fn_icon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fn_temp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fn_description, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fn_h, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fn_ws, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fn_uv, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(15, 15, 15)
-                                .addComponent(column1, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(15, 15, 15)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(fe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fe_icon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fe_temp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fe_description, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fe_h, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fe_ws, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fe_uv, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(15, 15, 15)
-                                .addComponent(column2, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(15, 15, 15)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(fnt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fnt_icon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fnt_temp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fnt_description, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fnt_h, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fnt_ws, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fnt_uv, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(line1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(line, javax.swing.GroupLayout.DEFAULT_SIZE, 683, Short.MAX_VALUE))
-                        .addContainerGap(71, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(cur_temp, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -447,11 +427,77 @@ public class Forecast extends javax.swing.JPanel {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(uv_icon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(uv, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE))))))
-                        .addGap(20, 20, 20)
-                        .addComponent(searchBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addComponent(searchBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(36, 36, 36)
+                                .addComponent(searchError, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addComponent(cur_conditions, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(110, 110, 110))))
+                        .addGap(110, 110, 110))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(saveButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(editButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(deleteButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGap(50, 50, 50)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(fm_temp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(fm_description, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(fm_h, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(fm_ws, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                                    .addComponent(fm_uv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(fm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(fm_icon, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(20, 20, 20)
+                                .addComponent(column, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(fn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(fn_icon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(fn_temp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(fn_description, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(fn_h, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(fn_ws, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(fn_uv, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(20, 20, 20)
+                                .addComponent(column1, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(fe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(fe_icon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(fe_temp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(fe_description, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(fe_h, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(fe_ws, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(fe_uv, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(20, 20, 20)
+                                .addComponent(column2, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(fnt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(fnt_icon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(fnt_temp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(fnt_description, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(fnt_h, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(fnt_ws, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(fnt_uv, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(line1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(line, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 703, Short.MAX_VALUE))
+                        .addContainerGap(60, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(dateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -465,7 +511,10 @@ public class Forecast extends javax.swing.JPanel {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(city, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(city_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(searchBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(searchBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(searchError)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(description, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
@@ -477,8 +526,13 @@ public class Forecast extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(h, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(ws, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(uv, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
-                .addGap(44, 44, 44)
+                    .addComponent(uv, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(deleteButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(saveButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(line, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -545,7 +599,9 @@ public class Forecast extends javax.swing.JPanel {
                     .addComponent(column2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(line1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dateLabel)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -562,7 +618,10 @@ public class Forecast extends javax.swing.JPanel {
     private javax.swing.JPanel column2;
     private javax.swing.JLabel cur_conditions;
     private javax.swing.JLabel cur_temp;
+    private javax.swing.JLabel dateLabel;
+    private Components.DeleteButton deleteButton1;
     private javax.swing.JLabel description;
+    private Components.EditButton editButton1;
     private javax.swing.JLabel fe;
     private javax.swing.JLabel fe_description;
     private javax.swing.JLabel fe_h;
@@ -595,7 +654,9 @@ public class Forecast extends javax.swing.JPanel {
     private javax.swing.JLabel h_icon;
     private javax.swing.JPanel line;
     private javax.swing.JPanel line1;
+    private Components.SaveButton saveButton1;
     private Components.SearchBar searchBar1;
+    private javax.swing.JLabel searchError;
     private javax.swing.JLabel uv;
     private javax.swing.JLabel uv_icon;
     private javax.swing.JLabel ws;
