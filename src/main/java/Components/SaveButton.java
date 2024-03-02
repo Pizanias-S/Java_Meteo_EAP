@@ -10,16 +10,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 
-public class EditButton extends JButton {
+public class SaveButton extends JButton {
     
     private final Image img;
-    private final Dimension imageSize = new Dimension(18, 18);
+    private final Dimension imageSize = new Dimension(16, 16);
 
-    public EditButton() {
+    public SaveButton() {
         setContentAreaFilled(false);
         setBorder(null);
         setCursor(new Cursor(Cursor.HAND_CURSOR));
-        img = new ImageIcon(getClass().getResource("/Icons/edit.png")).getImage();
+        img = new ImageIcon(getClass().getResource("/Icons/save.png")).getImage();
     }
         
     @Override
