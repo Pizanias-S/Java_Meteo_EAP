@@ -11,7 +11,7 @@ import java.sql.Date;
 import java.util.List;
 import javax.swing.JComponent;
 
-public class Mavenproject1 extends javax.swing.JFrame {
+public class Mavenproject1 extends javax.swing.JFrame{
 
     
     public Mavenproject1() {

@@ -43,7 +43,7 @@ public class Database {
                         "Latitude varchar(10)," +
                         "Logitude varchar(10)," +
                         "Airport_Code varchar(10)," +
-                        "Apperance integer," +
+                        "Apperance integer, DEFAULT 0" +
                         "Search_Date date NOT NULL," +
                         "PRIMARY KEY (Name))";
             statement.executeUpdate(createSQL);

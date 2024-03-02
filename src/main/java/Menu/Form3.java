@@ -10,9 +10,6 @@ package Menu;
  */
 public class Form3 extends javax.swing.JPanel {
 
-    /**
-     * Creates new form Form3
-     */
     public Form3() {
         initComponents();
         setOpaque(false);
