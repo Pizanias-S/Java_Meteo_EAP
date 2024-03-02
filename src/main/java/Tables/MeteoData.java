@@ -1,71 +1,34 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Tables;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
-/**
- *
- * @author perol
- */
-@Entity
-@Table(name = "DATA")
-@NamedQueries({
-    @NamedQuery(name = "MeteoData.findAll", query = "SELECT d FROM Data d"),
-    @NamedQuery(name = "MeteoData.findByCityname", query = "SELECT d FROM Data d WHERE d.cityname = :cityname"),
-    @NamedQuery(name = "MeteoData.findByDatetime", query = "SELECT d FROM Data d WHERE d.datetime = :datetime"),
-    @NamedQuery(name = "MeteoData.findByTempC", query = "SELECT d FROM Data d WHERE d.tempC = :tempC"),
-    @NamedQuery(name = "MeteoData.findByHumidity", query = "SELECT d FROM Data d WHERE d.humidity = :humidity"),
-    @NamedQuery(name = "MeteoData.findByWindspeedkmph", query = "SELECT d FROM Data d WHERE d.windspeedkmph = :windspeedkmph"),
-    @NamedQuery(name = "MeteoData.findByWeatherdesc", query = "SELECT d FROM Data d WHERE d.weatherdesc = :weatherdesc")})
+
 public class MeteoData implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @Column(name = "CITYNAME")
     private String cityname;
-    @Basic(optional = false)
-    @Column(name = "DATETIME")
-    @Temporal(TemporalType.DATE)
+
     private Date datetime;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "TEMP_C")
+
     private Float tempC;
-    @Column(name = "HUMIDITY")
+
     private Integer humidity;
-    @Column(name = "WINDSPEEDKMPH")
+
     private String windspeedkmph;
-    @Column(name = "WEATHERDESC")
+
     private String weatherdesc;
-    @JoinColumn(name = "CITYNAME", referencedColumnName = "NAME", insertable = false, updatable = false)
-    @OneToOne(optional = false)
+
     private City city;
 
-    public MeteoData() {
-    }
 
-    public MeteoData(String cityname) {
-        this.cityname = cityname;
-    }
-
-    public MeteoData(String cityname, Date datetime) {
+    public MeteoData(String cityname, Date datetime, float tempC, int humidity, String windspeedkmph, String weatherdesc) {
         this.cityname = cityname;
         this.datetime = datetime;
+        this.tempC = tempC;
+        this.humidity = humidity;
+        this.windspeedkmph = windspeedkmph;
+        this.weatherdesc = weatherdesc;
+
     }
 
     public String getCityname() {
