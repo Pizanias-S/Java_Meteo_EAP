@@ -19,12 +19,12 @@ public class Mavenproject1 extends javax.swing.JFrame{
         System.out.println(connectDB);
         connectDB.createTableCity();
         connectDB.createTableMeteoData();
-        connectDB.insertNewCity("Athina", "Achaia", "Ptr", "1231231",
-                        "52352352", "ptr", 1, Date.valueOf("2024-02-29"));
-        connectDB.insertMeteoData("Patras", Date.valueOf("2024-02-29"), 30.2,
-                65, "24", "Clear");
-        List<String> city = connectDB.selectAllCitys();
-        String main_city = city.get(0);
+//        connectDB.insertNewCity("Athina", "Achaia", "Ptr", "1231231",
+//                        "52352352", "ptr", 1, Date.valueOf("2024-02-29"));
+//        connectDB.insertMeteoData("Patras", Date.valueOf("2024-02-29"), 30.2,
+//                65, "24", "Clear");
+//        List<String> city = connectDB.selectAllCitys();
+//        String main_city = city.get(0);
         initComponents();
         setBackground(new Color(0.0f,0.0f,0.0f,0.0f));
         init();
@@ -33,7 +33,7 @@ public class Mavenproject1 extends javax.swing.JFrame{
             @Override
             public void menuSelected(int index) {
                 if (index == 0) {
-                    setForm(new Forecast(main_city));
+                    setForm(new Forecast());
                 } else if (index == 1) {
                     setForm(new CityList());
                 } else if (index == 2){

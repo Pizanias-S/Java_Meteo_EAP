@@ -39,11 +39,12 @@ public class Database {
             String createSQL = "CREATE TABLE City" +
                                "(Name varchar(255) NOT NULL," +
                         "Location varchar(50)," +
+                        "Country varchar(50)," +
                         "Code varchar(10)," +
                         "Latitude varchar(10)," +
                         "Logitude varchar(10)," +
                         "Airport_Code varchar(10)," +
-                        "Apperance integer, DEFAULT 0" +
+                        "Apperance integer DEFAULT 1," +
                         "Search_Date date NOT NULL," +
                         "PRIMARY KEY (Name))";
             statement.executeUpdate(createSQL);
@@ -66,7 +67,8 @@ public class Database {
                         "Datetime      date NOT NULL," + 
                         "Temp_C       float(6)," +
                         "Humidity      integer," +
-                        "WindspeedKmph varchar(20)," + 
+                        "Uv      integer," +
+                        "WindspeedKmph varchar(20)," +
                         "WeatherDesc   varchar(255)," +
                         "PRIMARY KEY (CityName))";
 

@@ -20,14 +20,14 @@ public class Forecast extends javax.swing.JPanel {
     private ImageIcon c_icon, cur_con_icon, h_icn, ws_icn, uv_icn, fm_icn, fn_icn, fe_icn, fnt_icn;
     
         
-    public Forecast(String main_city) {
+    public Forecast() {
         initComponents();
         setOpaque(false);
         // City Label & Location Icon
         c_icon = iconRender("/Icons/location.png", 27, 27);
         city_icon.setIcon(c_icon);
         cityLabel.repaint();
-        cityLabel.setText(main_city);
+        cityLabel.setText("--");
         
         // Current Conditions icon
         cur_con_icon =  iconRender("/Icons/cur_partly_cloudy.png", 100, 100);
@@ -674,38 +674,39 @@ public class Forecast extends javax.swing.JPanel {
             Request request = new Request.Builder().url(urlToCall).build();  
             
             try (okhttp3.Response response = client.newCall(request).execute()) {     
-                   if (response.isSuccessful() && response.body() != null) {
-                      String responseString = response.body().string();                   
-                      GsonBuilder builder = new GsonBuilder();                             
-                      builder.setPrettyPrinting();
-                      Gson gson = builder.create();
-                      JsonObject json = gson.fromJson(responseString, JsonObject.class); 
-                      JsonArray city_array = json.get("nearest_area").getAsJsonArray();  
-		      JsonArray conditions_array = json.get("current_condition").getAsJsonArray(); 
-		      JsonArray forecast_array = json.get("weather").getAsJsonArray();     
-                      // System.out.println(array);
-                      String name = null;
-            
-                      for (JsonElement jsonElement : city_array) {                              
-                      	JsonObject object = jsonElement.getAsJsonObject();
-                      	JsonArray areaName = object.get("areaName").getAsJsonArray();
-                         
-			for (JsonElement jsonElement2 : areaName) {                      
-                             JsonObject object1 = jsonElement2.getAsJsonObject();         
-                             name = object1.get("value").getAsString();
-                             cityLabel.setText(name);                                          
-                   	}
-		      }
+               if (response.isSuccessful() && response.body() != null) {
+                  String responseString = response.body().string();
+                  GsonBuilder builder = new GsonBuilder();
+                  builder.setPrettyPrinting();
+                  Gson gson = builder.create();
+                  JsonObject json = gson.fromJson(responseString, JsonObject.class);
+                  JsonArray city_array = json.get("nearest_area").getAsJsonArray();
+                  JsonArray conditions_array = json.get("current_condition").getAsJsonArray();
+                  JsonArray forecast_array = json.get("weather").getAsJsonArray();
+                  String name = null;
+
+                  for (JsonElement jsonElement : city_array) {
+                    JsonObject object = jsonElement.getAsJsonObject();
+                    JsonArray areaName = object.get("areaName").getAsJsonArray();
+                    JsonArray countryName = object.get("country").getAsJsonArray();
+                    JsonArray regionName = object.get("region").getAsJsonArray();
+
+                        for (JsonElement jsonElement2 : areaName) {
+                                     JsonObject object1 = jsonElement2.getAsJsonObject();
+                                     name = object1.get("value").getAsString();
+                                     cityLabel.setText(name);
+                            }
+                  }
 		   
                       for (JsonElement jsonElement2 : conditions_array) {                      
                         	JsonObject cndObj = jsonElement2.getAsJsonObject();         
                    	        cur_temp.setText( cndObj.get("temp_C").getAsString()+"°C");
                          	h.setText( cndObj.get("humidity").getAsString()+"%");
                         	uv.setText( cndObj.get("uvIndex").getAsString());
-                        	ws.setText( cndObj.get("windspeedKmph").getAsString()+" Kmph"); 
-				       
+                        	ws.setText( cndObj.get("windspeedKmph").getAsString()+" Kmph");
+                            dateLabel.setText( "Last Update:"+cndObj.get("localObsDateTime").getAsString());
                         	JsonArray conditions_subarray = cndObj.get("weatherDesc").getAsJsonArray();
-                    
+                          System.out.println(cur_temp.getText());
                       	for (JsonElement jsonElement3 : conditions_subarray) {                      
                                 JsonObject cndObj2 = jsonElement3.getAsJsonObject();                                               
                                 description.setText( cndObj2.get("value").getAsString());
