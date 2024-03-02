@@ -24,7 +24,7 @@ public class Mavenproject1 extends javax.swing.JFrame{
         connectDB.insertMeteoData("Patras", Date.valueOf("2024-02-29"), 30.2,
                 65, "24", "Clear");
         List<String> city = connectDB.selectAllCitys();
-        String main_city = city.get(1);
+        String main_city = city.get(0);
         initComponents();
         setBackground(new Color(0.0f,0.0f,0.0f,0.0f));
         init();
