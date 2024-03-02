@@ -429,7 +429,7 @@
           <Color blue="dc" green="dc" red="dc" type="rgb"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="25&#x2da;C"/>
+        <Property name="text" type="java.lang.String" value="21&#x2da;C"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="fm_description">
