@@ -67,8 +67,7 @@ public class Database {
                         "Uv      integer," +
                         "WindspeedKmph double precision," +
                         "WeatherDesc   varchar(255)," +
-                        "unique (CityName, Datetime),"+
-                        "PRIMARY KEY (CityName))";
+                        "unique (CityName, Datetime))";
 
             statement.executeUpdate(createSQL);
             statement.close();
