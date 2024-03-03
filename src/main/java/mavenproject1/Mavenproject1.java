@@ -7,9 +7,7 @@ import Menu.CityList;
 import Menu.Form3;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.sql.Date;
-import java.util.List;
-import javax.swing.JComponent;
+import javax.swing.*;
 
 public class Mavenproject1 extends javax.swing.JFrame{
 
@@ -19,15 +17,11 @@ public class Mavenproject1 extends javax.swing.JFrame{
         System.out.println(connectDB);
         connectDB.createTableCity();
         connectDB.createTableMeteoData();
-//        connectDB.insertNewCity("Athina", "Achaia", "Ptr", "1231231",
-//                        "52352352", "ptr", 1, Date.valueOf("2024-02-29"));
-//        connectDB.insertMeteoData("Patras", Date.valueOf("2024-02-29"), 30.2,
-//                65, "24", "Clear");
-//        List<String> city = connectDB.selectAllCitys();
-//        String main_city = city.get(0);
+        connectDB.createCityDate();
         initComponents();
         setBackground(new Color(0.0f,0.0f,0.0f,0.0f));
         init();
+        connectDB.selectCitysbyApperance();
         mainPanel.setBackground(new Color(30,30,30));
         menu.addEvent(new EventMenu() {
             @Override
@@ -129,7 +123,7 @@ public class Mavenproject1 extends javax.swing.JFrame{
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -142,13 +136,8 @@ public class Mavenproject1 extends javax.swing.JFrame{
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Mavenproject1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Mavenproject1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Mavenproject1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
+                 UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Mavenproject1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>

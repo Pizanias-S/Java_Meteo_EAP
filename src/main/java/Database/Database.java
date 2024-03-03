@@ -40,12 +40,9 @@ public class Database {
                                "(Name varchar(255) NOT NULL," +
                         "Location varchar(50)," +
                         "Country varchar(50)," +
-                        "Code varchar(10)," +
                         "Latitude varchar(10)," +
                         "Logitude varchar(10)," +
-                        "Airport_Code varchar(10)," +
                         "Apperance integer DEFAULT 1," +
-                        "Search_Date date NOT NULL," +
                         "PRIMARY KEY (Name))";
             statement.executeUpdate(createSQL);
             statement.close();
@@ -64,12 +61,13 @@ public class Database {
             Statement statement = connection.createStatement();
             String createSQL = "CREATE TABLE MeteoData" +
                         "(CityName      varchar(255) NOT NULL REFERENCES City(Name),"+ 
-                        "Datetime      date NOT NULL," + 
-                        "Temp_C       float(6)," +
+                        "Datetime      varchar(20) NOT NULL," +
+                        "Temp_C       double precision," +
                         "Humidity      integer," +
                         "Uv      integer," +
-                        "WindspeedKmph varchar(20)," +
+                        "WindspeedKmph double precision," +
                         "WeatherDesc   varchar(255)," +
+                        "unique (CityName, Datetime),"+
                         "PRIMARY KEY (CityName))";
 
             statement.executeUpdate(createSQL);
@@ -81,22 +79,41 @@ public class Database {
         }
     }
 
+    public void createCityDate() {
+        try {
+            Connection connection = connect();
+            Statement statement = connection.createStatement();
+            String createSQL = "CREATE TABLE CityDate (" +
+                    "  CityName      varchar(255) NOT NULL REFERENCES City(Name)," +
+                    " SearchDate varchar(20) NOT NULL)";
+            statement.executeUpdate(createSQL);
+            statement.close();
+            connection.close();
+            System.out.println("Done!");
+        } catch (SQLException throwables) {
+            System.out.println(throwables.getLocalizedMessage());
+        }
+    }
 
-    public void insertNewCity(String Name, String Location, String Code, String Latitude,
-                              String Logitude, String Airport_Code, int Apperance, Date Search_Date) {
+
+    public void insertNewCity(String Name, String Country, String Region, String Latitude,
+                              String Logitude, int Apperance, String Search_Date) throws SQLException {
         try {
             java.sql.Connection connection = connect();
-            String insertSQL = "Insert into City values(?,?,?,?,?,?,?,?)";
+            String insertSQL = "Insert into City values(?,?,?,?,?,?)";
+            String insertSQL2 = "Insert into CityDate values(?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(insertSQL);
+            PreparedStatement preparedStatement2 = connection.prepareStatement(insertSQL2);
             preparedStatement.setString(1, Name);
-            preparedStatement.setString(2, Location);
-            preparedStatement.setString(3, Code);
+            preparedStatement.setString(2, Country);
+            preparedStatement.setString(3, Region);
             preparedStatement.setString(4, Latitude);
             preparedStatement.setString(5, Logitude);
-            preparedStatement.setString(6, Airport_Code);
-            preparedStatement.setInt(7, Apperance);
-            preparedStatement.setDate(8, Search_Date);
+            preparedStatement.setInt(6, Apperance);
             int count = preparedStatement.executeUpdate();
+            preparedStatement2.setString(1, Name);
+            preparedStatement2.setString(2, Search_Date);
+            preparedStatement2.executeUpdate();
             if (count > 0) {
                 System.out.println("City added to the db");
             } else {
@@ -107,21 +124,31 @@ public class Database {
              System.out.println("Done!");
         } catch (SQLException throwables) {
             System.out.println(throwables.getLocalizedMessage());
+            java.sql.Connection connection = connect();
+            String insertSQL2 = "Insert into CityDate values(?,?)";
+            String updateSQL = String.format("Update City SET APPERANCE = APPERANCE + 1 WHERE NAME = '%s' ", Name);
+            PreparedStatement preparedStatement = connection.prepareStatement(updateSQL);
+            PreparedStatement preparedStatement2 = connection.prepareStatement(insertSQL2);
+            preparedStatement2.setString(1, Name);
+            preparedStatement2.setString(2, Search_Date);
+            preparedStatement2.executeUpdate();
+            preparedStatement.executeUpdate();
         }
     }
 
-    public void insertMeteoData(String Name, Date Datetime, double Temp_C, int Humidity,
-                              String WindSpeed, String WetherDesc) {
+    public void insertMeteoData(String Name, String Datetime, double Temp_C, int Humidity, int Uvindex,
+                              double WindSpeed, String WetherDesc) {
         try {
             java.sql.Connection connection = connect();
-            String insertSQL = "Insert into MeteoData values(?,?,?,?,?,?)";
+            String insertSQL = "Insert into MeteoData values(?,?,?,?,?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(insertSQL);
             preparedStatement.setString(1, Name);
-            preparedStatement.setDate(2, Datetime);
+            preparedStatement.setString(2, Datetime);
             preparedStatement.setDouble(3, Temp_C);
             preparedStatement.setInt(4, Humidity);
-            preparedStatement.setString(5, WindSpeed);
-            preparedStatement.setString(6, WetherDesc);
+            preparedStatement.setInt(5, Uvindex);
+            preparedStatement.setDouble(6, WindSpeed);
+            preparedStatement.setString(7, WetherDesc);
             int count = preparedStatement.executeUpdate();
             if (count > 0) {
                 System.out.println("Meteo Data added to the db");
@@ -133,6 +160,7 @@ public class Database {
             System.out.println("Done!");
         } catch (SQLException throwables) {
             System.out.println(throwables.getLocalizedMessage());
+            System.out.println("Data already exits");
         }
     }
 
@@ -143,6 +171,28 @@ public class Database {
             java.sql.Connection connection = connect();
             Statement statement = connection.createStatement();
             String selectSQL = "Select * from City";
+            ResultSet rs = statement.executeQuery(selectSQL);
+            while (rs.next()) {
+                CityName = rs.getString("Name");
+                CityList.add(CityName);
+            }
+            statement.close();
+            connection.close();
+            System.out.println("Done!");
+            System.out.print(CityList);
+        } catch (SQLException throwables) {
+            System.out.println(throwables.getLocalizedMessage());
+        }
+        return CityList;
+    }
+
+    public List<String> selectCitysbyApperance() {
+        List<String> CityList = new ArrayList<>();
+        String CityName;
+        try {
+            java.sql.Connection connection = connect();
+            Statement statement = connection.createStatement();
+            String selectSQL = "Select * from City ORDER BY APPERANCE DESC";
             ResultSet rs = statement.executeQuery(selectSQL);
             while (rs.next()) {
                 CityName = rs.getString("Name");

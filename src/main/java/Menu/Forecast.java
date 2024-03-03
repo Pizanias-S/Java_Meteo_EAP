@@ -14,6 +14,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import java.util.Date;
 import java.util.List;
+import Database.Database;
 
 public class Forecast extends javax.swing.JPanel {
     
@@ -644,930 +645,952 @@ public class Forecast extends javax.swing.JPanel {
             
             try (okhttp3.Response response = client.newCall(request).execute()) {     
                if (response.isSuccessful() && response.body() != null) {
-                  String responseString = response.body().string();
-                  GsonBuilder builder = new GsonBuilder();
-                  builder.setPrettyPrinting();
-                  Gson gson = builder.create();
-                  JsonObject json = gson.fromJson(responseString, JsonObject.class);
-                  JsonArray city_array = json.get("nearest_area").getAsJsonArray();
-                  JsonArray conditions_array = json.get("current_condition").getAsJsonArray();
-                  JsonArray forecast_array = json.get("weather").getAsJsonArray();
-                  String name = null;
+                   String responseString = response.body().string();
+                   GsonBuilder builder = new GsonBuilder();
+                   builder.setPrettyPrinting();
+                   Gson gson = builder.create();
+                   JsonObject json = gson.fromJson(responseString, JsonObject.class);
+                   JsonArray city_array = json.get("nearest_area").getAsJsonArray();
+                   JsonArray conditions_array = json.get("current_condition").getAsJsonArray();
+                   JsonArray forecast_array = json.get("weather").getAsJsonArray();
+                   String name = null;
+                   String country = null;
+                   String region = null;
 
-                  for (JsonElement jsonElement : city_array) {
-                    JsonObject object = jsonElement.getAsJsonObject();
-                    JsonArray areaName = object.get("areaName").getAsJsonArray();
-                    JsonArray countryName = object.get("country").getAsJsonArray();
-                    JsonArray regionName = object.get("region").getAsJsonArray();
+                   String longitude = null;
+                   String latitude = null;
+                   for (JsonElement jsonElement : city_array) {
+                       JsonObject object = jsonElement.getAsJsonObject();
+                       JsonArray areaName = object.get("areaName").getAsJsonArray();
+                       JsonArray countryName = object.get("country").getAsJsonArray();
+                       System.out.println(countryName);
+                       JsonArray regionName = object.get("region").getAsJsonArray();
+                       latitude = object.get("latitude").getAsString();
+                       longitude = object.get("longitude").getAsString();
+                       for (JsonElement jsonElement2 : areaName) {
+                           JsonObject object1 = jsonElement2.getAsJsonObject();
+                           name = object1.get("value").getAsString();
+                           cityLabel.setText(name);
+                       }
+                       for (JsonElement jsonCountry : countryName) {
+                           JsonObject objectCountry = jsonCountry.getAsJsonObject();
+                           country = objectCountry.get("value").getAsString();
+//                              countryLabel.setText(country);
+                       }
+                       for (JsonElement jsonRegion : regionName) {
+                           JsonObject objectRegion = jsonRegion.getAsJsonObject();
+                           region = objectRegion.get("value").getAsString();
+//                              regionLabel.setText(region);
+                       }
+                   }
+                   Database connectDB = Database.getConnectionInstance();
+                   connectDB.insertNewCity(name, country, region, latitude, longitude, 1,
+                           java.time.LocalDateTime.now().withNano(0).toString());
+                   for (JsonElement jsonElement2 : conditions_array) {
+                       JsonObject cndObj = jsonElement2.getAsJsonObject();
+                       cur_temp.setText(cndObj.get("temp_C").getAsString() + "°C");
+                       h.setText(cndObj.get("humidity").getAsString() + "%");
+                       uv.setText(cndObj.get("uvIndex").getAsString());
+                       ws.setText(cndObj.get("windspeedKmph").getAsString() + " Kmph");
+                       dateLabel.setText("Last Update: " + cndObj.get("localObsDateTime").getAsString());
+                       JsonArray conditions_subarray = cndObj.get("weatherDesc").getAsJsonArray();
+                       System.out.println(cur_temp.getText());
+                       for (JsonElement jsonElement3 : conditions_subarray) {
+                           JsonObject cndObj2 = jsonElement3.getAsJsonObject();
+                           description.setText(cndObj2.get("value").getAsString());
 
-                        for (JsonElement jsonElement2 : areaName) {
-                                     JsonObject object1 = jsonElement2.getAsJsonObject();
-                                     name = object1.get("value").getAsString();
-                                     cityLabel.setText(name);
-                            }
-                  }
-		   
-                      for (JsonElement jsonElement2 : conditions_array) {                      
-                        	JsonObject cndObj = jsonElement2.getAsJsonObject();         
-                   	        cur_temp.setText( cndObj.get("temp_C").getAsString()+"°C");
-                         	h.setText( cndObj.get("humidity").getAsString()+"%");
-                        	uv.setText( cndObj.get("uvIndex").getAsString());
-                        	ws.setText( cndObj.get("windspeedKmph").getAsString()+" Kmph");
-                            dateLabel.setText( "Last Update: "+cndObj.get("localObsDateTime").getAsString());
-                        	JsonArray conditions_subarray = cndObj.get("weatherDesc").getAsJsonArray();
-                          System.out.println(cur_temp.getText());
-                      	for (JsonElement jsonElement3 : conditions_subarray) {                      
-                                JsonObject cndObj2 = jsonElement3.getAsJsonObject();                                               
-                                description.setText( cndObj2.get("value").getAsString());
-                                
-                                String desc = cndObj2.get("value").getAsString();
-                                String temp_cur_icn = "";
-                            	switch(desc){
-         				case "Moderate or heavy snow in area with thunder":
-                				temp_cur_icn = "cur_snowy";
-						break;
-         				case "Patchy light snow in area with thunder":
-             					temp_cur_icn = "cur_snowy";
-						break;
-					case "Moderate or heavy rain in area with thunder":
-						temp_cur_icn = "cur_thunderstorm";
-						break;
-					case "Patchy light rain in area with thunder":
-						temp_cur_icn = "cur_thunderstorm";
-						break;
-					case "Moderate or heavy showers of ice pellets":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Light showers of ice pellets":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Moderate or heavy snow showers":
-						temp_cur_icn = "cur_snowy";
-						break;
-					case "Light snow showers":
-						temp_cur_icn = "cur_snowy";
-						break;
-					case "Moderate or heavy sleet showers":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Light sleet showers":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Torrential rain shower":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Moderate or heavy rain shower":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Light rain shower":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Ice pellets":
-						temp_cur_icn = "cur_snowy";
-						break;
-					case "Heavy snow":
-						temp_cur_icn = "cur_snowy";
-						break;
-					case "Patchy heavy snow":
-						temp_cur_icn = "cur_snowy";
-						break;
-					case "Moderate snow":
-						temp_cur_icn = "cur_snowy";
-						break;
-					case "Patchy moderate snow":
-						temp_cur_icn = "cur_snowy";
-						break;
-					case "Light snow":
-						temp_cur_icn = "cur_snowy";
-						break;
-					case "Patchy light snow":
-						temp_cur_icn = "cur_snowy";
-						break;
-					case "Moderate or heavy sleet":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Light sleet":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Moderate or Heavy freezing rain":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Light freezing rain":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Heavy rain":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Heavy rain at times":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Moderate rain":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Moderate rain at times":
-						temp_cur_icn = "cur_rainy";
-						break;
-                                        case "Rain shower":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Light rain":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Patchy light rain":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Heavy freezing drizzle":
-						temp_cur_icn = "cur_foggy";
-						break;
-					case "Freezing drizzle":
-						temp_cur_icn = "cur_foggy";
-						break;
-					case "Light drizzle":
-						temp_cur_icn = "cur_foggy";
-						break;
-					case "Patchy light drizzle":
-						temp_cur_icn = "cur_foggy";
-						break;
-					case "Freezing fog":
-						temp_cur_icn = "cur_foggy";
-						break;
-					case "Fog":
-						temp_cur_icn = "cur_foggy";
-						break;
-					case "Blizzard":
-						temp_cur_icn = "cur_snowy";
-						break;
-					case "Blowing snow":
-						temp_cur_icn = "cur_snowy";
-						break;
-					case "Thundery outbreaks in nearby":
-						temp_cur_icn = "cur_";
-						break;
-					case "Patchy freezing drizzle nearby":
-						temp_cur_icn = "cur_foggy";
-						break;
-					case "Patchy sleet nearby":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Patchy snow nearby":
-						temp_cur_icn = "cur_snowy";
-						break;
-					case "Patchy rain nearby":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Heavy rain, mist":
-						temp_cur_icn = "cur_rainy";
-						break;					
-					case "Mist":
-						temp_cur_icn = "cur_foggy";
-						break;
-					case "Overcast":
-						temp_cur_icn = "cur_cloudy";
-						break;
-					case "Cloudy":
-						temp_cur_icn = "cur_cloudy";
-						break;
-					case "Partly Cloudy":
-						temp_cur_icn = "cur_partly_cloudy";
-						break;
-					case "Clear":					
-					        temp_cur_icn = "cur_clear_night";
-					        break;						
-					case   "Sunny":
-						temp_cur_icn = "cur_sunny";
-						break;
-					default:
-						temp_cur_icn = "cur_cloudy";
-                  		}
-				cur_con_icon =  iconRender("/Icons/"+temp_cur_icn+".png", 100, 100);
-        			cur_conditions.setIcon(cur_con_icon);
-                            
-                        }
-                      }
-		      
-                      
-                      
-                      for (JsonElement jsonElement4 : forecast_array) {                              
-                           JsonObject wObj0 = jsonElement4.getAsJsonObject();
-                           String stringDate=wObj0.get("date").getAsString();
-                   
-                        if (stringDate.equalsIgnoreCase(formattedDate)){
-                         	JsonArray fcast0 = wObj0.get("hourly").getAsJsonArray();    
-                                 for (JsonElement jsonElement5 : fcast0){        
-                                     JsonObject h2 = jsonElement5.getAsJsonObject(); 
-                                     String stringTime=h2.get("time").getAsString();
-                                     
-                                     if (stringTime.equalsIgnoreCase("600")){
-                                         fm_temp.setText(h2.get("tempC").getAsString()+"°C");
-                                         fm_h.setText("Humidity: "+h2.get("humidity").getAsString()+"%");
-                                         fm_ws.setText("WindSpeed: "+h2.get("windspeedKmph").getAsString()+" kmph");
-                                         fm_uv.setText("UV: "+h2.get("uvIndex").getAsString());
-                                         JsonArray description_subarray = h2.get("weatherDesc").getAsJsonArray();
-                    
-                                        for (JsonElement jsonElement11 : description_subarray) {                      
-                                             JsonObject m = jsonElement11.getAsJsonObject();                                               
-                                fm_description.setText( m.get("value").getAsString());   String desc = m.get("value").getAsString();
-                                String temp_cur_icn = "";
-                            	switch(desc){
-         				case "Moderate or heavy snow in area with thunder":
-                				temp_cur_icn = "snowy";
-						break;
-         				case "Patchy light snow in area with thunder":
-             					temp_cur_icn = "snowy";
-						break;
-					case "Moderate or heavy rain in area with thunder":
-						temp_cur_icn = "thunderstorm";
-						break;
-					case "Patchy light rain in area with thunder":
-						temp_cur_icn = "thunderstorm";
-						break;
-					case "Moderate or heavy showers of ice pellets":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light showers of ice pellets":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate or heavy snow showers":
-						temp_cur_icn = "snowy";
-						break;
-					case "Light snow showers":
-						temp_cur_icn = "snowy";
-						break;
-					case "Moderate or heavy sleet showers":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light sleet showers":
-						temp_cur_icn = "rainy";
-						break;
-					case "Torrential rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate or heavy rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Ice pellets":
-						temp_cur_icn = "snowy";
-						break;
-					case "Heavy snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy heavy snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Moderate snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy moderate snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Light snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy light snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Moderate or heavy sleet":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light sleet":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate or Heavy freezing rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light freezing rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Heavy rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Heavy rain at times":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate rain at times":
-						temp_cur_icn = "rainy";
-						break;
-                                        case "Rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Patchy light rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Heavy freezing drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Freezing drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Light drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Patchy light drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Freezing fog":
-						temp_cur_icn = "foggy";
-						break;
-					case "Fog":
-						temp_cur_icn = "foggy";
-						break;
-					case "Blizzard":
-						temp_cur_icn = "snowy";
-						break;
-					case "Blowing snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Thundery outbreaks in nearby":
-						temp_cur_icn = "thunderstorm";
-						break;
-					case "Patchy freezing drizzle nearby":
-						temp_cur_icn = "foggy";
-						break;
-					case "Patchy sleet nearby":
-						temp_cur_icn = "rainy";
-						break;
-					case "Patchy snow nearby":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy rain nearby":
-						temp_cur_icn = "rainy";
-						break;
-					case "Heavy rain, mist":
-						temp_cur_icn = "rainy";
-						break;			
-					case "Mist":
-						temp_cur_icn = "foggy";
-						break;
-					case "Overcast":
-						temp_cur_icn = "cloudy";
-						break;
-					case "Cloudy":
-						temp_cur_icn = "cloudy";
-						break;
-					case "Partly Cloudy":
-						temp_cur_icn = "partly_cloudy";
-						break;
-					case "Clear":
-						temp_cur_icn = "sunny";
-						break;
-					case "Sunny":
-						temp_cur_icn = "sunny";
-						break;
-					default:
-						temp_cur_icn = "cloudy";
-                  		}
-				cur_con_icon =  iconRender("/Icons/"+temp_cur_icn+".png",50 ,50);
-        			fm_icon.setIcon(cur_con_icon);
-                                         }
+                           String desc = cndObj2.get("value").getAsString();
+                           String temp_cur_icn = "";
+                           switch (desc) {
+                               case "Moderate or heavy snow in area with thunder":
+                                   temp_cur_icn = "cur_snowy";
+                                   break;
+                               case "Patchy light snow in area with thunder":
+                                   temp_cur_icn = "cur_snowy";
+                                   break;
+                               case "Moderate or heavy rain in area with thunder":
+                                   temp_cur_icn = "cur_thunderstorm";
+                                   break;
+                               case "Patchy light rain in area with thunder":
+                                   temp_cur_icn = "cur_thunderstorm";
+                                   break;
+                               case "Moderate or heavy showers of ice pellets":
+                                   temp_cur_icn = "cur_rainy";
+                                   break;
+                               case "Light showers of ice pellets":
+                                   temp_cur_icn = "cur_rainy";
+                                   break;
+                               case "Moderate or heavy snow showers":
+                                   temp_cur_icn = "cur_snowy";
+                                   break;
+                               case "Light snow showers":
+                                   temp_cur_icn = "cur_snowy";
+                                   break;
+                               case "Moderate or heavy sleet showers":
+                                   temp_cur_icn = "cur_rainy";
+                                   break;
+                               case "Light sleet showers":
+                                   temp_cur_icn = "cur_rainy";
+                                   break;
+                               case "Torrential rain shower":
+                                   temp_cur_icn = "cur_rainy";
+                                   break;
+                               case "Moderate or heavy rain shower":
+                                   temp_cur_icn = "cur_rainy";
+                                   break;
+                               case "Light rain shower":
+                                   temp_cur_icn = "cur_rainy";
+                                   break;
+                               case "Ice pellets":
+                                   temp_cur_icn = "cur_snowy";
+                                   break;
+                               case "Heavy snow":
+                                   temp_cur_icn = "cur_snowy";
+                                   break;
+                               case "Patchy heavy snow":
+                                   temp_cur_icn = "cur_snowy";
+                                   break;
+                               case "Moderate snow":
+                                   temp_cur_icn = "cur_snowy";
+                                   break;
+                               case "Patchy moderate snow":
+                                   temp_cur_icn = "cur_snowy";
+                                   break;
+                               case "Light snow":
+                                   temp_cur_icn = "cur_snowy";
+                                   break;
+                               case "Patchy light snow":
+                                   temp_cur_icn = "cur_snowy";
+                                   break;
+                               case "Moderate or heavy sleet":
+                                   temp_cur_icn = "cur_rainy";
+                                   break;
+                               case "Light sleet":
+                                   temp_cur_icn = "cur_rainy";
+                                   break;
+                               case "Moderate or Heavy freezing rain":
+                                   temp_cur_icn = "cur_rainy";
+                                   break;
+                               case "Light freezing rain":
+                                   temp_cur_icn = "cur_rainy";
+                                   break;
+                               case "Heavy rain":
+                                   temp_cur_icn = "cur_rainy";
+                                   break;
+                               case "Heavy rain at times":
+                                   temp_cur_icn = "cur_rainy";
+                                   break;
+                               case "Moderate rain":
+                                   temp_cur_icn = "cur_rainy";
+                                   break;
+                               case "Moderate rain at times":
+                                   temp_cur_icn = "cur_rainy";
+                                   break;
+                               case "Rain shower":
+                                   temp_cur_icn = "cur_rainy";
+                                   break;
+                               case "Light rain":
+                                   temp_cur_icn = "cur_rainy";
+                                   break;
+                               case "Patchy light rain":
+                                   temp_cur_icn = "cur_rainy";
+                                   break;
+                               case "Heavy freezing drizzle":
+                                   temp_cur_icn = "cur_foggy";
+                                   break;
+                               case "Freezing drizzle":
+                                   temp_cur_icn = "cur_foggy";
+                                   break;
+                               case "Light drizzle":
+                                   temp_cur_icn = "cur_foggy";
+                                   break;
+                               case "Patchy light drizzle":
+                                   temp_cur_icn = "cur_foggy";
+                                   break;
+                               case "Freezing fog":
+                                   temp_cur_icn = "cur_foggy";
+                                   break;
+                               case "Fog":
+                                   temp_cur_icn = "cur_foggy";
+                                   break;
+                               case "Blizzard":
+                                   temp_cur_icn = "cur_snowy";
+                                   break;
+                               case "Blowing snow":
+                                   temp_cur_icn = "cur_snowy";
+                                   break;
+                               case "Thundery outbreaks in nearby":
+                                   temp_cur_icn = "cur_";
+                                   break;
+                               case "Patchy freezing drizzle nearby":
+                                   temp_cur_icn = "cur_foggy";
+                                   break;
+                               case "Patchy sleet nearby":
+                                   temp_cur_icn = "cur_rainy";
+                                   break;
+                               case "Patchy snow nearby":
+                                   temp_cur_icn = "cur_snowy";
+                                   break;
+                               case "Patchy rain nearby":
+                                   temp_cur_icn = "cur_rainy";
+                                   break;
+                               case "Heavy rain, mist":
+                                   temp_cur_icn = "cur_rainy";
+                                   break;
+                               case "Mist":
+                                   temp_cur_icn = "cur_foggy";
+                                   break;
+                               case "Overcast":
+                                   temp_cur_icn = "cur_cloudy";
+                                   break;
+                               case "Cloudy":
+                                   temp_cur_icn = "cur_cloudy";
+                                   break;
+                               case "Partly Cloudy":
+                                   temp_cur_icn = "cur_partly_cloudy";
+                                   break;
+                               case "Clear":
+                                   temp_cur_icn = "cur_clear_night";
+                                   break;
+                               case "Sunny":
+                                   temp_cur_icn = "cur_sunny";
+                                   break;
+                               default:
+                                   temp_cur_icn = "cur_cloudy";
+                           }
+                           cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 100, 100);
+                           cur_conditions.setIcon(cur_con_icon);
+
+                       }
+                   }
+
+
+                   for (JsonElement jsonElement4 : forecast_array) {
+                       JsonObject wObj0 = jsonElement4.getAsJsonObject();
+                       String stringDate = wObj0.get("date").getAsString();
+
+                       if (stringDate.equalsIgnoreCase(formattedDate)) {
+                           JsonArray fcast0 = wObj0.get("hourly").getAsJsonArray();
+                           for (JsonElement jsonElement5 : fcast0) {
+                               JsonObject h2 = jsonElement5.getAsJsonObject();
+                               String stringTime = h2.get("time").getAsString();
+
+                               if (stringTime.equalsIgnoreCase("600")) {
+                                   fm_temp.setText(h2.get("tempC").getAsString() + "°C");
+                                   fm_h.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
+                                   fm_ws.setText("WindSpeed: " + h2.get("windspeedKmph").getAsString() + " kmph");
+                                   fm_uv.setText("UV: " + h2.get("uvIndex").getAsString());
+                                   JsonArray description_subarray = h2.get("weatherDesc").getAsJsonArray();
+
+                                   for (JsonElement jsonElement11 : description_subarray) {
+                                       JsonObject m = jsonElement11.getAsJsonObject();
+                                       fm_description.setText(m.get("value").getAsString());
+                                       String desc = m.get("value").getAsString();
+                                       String temp_cur_icn = "";
+                                       switch (desc) {
+                                           case "Moderate or heavy snow in area with thunder":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Patchy light snow in area with thunder":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Moderate or heavy rain in area with thunder":
+                                               temp_cur_icn = "thunderstorm";
+                                               break;
+                                           case "Patchy light rain in area with thunder":
+                                               temp_cur_icn = "thunderstorm";
+                                               break;
+                                           case "Moderate or heavy showers of ice pellets":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Light showers of ice pellets":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Moderate or heavy snow showers":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Light snow showers":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Moderate or heavy sleet showers":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Light sleet showers":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Torrential rain shower":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Moderate or heavy rain shower":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Light rain shower":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Ice pellets":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Heavy snow":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Patchy heavy snow":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Moderate snow":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Patchy moderate snow":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Light snow":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Patchy light snow":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Moderate or heavy sleet":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Light sleet":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Moderate or Heavy freezing rain":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Light freezing rain":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Heavy rain":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Heavy rain at times":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Moderate rain":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Moderate rain at times":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Rain shower":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Light rain":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Patchy light rain":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Heavy freezing drizzle":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Freezing drizzle":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Light drizzle":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Patchy light drizzle":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Freezing fog":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Fog":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Blizzard":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Blowing snow":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Thundery outbreaks in nearby":
+                                               temp_cur_icn = "thunderstorm";
+                                               break;
+                                           case "Patchy freezing drizzle nearby":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Patchy sleet nearby":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Patchy snow nearby":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Patchy rain nearby":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Heavy rain, mist":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Mist":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Overcast":
+                                               temp_cur_icn = "cloudy";
+                                               break;
+                                           case "Cloudy":
+                                               temp_cur_icn = "cloudy";
+                                               break;
+                                           case "Partly Cloudy":
+                                               temp_cur_icn = "partly_cloudy";
+                                               break;
+                                           case "Clear":
+                                               temp_cur_icn = "sunny";
+                                               break;
+                                           case "Sunny":
+                                               temp_cur_icn = "sunny";
+                                               break;
+                                           default:
+                                               temp_cur_icn = "cloudy";
                                        }
-                                     else if(stringTime.equalsIgnoreCase("1200")){
-                                           fn_temp.setText(h2.get("tempC").getAsString()+"°C");
-                                           fn_h.setText("Humidity: "+h2.get("humidity").getAsString()+"%");
-                                           fn_ws.setText("WindSpeed: "+h2.get("windspeedKmph").getAsString()+" kmph");
-                                           fn_uv.setText("UV: "+h2.get("uvIndex").getAsString());
-                                           JsonArray description_subarray = h2.get("weatherDesc").getAsJsonArray();
-                    
-                                      	for (JsonElement jsonElement10 : description_subarray) {                      
-                                             JsonObject n = jsonElement10.getAsJsonObject();                                               
-                                             fn_description.setText( n.get("value").getAsString()); 
-                                String desc = n.get("value").getAsString();
-                                String temp_cur_icn = "";
-                            	switch(desc){
-         				case "Moderate or heavy snow in area with thunder":
-                				temp_cur_icn = "snowy";
-						break;
-         				case "Patchy light snow in area with thunder":
-             					temp_cur_icn = "snowy";
-						break;
-					case "Moderate or heavy rain in area with thunder":
-						temp_cur_icn = "thunderstorm";
-						break;
-					case "Patchy light rain in area with thunder":
-						temp_cur_icn = "thunderstorm";
-						break;
-					case "Moderate or heavy showers of ice pellets":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light showers of ice pellets":
-						temp_cur_icn = "rainy";
-						break;
-					case "Heavy rain, mist":
-						temp_cur_icn = "rainy";
-						break;
-					case "Rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate or heavy snow showers":
-						temp_cur_icn = "snowy";
-						break;
-					case "Light snow showers":
-						temp_cur_icn = "snowy";
-						break;
-					case "Moderate or heavy sleet showers":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light sleet showers":
-						temp_cur_icn = "rainy";
-						break;
-					case "Torrential rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate or heavy rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Ice pellets":
-						temp_cur_icn = "snowy";
-						break;
-					case "Heavy snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy heavy snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Moderate snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy moderate snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Light snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy light snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Moderate or heavy sleet":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light sleet":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate or Heavy freezing rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light freezing rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Heavy rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Heavy rain at times":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate rain at times":
-						temp_cur_icn = "rainy";
-						break;					
-					case "Light rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Patchy light rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Heavy freezing drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Freezing drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Light drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Patchy light drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Freezing fog":
-						temp_cur_icn = "foggy";
-						break;
-					case "Fog":
-						temp_cur_icn = "foggy";
-						break;
-					case "Blizzard":
-						temp_cur_icn = "snowy";
-						break;
-					case "Blowing snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Thundery outbreaks in nearby":
-						temp_cur_icn = "thunderstorm";
-						break;
-					case "Patchy freezing drizzle nearby":
-						temp_cur_icn = "foggy";
-						break;
-					case "Patchy sleet nearby":
-						temp_cur_icn = "rainy";
-						break;
-					case "Patchy snow nearby":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy rain nearby":
-						temp_cur_icn = "rainy";
-						break;
-					case "Mist":
-						temp_cur_icn = "foggy";
-						break;
-					case "Overcast":
-						temp_cur_icn = "cloudy";
-						break;
-					case "Cloudy":
-						temp_cur_icn = "cloudy";
-						break;
-					case "Partly Cloudy":
-						temp_cur_icn = "partly_cloudy";
-						break;
-					case "Clear":
-						temp_cur_icn = "sunny";
-						break;
-					case "Sunny":
-						temp_cur_icn = "sunny";
-						break;
-					default:
-						temp_cur_icn = "cloudy";
-                  		}
-				cur_con_icon =  iconRender("/Icons/"+temp_cur_icn+".png", 50 , 50);
-        			fn_icon.setIcon(cur_con_icon);
+                                       cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
+                                       fm_icon.setIcon(cur_con_icon);
+                                   }
+                               } else if (stringTime.equalsIgnoreCase("1200")) {
+                                   fn_temp.setText(h2.get("tempC").getAsString() + "°C");
+                                   fn_h.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
+                                   fn_ws.setText("WindSpeed: " + h2.get("windspeedKmph").getAsString() + " kmph");
+                                   fn_uv.setText("UV: " + h2.get("uvIndex").getAsString());
+                                   JsonArray description_subarray = h2.get("weatherDesc").getAsJsonArray();
+
+                                   for (JsonElement jsonElement10 : description_subarray) {
+                                       JsonObject n = jsonElement10.getAsJsonObject();
+                                       fn_description.setText(n.get("value").getAsString());
+                                       String desc = n.get("value").getAsString();
+                                       String temp_cur_icn = "";
+                                       switch (desc) {
+                                           case "Moderate or heavy snow in area with thunder":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Patchy light snow in area with thunder":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Moderate or heavy rain in area with thunder":
+                                               temp_cur_icn = "thunderstorm";
+                                               break;
+                                           case "Patchy light rain in area with thunder":
+                                               temp_cur_icn = "thunderstorm";
+                                               break;
+                                           case "Moderate or heavy showers of ice pellets":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Light showers of ice pellets":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Heavy rain, mist":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Rain shower":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Moderate or heavy snow showers":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Light snow showers":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Moderate or heavy sleet showers":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Light sleet showers":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Torrential rain shower":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Moderate or heavy rain shower":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Light rain shower":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Ice pellets":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Heavy snow":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Patchy heavy snow":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Moderate snow":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Patchy moderate snow":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Light snow":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Patchy light snow":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Moderate or heavy sleet":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Light sleet":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Moderate or Heavy freezing rain":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Light freezing rain":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Heavy rain":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Heavy rain at times":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Moderate rain":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Moderate rain at times":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Light rain":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Patchy light rain":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Heavy freezing drizzle":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Freezing drizzle":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Light drizzle":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Patchy light drizzle":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Freezing fog":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Fog":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Blizzard":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Blowing snow":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Thundery outbreaks in nearby":
+                                               temp_cur_icn = "thunderstorm";
+                                               break;
+                                           case "Patchy freezing drizzle nearby":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Patchy sleet nearby":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Patchy snow nearby":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Patchy rain nearby":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Mist":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Overcast":
+                                               temp_cur_icn = "cloudy";
+                                               break;
+                                           case "Cloudy":
+                                               temp_cur_icn = "cloudy";
+                                               break;
+                                           case "Partly Cloudy":
+                                               temp_cur_icn = "partly_cloudy";
+                                               break;
+                                           case "Clear":
+                                               temp_cur_icn = "sunny";
+                                               break;
+                                           case "Sunny":
+                                               temp_cur_icn = "sunny";
+                                               break;
+                                           default:
+                                               temp_cur_icn = "cloudy";
                                        }
-                                     }
-                                        else if(stringTime.equalsIgnoreCase("1800")){
-                                           fe_temp.setText(h2.get("tempC").getAsString()+"°C");
-                                           fe_h.setText("Humidity: "+h2.get("humidity").getAsString()+"%");
-                                           fe_ws.setText("WindSpeed: "+h2.get("windspeedKmph").getAsString()+" kmph");
-                                           fe_uv.setText("UV: "+h2.get("uvIndex").getAsString());
-                                           JsonArray description_subarray = h2.get("weatherDesc").getAsJsonArray();
-                    
-                                      	for (JsonElement jsonElement9 : description_subarray) {                      
-                                             JsonObject e = jsonElement9.getAsJsonObject();                                               
-                                             fe_description.setText( e.get("value").getAsString()); 
-                                String desc = e.get("value").getAsString();    
-				String temp_cur_icn = "";
-                            	switch(desc){
-         				case "Moderate or heavy snow in area with thunder":
-                				temp_cur_icn = "snowy";
-						break;
-         				case "Patchy light snow in area with thunder":
-             					temp_cur_icn = "snowy";
-						break;
-					case "Moderate or heavy rain in area with thunder":
-						temp_cur_icn = "thunderstorm";
-						break;
-					case "Patchy light rain in area with thunder":
-						temp_cur_icn = "thunderstorm";
-						break;
-					case "Moderate or heavy showers of ice pellets":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light showers of ice pellets":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate or heavy snow showers":
-						temp_cur_icn = "snowy";
-						break;
-					case "Light snow showers":
-						temp_cur_icn = "snowy";
-						break;
-					case "Heavy rain, mist":
-						temp_cur_icn = "rainy";
-						break;
-					case "Rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate or heavy sleet showers":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light sleet showers":
-						temp_cur_icn = "rainy";
-						break;
-					case "Torrential rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate or heavy rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Ice pellets":
-						temp_cur_icn = "snowy";
-						break;
-					case "Heavy snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy heavy snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Moderate snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy moderate snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Light snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy light snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Moderate or heavy sleet":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light sleet":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate or Heavy freezing rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light freezing rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Heavy rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Heavy rain at times":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate rain at times":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Patchy light rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Heavy freezing drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Freezing drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Light drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Patchy light drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Freezing fog":
-						temp_cur_icn = "foggy";
-						break;
-					case "Fog":
-						temp_cur_icn = "foggy";
-						break;
-					case "Blizzard":
-						temp_cur_icn = "snowy";
-						break;
-					case "Blowing snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Thundery outbreaks in nearby":
-						temp_cur_icn = "thunderstorm";
-						break;
-					case "Patchy freezing drizzle nearby":
-						temp_cur_icn = "foggy";
-						break;
-					case "Patchy sleet nearby":
-						temp_cur_icn = "rainy";
-						break;
-					case "Patchy snow nearby":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy rain nearby":
-						temp_cur_icn = "rainy";
-						break;
-					case "Mist":
-						temp_cur_icn = "foggy";
-						break;
-					case "Overcast":
-						temp_cur_icn = "cloudy";
-						break;
-					case "Cloudy":
-						temp_cur_icn = "cloudy";
-						break;
-					case "Partly Cloudy":
-						temp_cur_icn = "partly_cloudy";
-						break;
-					case "Clear":
-						temp_cur_icn = "sunny";
-						break;
-					case "Sunny":
-						temp_cur_icn = "sunny";
-						break;
-					default:
-						temp_cur_icn = "cloudy";
-                  		}
-				cur_con_icon =  iconRender("/Icons/"+temp_cur_icn+".png", 50, 50);
-        			fe_icon.setIcon(cur_con_icon);
-                                             
-                                             
-                                        }
-                                    }
-                                     
-                                        else if(stringTime.equalsIgnoreCase("2100")){
-                                           fnt_temp.setText(h2.get("tempC").getAsString()+"°C");
-                                           fnt_h.setText("Humidity: "+h2.get("humidity").getAsString()+"%");
-                                           fnt_ws.setText("WindSpeed: "+h2.get("windspeedKmph").getAsString()+" kmph");
-                                           fnt_uv.setText("UV: "+h2.get("uvIndex").getAsString());
-                                           JsonArray description_subarray = h2.get("weatherDesc").getAsJsonArray();
-                    
-                                      	for (JsonElement jsonElement8 : description_subarray) {                      
-                                             JsonObject nt = jsonElement8.getAsJsonObject();                                               
-                                             fnt_description.setText( nt.get("value").getAsString()); 
-                                             
-                                String desc = nt.get("value").getAsString();    
-				String temp_cur_icn = "";
-                            	switch(desc){
-         				case "Moderate or heavy snow in area with thunder":
-                				temp_cur_icn = "snowy";
-						break;
-         				case "Patchy light snow in area with thunder":
-             					temp_cur_icn = "snowy";
-						break;
-					case "Moderate or heavy rain in area with thunder":
-						temp_cur_icn = "thunderstorm";
-						break;
-					case "Patchy light rain in area with thunder":
-						temp_cur_icn = "thunderstorm";
-						break;
-					case "Moderate or heavy showers of ice pellets":
-						temp_cur_icn = "rainy";
-						break;
-					case "Heavy rain, mist":
-						temp_cur_icn = "rainy";
-						break;
-					case "Rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light showers of ice pellets":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate or heavy snow showers":
-						temp_cur_icn = "snowy";
-						break;
-					case "Light snow showers":
-						temp_cur_icn = "snowy";
-						break;
-					case "Moderate or heavy sleet showers":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light sleet showers":
-						temp_cur_icn = "rainy";
-						break;
-					case "Torrential rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate or heavy rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Ice pellets":
-						temp_cur_icn = "snowy";
-						break;
-					case "Heavy snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy heavy snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Moderate snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy moderate snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Light snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy light snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Moderate or heavy sleet":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light sleet":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate or Heavy freezing rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light freezing rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Heavy rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Heavy rain at times":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate rain at times":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Patchy light rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Heavy freezing drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Freezing drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Light drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Patchy light drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Freezing fog":
-						temp_cur_icn = "foggy";
-						break;
-					case "Fog":
-						temp_cur_icn = "foggy";
-						break;
-					case "Blizzard":
-						temp_cur_icn = "snowy";
-						break;
-					case "Blowing snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Thundery outbreaks in nearby":
-						temp_cur_icn = "thunderstorm";
-						break;
-					case "Patchy freezing drizzle nearby":
-						temp_cur_icn = "foggy";
-						break;
-					case "Patchy sleet nearby":
-						temp_cur_icn = "rainy";
-						break;
-					case "Patchy snow nearby":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy rain nearby":
-						temp_cur_icn = "rainy";
-						break;
-					case "Mist":
-						temp_cur_icn = "foggy";
-						break;
-					case "Overcast":
-						temp_cur_icn = "cloudy";
-						break;
-					case "Cloudy":
-						temp_cur_icn = "cloudy";
-						break;
-					case "Partly Cloudy":
-						temp_cur_icn = "partly_cloudy";
-						break;
-					case "Clear":
-						temp_cur_icn = "clear_night";
-						break;
-					case "Sunny":
-						temp_cur_icn = "clear_night";
-						break;
-					default:
-						temp_cur_icn = "cur_cloudy";
-                  		}
-				cur_con_icon =  iconRender("/Icons/"+temp_cur_icn+".png", 50, 50);
-        			fnt_icon.setIcon(cur_con_icon);
-                            
-                                         }
-                                    }                
-                                 }
-                             }
-                          }
-                      }
+                                       cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
+                                       fn_icon.setIcon(cur_con_icon);
+                                   }
+                               } else if (stringTime.equalsIgnoreCase("1800")) {
+                                   fe_temp.setText(h2.get("tempC").getAsString() + "°C");
+                                   fe_h.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
+                                   fe_ws.setText("WindSpeed: " + h2.get("windspeedKmph").getAsString() + " kmph");
+                                   fe_uv.setText("UV: " + h2.get("uvIndex").getAsString());
+                                   JsonArray description_subarray = h2.get("weatherDesc").getAsJsonArray();
+
+                                   for (JsonElement jsonElement9 : description_subarray) {
+                                       JsonObject e = jsonElement9.getAsJsonObject();
+                                       fe_description.setText(e.get("value").getAsString());
+                                       String desc = e.get("value").getAsString();
+                                       String temp_cur_icn = "";
+                                       switch (desc) {
+                                           case "Moderate or heavy snow in area with thunder":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Patchy light snow in area with thunder":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Moderate or heavy rain in area with thunder":
+                                               temp_cur_icn = "thunderstorm";
+                                               break;
+                                           case "Patchy light rain in area with thunder":
+                                               temp_cur_icn = "thunderstorm";
+                                               break;
+                                           case "Moderate or heavy showers of ice pellets":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Light showers of ice pellets":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Moderate or heavy snow showers":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Light snow showers":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Heavy rain, mist":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Rain shower":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Moderate or heavy sleet showers":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Light sleet showers":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Torrential rain shower":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Moderate or heavy rain shower":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Light rain shower":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Ice pellets":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Heavy snow":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Patchy heavy snow":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Moderate snow":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Patchy moderate snow":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Light snow":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Patchy light snow":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Moderate or heavy sleet":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Light sleet":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Moderate or Heavy freezing rain":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Light freezing rain":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Heavy rain":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Heavy rain at times":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Moderate rain":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Moderate rain at times":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Light rain":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Patchy light rain":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Heavy freezing drizzle":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Freezing drizzle":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Light drizzle":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Patchy light drizzle":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Freezing fog":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Fog":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Blizzard":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Blowing snow":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Thundery outbreaks in nearby":
+                                               temp_cur_icn = "thunderstorm";
+                                               break;
+                                           case "Patchy freezing drizzle nearby":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Patchy sleet nearby":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Patchy snow nearby":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Patchy rain nearby":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Mist":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Overcast":
+                                               temp_cur_icn = "cloudy";
+                                               break;
+                                           case "Cloudy":
+                                               temp_cur_icn = "cloudy";
+                                               break;
+                                           case "Partly Cloudy":
+                                               temp_cur_icn = "partly_cloudy";
+                                               break;
+                                           case "Clear":
+                                               temp_cur_icn = "sunny";
+                                               break;
+                                           case "Sunny":
+                                               temp_cur_icn = "sunny";
+                                               break;
+                                           default:
+                                               temp_cur_icn = "cloudy";
+                                       }
+                                       cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
+                                       fe_icon.setIcon(cur_con_icon);
+
+
+                                   }
+                               } else if (stringTime.equalsIgnoreCase("2100")) {
+                                   fnt_temp.setText(h2.get("tempC").getAsString() + "°C");
+                                   fnt_h.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
+                                   fnt_ws.setText("WindSpeed: " + h2.get("windspeedKmph").getAsString() + " kmph");
+                                   fnt_uv.setText("UV: " + h2.get("uvIndex").getAsString());
+                                   JsonArray description_subarray = h2.get("weatherDesc").getAsJsonArray();
+
+                                   for (JsonElement jsonElement8 : description_subarray) {
+                                       JsonObject nt = jsonElement8.getAsJsonObject();
+                                       fnt_description.setText(nt.get("value").getAsString());
+
+                                       String desc = nt.get("value").getAsString();
+                                       String temp_cur_icn = "";
+                                       switch (desc) {
+                                           case "Moderate or heavy snow in area with thunder":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Patchy light snow in area with thunder":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Moderate or heavy rain in area with thunder":
+                                               temp_cur_icn = "thunderstorm";
+                                               break;
+                                           case "Patchy light rain in area with thunder":
+                                               temp_cur_icn = "thunderstorm";
+                                               break;
+                                           case "Moderate or heavy showers of ice pellets":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Heavy rain, mist":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Rain shower":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Light showers of ice pellets":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Moderate or heavy snow showers":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Light snow showers":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Moderate or heavy sleet showers":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Light sleet showers":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Torrential rain shower":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Moderate or heavy rain shower":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Light rain shower":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Ice pellets":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Heavy snow":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Patchy heavy snow":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Moderate snow":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Patchy moderate snow":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Light snow":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Patchy light snow":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Moderate or heavy sleet":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Light sleet":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Moderate or Heavy freezing rain":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Light freezing rain":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Heavy rain":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Heavy rain at times":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Moderate rain":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Moderate rain at times":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Light rain":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Patchy light rain":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Heavy freezing drizzle":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Freezing drizzle":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Light drizzle":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Patchy light drizzle":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Freezing fog":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Fog":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Blizzard":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Blowing snow":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Thundery outbreaks in nearby":
+                                               temp_cur_icn = "thunderstorm";
+                                               break;
+                                           case "Patchy freezing drizzle nearby":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Patchy sleet nearby":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Patchy snow nearby":
+                                               temp_cur_icn = "snowy";
+                                               break;
+                                           case "Patchy rain nearby":
+                                               temp_cur_icn = "rainy";
+                                               break;
+                                           case "Mist":
+                                               temp_cur_icn = "foggy";
+                                               break;
+                                           case "Overcast":
+                                               temp_cur_icn = "cloudy";
+                                               break;
+                                           case "Cloudy":
+                                               temp_cur_icn = "cloudy";
+                                               break;
+                                           case "Partly Cloudy":
+                                               temp_cur_icn = "partly_cloudy";
+                                               break;
+                                           case "Clear":
+                                               temp_cur_icn = "clear_night";
+                                               break;
+                                           case "Sunny":
+                                               temp_cur_icn = "clear_night";
+                                               break;
+                                           default:
+                                               temp_cur_icn = "cur_cloudy";
+                                       }
+                                       cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
+                                       fnt_icon.setIcon(cur_con_icon);
+
+                                   }
+                               }
+                           }
+                       }
+                   }
+               }
            } catch (Exception e) {
                    System.out.println("It doesn't exist1");
            }
 
      } catch (Exception e) {
                    System.out.println("It doesn't exist2");
-     }      
+     }
     }//GEN-LAST:event_searchBar1ActionPerformed
 
     private void saveButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveButton1MouseClicked
-        System.out.print(cur_temp.getText());
+        double cityTemp = Double.parseDouble(cur_temp.getText().split("°")[0]);
+        int cityHumidity = Integer.parseInt(h.getText().split("%")[0]);
+        int cityUv = Integer.parseInt(uv.getText());
+        double cityWind = Double.parseDouble(ws.getText().split(" ")[0]);
+        String[] bits = dateLabel.getText().split(": ");
+        String dateLast = bits[bits.length-1];
+             Database connectDB = Database.getConnectionInstance();
+             connectDB.insertMeteoData(cityLabel.getText(), dateLast, cityTemp,
+                     cityHumidity, cityUv, cityWind, description.getText());
     }//GEN-LAST:event_saveButton1MouseClicked
 
     
