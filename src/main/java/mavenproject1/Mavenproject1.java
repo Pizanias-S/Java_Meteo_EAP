@@ -4,42 +4,42 @@ import Database.Database;
 import Menu.EventMenu;
 import Menu.Forecast;
 import Menu.CityList;
-import Menu.Form3;
+import Menu.About;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.sql.Date;
 import java.util.List;
 import javax.swing.JComponent;
+import Swing.PopupDialogExit;
+import javax.swing.*;
 
 public class Mavenproject1 extends javax.swing.JFrame{
 
-    
+    private JFrame parentFrame;
     public Mavenproject1() {
         Database connectDB = Database.getConnectionInstance();
         System.out.println(connectDB);
         connectDB.createTableCity();
         connectDB.createTableMeteoData();
-        connectDB.insertNewCity("Athina", "Achaia", "Ptr", "1231231",
-                        "52352352", "ptr", 1, Date.valueOf("2024-02-29"));
-        connectDB.insertMeteoData("Patras", Date.valueOf("2024-02-29"), 30.2,
-                65, "24", "Clear");
-        List<String> city = connectDB.selectAllCitys();
-        String main_city = city.get(0);
+        connectDB.createCityDate();
         initComponents();
         setBackground(new Color(0.0f,0.0f,0.0f,0.0f));
+        parentFrame = (JFrame) this.getParent();
         init();
+        connectDB.selectCitysbyApperance();
         mainPanel.setBackground(new Color(30,30,30));
         menu.addEvent(new EventMenu() {
             @Override
             public void menuSelected(int index) {
                 if (index == 0) {
-                    setForm(new Forecast(main_city));
+                    setForm(new Forecast());
                 } else if (index == 1) {
                     setForm(new CityList());
                 } else if (index == 2){
-                    setForm(new Form3());
+                    setForm(new About());
                 } else if (index == 3){
-                    System.exit(0);
+                    PopupDialogExit obj = new PopupDialogExit(parentFrame);
+                    obj.setVisible(true);
                 }
             }
           }); 
@@ -129,7 +129,7 @@ public class Mavenproject1 extends javax.swing.JFrame{
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -142,13 +142,8 @@ public class Mavenproject1 extends javax.swing.JFrame{
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Mavenproject1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Mavenproject1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Mavenproject1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
+                 UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Mavenproject1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
