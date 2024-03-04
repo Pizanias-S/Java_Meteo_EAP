@@ -1,1 +1,7 @@
 /target/
+/derby.log/
+/derbydb2/
+/derbydb/
+/derby.log
+derby.log
+/.idea/

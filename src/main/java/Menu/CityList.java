@@ -17,6 +17,8 @@ public class CityList extends javax.swing.JPanel {
     
     public CityList() {
         initComponents();
+        
+        
         setOpaque(false);
         
         // Fix table
@@ -29,6 +31,16 @@ public class CityList extends javax.swing.JPanel {
         panel.setBackground(new Color(30, 30, 30));
         jScrollPane1.setCorner(JScrollPane.UPPER_RIGHT_CORNER,panel);
         tableDark1.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
     }
     
