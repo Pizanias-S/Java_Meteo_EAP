@@ -4,14 +4,18 @@ import Database.Database;
 import Menu.EventMenu;
 import Menu.Forecast;
 import Menu.CityList;
-import Menu.Form3;
+import Menu.About;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.sql.Date;
+import java.util.List;
+import javax.swing.JComponent;
+import Swing.PopupDialogExit;
 import javax.swing.*;
 
 public class Mavenproject1 extends javax.swing.JFrame{
 
-    
+    private JFrame parentFrame;
     public Mavenproject1() {
         Database connectDB = Database.getConnectionInstance();
         System.out.println(connectDB);
@@ -20,6 +24,7 @@ public class Mavenproject1 extends javax.swing.JFrame{
         connectDB.createCityDate();
         initComponents();
         setBackground(new Color(0.0f,0.0f,0.0f,0.0f));
+        parentFrame = (JFrame) this.getParent();
         init();
         connectDB.selectCitysbyApperance();
         mainPanel.setBackground(new Color(30,30,30));
@@ -31,9 +36,10 @@ public class Mavenproject1 extends javax.swing.JFrame{
                 } else if (index == 1) {
                     setForm(new CityList());
                 } else if (index == 2){
-                    setForm(new Form3());
+                    setForm(new About());
                 } else if (index == 3){
-                    System.exit(0);
+                    PopupDialogExit obj = new PopupDialogExit(parentFrame);
+                    obj.setVisible(true);
                 }
             }
           }); 
