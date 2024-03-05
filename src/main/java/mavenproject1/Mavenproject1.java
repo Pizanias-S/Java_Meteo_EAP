@@ -28,6 +28,7 @@ public class Mavenproject1 extends javax.swing.JFrame{
         init();
         connectDB.selectCitysbyApperance();
         mainPanel.setBackground(new Color(30,30,30));
+        setForm(new Forecast());
         menu.addEvent(new EventMenu() {
             @Override
             public void menuSelected(int index) {
