@@ -1460,7 +1460,6 @@ public class Forecast extends JPanel {
                        JsonObject object = jsonElement.getAsJsonObject();
                        JsonArray areaName = object.get("areaName").getAsJsonArray();
                        JsonArray countryName = object.get("country").getAsJsonArray();
-                       System.out.println(countryName);
                        JsonArray regionName = object.get("region").getAsJsonArray();
                        latitude = object.get("latitude").getAsString();
                        longitude = object.get("longitude").getAsString();
@@ -1490,170 +1489,40 @@ public class Forecast extends JPanel {
                        ws.setText(cndObj.get("windspeedKmph").getAsString() + " Kmph");
                        dateLabel.setText("Last Update: " + cndObj.get("localObsDateTime").getAsString());
                        JsonArray conditions_subarray = cndObj.get("weatherDesc").getAsJsonArray();
-                       System.out.println(cur_temp.getText());
                        for (JsonElement jsonElement3 : conditions_subarray) {
                            JsonObject cndObj2 = jsonElement3.getAsJsonObject();
                            description.setText(cndObj2.get("value").getAsString());
 
                            String desc = cndObj2.get("value").getAsString();
-                           String temp_cur_icn = "";
-                           switch (desc) {
-                               case "Moderate or heavy snow in area with thunder":
-                                   temp_cur_icn = "cur_snowy";
-                                   break;
-                               case "Patchy light snow in area with thunder":
-                                   temp_cur_icn = "cur_snowy";
-                                   break;
-                               case "Moderate or heavy rain in area with thunder":
-                                   temp_cur_icn = "cur_thunderstorm";
-                                   break;
-                               case "Patchy light rain in area with thunder":
-                                   temp_cur_icn = "cur_thunderstorm";
-                                   break;
-                               case "Moderate or heavy showers of ice pellets":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Light showers of ice pellets":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Moderate or heavy snow showers":
-                                   temp_cur_icn = "cur_snowy";
-                                   break;
-                               case "Light snow showers":
-                                   temp_cur_icn = "cur_snowy";
-                                   break;
-                               case "Moderate or heavy sleet showers":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Light sleet showers":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Torrential rain shower":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Moderate or heavy rain shower":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Light rain shower":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Ice pellets":
-                                   temp_cur_icn = "cur_snowy";
-                                   break;
-                               case "Heavy snow":
-                                   temp_cur_icn = "cur_snowy";
-                                   break;
-                               case "Patchy heavy snow":
-                                   temp_cur_icn = "cur_snowy";
-                                   break;
-                               case "Moderate snow":
-                                   temp_cur_icn = "cur_snowy";
-                                   break;
-                               case "Patchy moderate snow":
-                                   temp_cur_icn = "cur_snowy";
-                                   break;
-                               case "Light snow":
-                                   temp_cur_icn = "cur_snowy";
-                                   break;
-                               case "Patchy light snow":
-                                   temp_cur_icn = "cur_snowy";
-                                   break;
-                               case "Moderate or heavy sleet":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Light sleet":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Moderate or Heavy freezing rain":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Light freezing rain":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Heavy rain":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Heavy rain at times":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Moderate rain":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Moderate rain at times":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Rain shower":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Light rain":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Patchy light rain":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Heavy freezing drizzle":
-                                   temp_cur_icn = "cur_foggy";
-                                   break;
-                               case "Freezing drizzle":
-                                   temp_cur_icn = "cur_foggy";
-                                   break;
-                               case "Light drizzle":
-                                   temp_cur_icn = "cur_foggy";
-                                   break;
-                               case "Patchy light drizzle":
-                                   temp_cur_icn = "cur_foggy";
-                                   break;
-                               case "Freezing fog":
-                                   temp_cur_icn = "cur_foggy";
-                                   break;
-                               case "Fog":
-                                   temp_cur_icn = "cur_foggy";
-                                   break;
-                               case "Blizzard":
-                                   temp_cur_icn = "cur_snowy";
-                                   break;
-                               case "Blowing snow":
-                                   temp_cur_icn = "cur_snowy";
-                                   break;
-                               case "Thundery outbreaks in nearby":
-                                   temp_cur_icn = "cur_";
-                                   break;
-                               case "Patchy freezing drizzle nearby":
-                                   temp_cur_icn = "cur_foggy";
-                                   break;
-                               case "Patchy sleet nearby":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Patchy snow nearby":
-                                   temp_cur_icn = "cur_snowy";
-                                   break;
-                               case "Patchy rain nearby":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Heavy rain, mist":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Mist":
-                                   temp_cur_icn = "cur_foggy";
-                                   break;
-                               case "Overcast":
-                                   temp_cur_icn = "cur_cloudy";
-                                   break;
-                               case "Cloudy":
-                                   temp_cur_icn = "cur_cloudy";
-                                   break;
-                               case "Partly Cloudy":
-                                   temp_cur_icn = "cur_partly_cloudy";
-                                   break;
-                               case "Clear":
-                                   temp_cur_icn = "cur_clear_night";
-                                   break;
-                               case "Sunny":
-                                   temp_cur_icn = "cur_sunny";
-                                   break;
-                               default:
-                                   temp_cur_icn = "cur_cloudy";
-                           }
+                           String temp_cur_icn = switch (desc) {
+                               case "Moderate or heavy snow in area with thunder",
+                                       "Patchy light snow in area with thunder", "Moderate or heavy snow showers",
+                                       "Light snow showers", "Ice pellets", "Patchy heavy snow", "Heavy snow",
+                                       "Patchy moderate snow", "Moderate snow", "Light snow", "Patchy light snow",
+                                       "Blizzard", "Blowing snow", "Patchy snow nearby" ->
+                                       "cur_snowy";
+                               case "Moderate or heavy rain in area with thunder",
+                                       "Patchy light rain in area with thunder" ->
+                                       "cur_thunderstorm";
+                               case "Moderate or heavy showers of ice pellets", "Heavy rain, mist",
+                                       "Light showers of ice pellets", "Moderate or heavy sleet showers",
+                                       "Light sleet showers", "Torrential rain shower",
+                                       "Moderate or heavy rain shower", "Light rain shower", "Moderate or heavy sleet",
+                                       "Light sleet", "Moderate or Heavy freezing rain", "Heavy rain", "Moderate rain",
+                                       "Light freezing rain", "Moderate rain at times", "Heavy rain at times",
+                                       "Rain shower", "Light rain", "Patchy light rain", "Patchy sleet nearby",
+                                       "Patchy rain nearby" ->
+                                       "cur_rainy";
+                               case "Heavy freezing drizzle", "Freezing drizzle", "Light drizzle",
+                                       "Patchy light drizzle", "Freezing fog", "Fog",
+                                       "Patchy freezing drizzle nearby", "Mist" ->
+                                       "cur_foggy";
+                               case "Thundery outbreaks in nearby" -> "cur_";
+                               case "Partly Cloudy" -> "cur_partly_cloudy";
+                               case "Clear" -> "cur_clear_night";
+                               case "Sunny" -> "cur_sunny";
+                               default -> "cur_cloudy";
+                           };
                            cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 100, 100);
                            cur_conditions.setIcon(cur_con_icon);
 
@@ -1847,6 +1716,7 @@ public class Forecast extends JPanel {
                        }else if (stringDate.equalsIgnoreCase(dateTomorrow)) {
                            dateLabel.setText("Last Update: " + wObj0.get("localObsDateTime").getAsString());
                            JsonArray fcast0 = wObj0.get("hourly").getAsJsonArray();
+                           System.out.println(fm_h1);
                            for (JsonElement jsonElement5 : fcast0) {
                                JsonObject h2 = jsonElement5.getAsJsonObject();
                                String stringTime = h2.get("time").getAsString();
@@ -2026,21 +1896,22 @@ public class Forecast extends JPanel {
                            }
                        }else if (stringDate.equalsIgnoreCase(formattedDayAfterTomorrowDate)) {
                            materialTabbedPane2.setTitleAt(2, stringDate.substring(5)); // change tab title
+
                            JsonArray fcast0 = wObj0.get("hourly").getAsJsonArray();
                            for (JsonElement jsonElement5 : fcast0) {
                                JsonObject h2 = jsonElement5.getAsJsonObject();
                                String stringTime = h2.get("time").getAsString();
 
                                if (stringTime.equalsIgnoreCase("600")) {
-                                   fn_temp1.setText(h2.get("tempC").getAsString() + "°C");
-                                   fn_h1.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
-                                   fn_ws1.setText("WindSpeed: " + h2.get("windspeedKmph").getAsString() + " kmph");
-                                   fn_uv1.setText("UV: " + h2.get("uvIndex").getAsString());
+                                   fn_temp2.setText(h2.get("tempC").getAsString() + "°C");
+                                   fn_h2.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
+                                   fn_ws2.setText("WindSpeed: " + h2.get("windspeedKmph").getAsString() + " kmph");
+                                   fn_uv2.setText("UV: " + h2.get("uvIndex").getAsString());
                                    JsonArray description_subarray = h2.get("weatherDesc").getAsJsonArray();
 
                                    for (JsonElement jsonElement11 : description_subarray) {
                                        JsonObject m = jsonElement11.getAsJsonObject();
-                                       fn_description1.setText(m.get("value").getAsString());
+                                       fn_description2.setText(m.get("value").getAsString());
                                        String desc = m.get("value").getAsString();
                                        String temp_cur_icn = switch (desc) {
                                            case "Moderate or heavy snow in area with thunder",
@@ -2117,7 +1988,7 @@ public class Forecast extends JPanel {
                                    }
                                } else if (stringTime.equalsIgnoreCase("1800")) {
                                    fe_temp2.setText(h2.get("tempC").getAsString() + "°C");
-                                   fe_h1.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
+                                   fe_h2.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
                                    fe_ws2.setText("WindSpeed: " + h2.get("windspeedKmph").getAsString() + " kmph");
                                    fe_uv2.setText("UV: " + h2.get("uvIndex").getAsString());
                                    JsonArray description_subarray = h2.get("weatherDesc").getAsJsonArray();
