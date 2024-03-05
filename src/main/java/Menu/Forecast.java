@@ -1322,7 +1322,7 @@ public class Forecast extends JPanel {
                     .addContainerGap()))
         );
 
-        materialTabbedPane2.addTab("tab3", jPanel3);
+        materialTabbedPane2.addTab("Next", jPanel3);
 
         dateLabel.setFont(new java.awt.Font("Avenir Next", 2, 10)); // NOI18N
         dateLabel.setForeground(new java.awt.Color(200, 200, 200));
@@ -1367,8 +1367,7 @@ public class Forecast extends JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(city_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cityLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(cityLabel)))
                         .addComponent(cur_conditions, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(dateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2026,6 +2025,7 @@ public class Forecast extends JPanel {
                                }
                            }
                        }else if (stringDate.equalsIgnoreCase(formattedDayAfterTomorrowDate)) {
+                           materialTabbedPane2.setTitleAt(2, stringDate.substring(5)); // change tab title
                            JsonArray fcast0 = wObj0.get("hourly").getAsJsonArray();
                            for (JsonElement jsonElement5 : fcast0) {
                                JsonObject h2 = jsonElement5.getAsJsonObject();
@@ -2240,8 +2240,6 @@ public class Forecast extends JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel cityLabel;
     private javax.swing.JLabel city_icon;
-    private javax.swing.JPanel column1;
-    private javax.swing.JPanel column10;
     private javax.swing.JPanel column12;
     private javax.swing.JPanel column15;
     private javax.swing.JPanel column16;
@@ -2251,7 +2249,6 @@ public class Forecast extends JPanel {
     private javax.swing.JPanel column20;
     private javax.swing.JPanel column21;
     private javax.swing.JPanel column22;
-    private javax.swing.JPanel column9;
     private javax.swing.JLabel cur_conditions;
     private javax.swing.JLabel cur_temp;
     private javax.swing.JLabel dateLabel;
@@ -2345,9 +2342,6 @@ public class Forecast extends JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel line;
-    private javax.swing.JPanel line10;
-    private javax.swing.JPanel line11;
     private javax.swing.JPanel line13;
     private javax.swing.JPanel line14;
     private javax.swing.JPanel line15;

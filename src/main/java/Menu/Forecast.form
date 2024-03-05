@@ -66,8 +66,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="city_icon" min="-2" pref="34" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="cityLabel" min="-2" pref="449" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <Component id="cityLabel" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <Component id="cur_conditions" min="-2" pref="110" max="-2" attributes="0"/>
@@ -1514,8 +1513,8 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="tab3">
-                <Property name="tabTitle" type="java.lang.String" value="tab3"/>
+              <JTabbedPaneConstraints tabName="Next">
+                <Property name="tabTitle" type="java.lang.String" value="Next"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
