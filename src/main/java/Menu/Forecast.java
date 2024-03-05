@@ -1429,9 +1429,9 @@ public class Forecast extends JPanel {
         String formattedDate = dateFormat.format(currentDate);
         c.add(Calendar.DATE,1);
         String formattedDayAfterTomorrowDate = dateFormat.format(c.getTime());
-
-	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HHmm");
-   	LocalDateTime now = LocalDateTime.now();
+        System.out.println(formattedDayAfterTomorrowDate);
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HHmm");
+        LocalDateTime now = LocalDateTime.now();
              
         try {
             String city = searchBar1.getText();                                      
@@ -1519,7 +1519,7 @@ public class Forecast extends JPanel {
                                        "cur_foggy";
                                case "Thundery outbreaks in nearby" -> "cur_";
                                case "Partly Cloudy" -> "cur_partly_cloudy";
-                               case "Clear" -> "cur_clear_night";
+                               case "Clear", "Clear " -> "cur_clear_night";
                                case "Sunny" -> "cur_sunny";
                                default -> "cur_cloudy";
                            };
@@ -1535,6 +1535,7 @@ public class Forecast extends JPanel {
                        String stringDate = wObj0.get("date").getAsString();
                         System.out.println(jsonElement4);
                        if (stringDate.equalsIgnoreCase(formattedDate)) {
+                           materialTabbedPane2.setTitleAt(0, formattedDate); // change tab title
                            JsonArray fcast0 = wObj0.get("hourly").getAsJsonArray();
                            for (JsonElement jsonElement5 : fcast0) {
                                JsonObject h2 = jsonElement5.getAsJsonObject();
@@ -1576,7 +1577,7 @@ public class Forecast extends JPanel {
                                                    "Patchy light drizzle", "Freezing fog", "Fog",
                                                    "Patchy freezing drizzle nearby", "Mist" -> "foggy";
                                            case "Partly Cloudy" -> "partly_cloudy";
-                                           case "Clear", "Sunny" -> "sunny";
+                                           case "Clear", "Sunny", "Clear " -> "sunny";
                                            default -> "cloudy";
                                        };
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
@@ -1713,10 +1714,10 @@ public class Forecast extends JPanel {
                                    }
                                }
                            }
+                           // TOMORROW
                        }else if (stringDate.equalsIgnoreCase(dateTomorrow)) {
-                           dateLabel.setText("Last Update: " + wObj0.get("localObsDateTime").getAsString());
+                           materialTabbedPane2.setTitleAt(1, dateTomorrow); // change tab title
                            JsonArray fcast0 = wObj0.get("hourly").getAsJsonArray();
-                           System.out.println(fm_h1);
                            for (JsonElement jsonElement5 : fcast0) {
                                JsonObject h2 = jsonElement5.getAsJsonObject();
                                String stringTime = h2.get("time").getAsString();
@@ -1894,24 +1895,26 @@ public class Forecast extends JPanel {
                                    }
                                }
                            }
+                           // DAY AFTER TOMORROW
                        }else if (stringDate.equalsIgnoreCase(formattedDayAfterTomorrowDate)) {
-                           materialTabbedPane2.setTitleAt(2, stringDate.substring(5)); // change tab title
+                           materialTabbedPane2.setTitleAt(2, formattedDayAfterTomorrowDate); // change tab title
 
                            JsonArray fcast0 = wObj0.get("hourly").getAsJsonArray();
                            for (JsonElement jsonElement5 : fcast0) {
                                JsonObject h2 = jsonElement5.getAsJsonObject();
+                               System.out.println(h2);
                                String stringTime = h2.get("time").getAsString();
 
                                if (stringTime.equalsIgnoreCase("600")) {
-                                   fn_temp2.setText(h2.get("tempC").getAsString() + "°C");
-                                   fn_h2.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
-                                   fn_ws2.setText("WindSpeed: " + h2.get("windspeedKmph").getAsString() + " kmph");
-                                   fn_uv2.setText("UV: " + h2.get("uvIndex").getAsString());
+                                   fm_temp2.setText(h2.get("tempC").getAsString() + "°C");
+                                   fm_h2.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
+                                   fm_ws2.setText("WindSpeed: " + h2.get("windspeedKmph").getAsString() + " kmph");
+                                   fm_uv2.setText("UV: " + h2.get("uvIndex").getAsString());
                                    JsonArray description_subarray = h2.get("weatherDesc").getAsJsonArray();
 
                                    for (JsonElement jsonElement11 : description_subarray) {
                                        JsonObject m = jsonElement11.getAsJsonObject();
-                                       fn_description2.setText(m.get("value").getAsString());
+                                       fm_description2.setText(m.get("value").getAsString());
                                        String desc = m.get("value").getAsString();
                                        String temp_cur_icn = switch (desc) {
                                            case "Moderate or heavy snow in area with thunder",
@@ -1942,7 +1945,7 @@ public class Forecast extends JPanel {
                                            default -> "cloudy";
                                        };
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
-                                       fn_icon1.setIcon(cur_con_icon);
+                                       fm_icon2.setIcon(cur_con_icon);
                                    }
                                } else if (stringTime.equalsIgnoreCase("1200")) {
                                    fn_temp2.setText(h2.get("tempC").getAsString() + "°C");
@@ -2082,11 +2085,12 @@ public class Forecast extends JPanel {
                }      
            } catch (Exception e) {
                    System.out.println("It doesn't exist1");
+                   System.out.println(e);
                    //searchError.setText("City not found");
            }
 
      } catch (Exception e) {
-                   System.out.println("It doesn't exist2");
+                   System.out.println(e);
                    searchError.setText("City not found");
      }
     }//GEN-LAST:event_searchBar1ActionPerformed
@@ -2096,10 +2100,11 @@ public class Forecast extends JPanel {
         int cityHumidity = Integer.parseInt(h.getText().split("%")[0]);
         int cityUv = Integer.parseInt(uv.getText());
         double cityWind = Double.parseDouble(ws.getText().split(" ")[0]);
+        String cityName = cityLabel.getText().split(",")[0];
         String[] bits = dateLabel.getText().split(": ");
         String dateLast = bits[bits.length-1];
              Database connectDB = Database.getConnectionInstance();
-             connectDB.insertMeteoData(cityLabel.getText(), dateLast, cityTemp,
+             connectDB.insertMeteoData(cityName, dateLast, cityTemp,
                      cityHumidity, cityUv, cityWind, description.getText());
     }//GEN-LAST:event_saveButton1MouseClicked
 
