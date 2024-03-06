@@ -18,28 +18,29 @@ public class Mavenproject1 extends javax.swing.JFrame{
     private JFrame parentFrame;
     public Mavenproject1() {
         Database connectDB = Database.getConnectionInstance();
-        System.out.println(connectDB);
         connectDB.createTableCity();
         connectDB.createTableMeteoData();
         connectDB.createCityDate();
+        connectDB.selectMeteoDataByCity();
         initComponents();
         setBackground(new Color(0.0f,0.0f,0.0f,0.0f));
         parentFrame = (JFrame) this.getParent();
         init();
-        connectDB.selectCitysbyApperance();
         mainPanel.setBackground(new Color(30,30,30));
+        setForm(new Forecast());
         menu.addEvent(new EventMenu() {
             @Override
             public void menuSelected(int index) {
-                if (index == 0) {
-                    setForm(new Forecast());
-                } else if (index == 1) {
-                    setForm(new CityList());
-                } else if (index == 2){
-                    setForm(new About());
-                } else if (index == 3){
-                    PopupDialogExit obj = new PopupDialogExit(parentFrame);
-                    obj.setVisible(true);
+                switch (index) {
+                    case 0 -> setForm(new Forecast());
+                    case 1 -> setForm(new CityList());
+                    case 2 -> setForm(new About());
+                    case 3 -> {
+                        PopupDialogExit obj = new PopupDialogExit(parentFrame);
+                        obj.setVisible(true);
+                    }
+                    default -> {
+                    }
                 }
             }
           }); 

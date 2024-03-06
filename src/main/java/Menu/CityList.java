@@ -2,26 +2,43 @@ package Menu;
 
 import Components.ModernScrollbarUI;
 import Components.ScrollBarCustom;
+import Database.Database;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.LinkedHashMap;
+import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+
+import Database.Database;
+import Swing.PopupDialogDelete;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+import javax.swing.JFrame;
 import javax.swing.plaf.ScrollBarUI;
+import javax.swing.table.DefaultTableModel;
 
 public class CityList extends javax.swing.JPanel {
+    
+    private JFrame parentFrame;
 
     
     public CityList() {
         initComponents();
-        
-        
+        parentFrame = (JFrame) this.getParent();
         setOpaque(false);
         
-        // Fix table
+        // Fix table1
         tableDark1.setBackground(new Color(30,30,30));
         tableDark1.setFillsViewportHeight(true);
         jScrollPane1.setVerticalScrollBar(new ScrollBarCustom());
@@ -32,16 +49,27 @@ public class CityList extends javax.swing.JPanel {
         jScrollPane1.setCorner(JScrollPane.UPPER_RIGHT_CORNER,panel);
         tableDark1.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
         
+        // Fix table2
+        tableDark2.setBackground(new Color(30,30,30));
+        tableDark2.setFillsViewportHeight(true);
+        jScrollPane2.setVerticalScrollBar(new ScrollBarCustom());
+        Border border1 = new LineBorder(new Color(50,50,50), 3, true);
+        jScrollPane2.setBorder(border1);
+        JPanel panel1 = new JPanel();
+        panel1.setBackground(new Color(30, 30, 30));
+        jScrollPane2.setCorner(JScrollPane.UPPER_RIGHT_CORNER,panel1);
+        tableDark2.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        // Fix table3
+        tableDark3.setBackground(new Color(30,30,30));
+        tableDark3.setFillsViewportHeight(true);
+        jScrollPane3.setVerticalScrollBar(new ScrollBarCustom());
+        Border border2 = new LineBorder(new Color(50,50,50), 3, true);
+        jScrollPane3.setBorder(border2);
+        JPanel panel2 = new JPanel();
+        panel2.setBackground(new Color(30, 30, 30));
+        jScrollPane3.setCorner(JScrollPane.UPPER_RIGHT_CORNER,panel2);
+        tableDark3.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);       
     }
     
 
@@ -54,8 +82,21 @@ public class CityList extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        materialTabbedPane1 = new Components.MaterialTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableDark1 = new Swing.TableDark();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tableDark2 = new Swing.TableDark();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tableDark3 = new Swing.TableDark();
+        pdfButton1 = new Components.PdfButton();
+        comboBox1 = new Components.ComboBox();
+        deleteButton1 = new Components.DeleteButton();
+        editButton1 = new Components.EditButton();
+
+        materialTabbedPane1.setForeground(new java.awt.Color(220, 220, 220));
+        materialTabbedPane1.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
+        materialTabbedPane1.setFont(new java.awt.Font("Avenir Next", 0, 14)); // NOI18N
 
         tableDark1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -86,27 +127,174 @@ public class CityList extends javax.swing.JPanel {
         tableDark1.setShowGrid(false);
         jScrollPane1.setViewportView(tableDark1);
 
+        materialTabbedPane1.addTab("tab1", jScrollPane1);
+
+        tableDark2.setForeground(new java.awt.Color(220, 220, 220));
+        tableDark2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tableDark2.setFont(new java.awt.Font("Avenir Next", 0, 14)); // NOI18N
+        jScrollPane2.setViewportView(tableDark2);
+
+        materialTabbedPane1.addTab("tab2", jScrollPane2);
+
+        tableDark3.setForeground(new java.awt.Color(220, 220, 220));
+        tableDark3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3"
+            }
+        ));
+        tableDark3.setFont(new java.awt.Font("Avenir Next", 0, 14)); // NOI18N
+        jScrollPane3.setViewportView(tableDark3);
+
+        materialTabbedPane1.addTab("tab3", jScrollPane3);
+
+        pdfButton1.setForeground(new java.awt.Color(220, 220, 220));
+        pdfButton1.setText("Convert to PDF");
+        pdfButton1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        pdfButton1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+
+        comboBox1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                comboBox1FocusGained(evt);
+            }
+        });
+        comboBox1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                comboBox1MouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                comboBox1MouseExited(evt);
+            }
+        });
+
+        deleteButton1.setForeground(new java.awt.Color(220, 220, 220));
+        deleteButton1.setText("Delete");
+        deleteButton1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        deleteButton1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        deleteButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButton1ActionPerformed(evt);
+            }
+        });
+
+        editButton1.setForeground(new java.awt.Color(220, 220, 220));
+        editButton1.setText("Edit  ");
+        editButton1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        editButton1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        editButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                editButton1MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(100, 100, 100)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(100, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(comboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(editButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(deleteButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pdfButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(materialTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 836, Short.MAX_VALUE))
                 .addContainerGap(60, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addGap(40, 40, 40)
+                .addComponent(materialTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(pdfButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
+//    public void showTableData() {
+//        String[] columnNames = {"City", "Dateitme", "Temperature", "Humidity", "Uv", "WindSpeedKmph", "WeatherDesc"};
+//        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+//
+//        tableDark1.setModel();
+//    }
+    private void deleteButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButton1ActionPerformed
+        // TODO add your handling code here:
+        PopupDialogDelete obj = new PopupDialogDelete(parentFrame);
+        obj.setVisible(true);
+    }//GEN-LAST:event_deleteButton1ActionPerformed
+
+    private void comboBox1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboBox1MouseClicked
+//        String x = String.valueOf(comboBox1.getSelectedItem());
+//        System.out.println(x);
+    }//GEN-LAST:event_comboBox1MouseClicked
+
+    private void editButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editButton1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editButton1MouseClicked
+
+    private void comboBox1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_comboBox1FocusGained
+        Database connectDB = Database.getConnectionInstance();
+        List<String> cityLists = connectDB.selectCitysbyApperance();
+        Set<String> citySet = new TreeSet<>(cityLists);
+        for (String city : citySet) {
+            comboBox1.addItem(city);
+        }
+    }//GEN-LAST:event_comboBox1FocusGained
+
+    private void comboBox1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboBox1MouseExited
+        String x = String.valueOf(comboBox1.getSelectedItem());
+        System.out.println(x);
+    }//GEN-LAST:event_comboBox1MouseExited
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private Components.ComboBox comboBox1;
+    private Components.DeleteButton deleteButton1;
+    private Components.EditButton editButton1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private Components.MaterialTabbedPane materialTabbedPane1;
+    private Components.PdfButton pdfButton1;
     private Swing.TableDark tableDark1;
+    private Swing.TableDark tableDark2;
+    private Swing.TableDark tableDark3;
     // End of variables declaration//GEN-END:variables
 }
