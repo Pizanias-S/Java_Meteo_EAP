@@ -2,6 +2,7 @@ package Menu;
 
 import Components.ModernScrollbarUI;
 import Components.ScrollBarCustom;
+import Database.Database;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JPanel;
@@ -11,6 +12,7 @@ import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import Swing.PopupDialogDelete;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.plaf.ScrollBarUI;
 
@@ -166,6 +168,11 @@ public class CityList extends javax.swing.JPanel {
         pdfButton1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
         pdfButton1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
 
+        comboBox1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                comboBox1FocusGained(evt);
+            }
+        });
         comboBox1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 comboBox1MouseClicked(evt);
@@ -238,6 +245,16 @@ public class CityList extends javax.swing.JPanel {
     private void editButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editButton1MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_editButton1MouseClicked
+
+    private void comboBox1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_comboBox1FocusGained
+        Database connectDB = Database.getConnectionInstance();
+        List<String> cityLists = connectDB.selectCitysbyApperance();
+        for (String city : cityLists) {
+            comboBox1.addItem(city);
+
+        }
+        System.out.println(comboBox1.getSelectedItem());
+    }//GEN-LAST:event_comboBox1FocusGained
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
