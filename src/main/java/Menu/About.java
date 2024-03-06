@@ -5,14 +5,20 @@ import javax.swing.ImageIcon;
 
 public class About extends javax.swing.JPanel {
     
-    private ImageIcon logo;
+    private ImageIcon logo, javaIcon, gitLogo;
 
 
     public About() {
         initComponents();
         setOpaque(false);
         logo = iconRender("/Icons/logo.png", 800, 290);
+        javaIcon = iconRender("/Icons/java.png", 20, 20);
+        gitLogo = iconRender("/Icons/github.png", 15, 15);
         logoLabel.setIcon(logo);
+        gitLabelAK.setIcon(gitLogo);
+        gitLabelDK.setIcon(gitLogo);
+        gitLabelSP.setIcon(gitLogo);
+        javaLabel.setIcon(javaIcon);
     }
     
     private ImageIcon iconRender(String path, int w, int h){
@@ -41,6 +47,10 @@ public class About extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        javaLabel = new javax.swing.JLabel();
+        gitLabelSP = new javax.swing.JLabel();
+        gitLabelAK = new javax.swing.JLabel();
+        gitLabelDK = new javax.swing.JLabel();
 
         logoLabel.setFont(new java.awt.Font("AppleGothic", 0, 36)); // NOI18N
         logoLabel.setForeground(new java.awt.Color(200, 200, 200));
@@ -88,6 +98,27 @@ public class About extends javax.swing.JPanel {
         jLabel8.setText("1.0.0");
         jLabel8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+        javaLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        javaLabel.setText(" ");
+
+        gitLabelSP.setFont(new java.awt.Font("Avenir Next", 0, 10)); // NOI18N
+        gitLabelSP.setForeground(new java.awt.Color(0, 115, 230));
+        gitLabelSP.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        gitLabelSP.setText("https://github.com/Pizanias-S");
+        gitLabelSP.setIconTextGap(8);
+
+        gitLabelAK.setFont(new java.awt.Font("Avenir Next", 0, 10)); // NOI18N
+        gitLabelAK.setForeground(new java.awt.Color(0, 115, 230));
+        gitLabelAK.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        gitLabelAK.setText("https://github.com/..");
+        gitLabelAK.setIconTextGap(8);
+
+        gitLabelDK.setFont(new java.awt.Font("Avenir Next", 0, 10)); // NOI18N
+        gitLabelDK.setForeground(new java.awt.Color(0, 115, 230));
+        gitLabelDK.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        gitLabelDK.setText("https://github.com/Dimitris03");
+        gitLabelDK.setIconTextGap(8);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -96,13 +127,17 @@ public class About extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(javaLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(logoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(gitLabelSP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(gitLabelAK, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(gitLabelDK, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -115,21 +150,32 @@ public class About extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(gitLabelAK, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(gitLabelDK, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(gitLabelSP)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(74, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(javaLabel)
+                .addContainerGap(8, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel gitLabelAK;
+    private javax.swing.JLabel gitLabelDK;
+    private javax.swing.JLabel gitLabelSP;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -137,6 +183,7 @@ public class About extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel javaLabel;
     private javax.swing.JLabel logoLabel;
     // End of variables declaration//GEN-END:variables
 }
