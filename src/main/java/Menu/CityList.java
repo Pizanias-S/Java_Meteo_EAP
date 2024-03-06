@@ -5,14 +5,22 @@ import Components.ScrollBarCustom;
 import Database.Database;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+
+import Database.Database;
 import Swing.PopupDialogDelete;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import javax.swing.JFrame;
 import javax.swing.plaf.ScrollBarUI;
 
@@ -177,6 +185,9 @@ public class CityList extends javax.swing.JPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 comboBox1MouseClicked(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                comboBox1MouseExited(evt);
+            }
         });
 
         deleteButton1.setForeground(new java.awt.Color(220, 220, 220));
@@ -210,7 +221,7 @@ public class CityList extends javax.swing.JPanel {
                         .addComponent(comboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(editButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(deleteButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(pdfButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -239,7 +250,8 @@ public class CityList extends javax.swing.JPanel {
     }//GEN-LAST:event_deleteButton1ActionPerformed
 
     private void comboBox1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboBox1MouseClicked
-        
+//        String x = String.valueOf(comboBox1.getSelectedItem());
+//        System.out.println(x);
     }//GEN-LAST:event_comboBox1MouseClicked
 
     private void editButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editButton1MouseClicked
@@ -249,12 +261,16 @@ public class CityList extends javax.swing.JPanel {
     private void comboBox1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_comboBox1FocusGained
         Database connectDB = Database.getConnectionInstance();
         List<String> cityLists = connectDB.selectCitysbyApperance();
-        for (String city : cityLists) {
+        Set<String> citySet = new TreeSet<>(cityLists);
+        for (String city : citySet) {
             comboBox1.addItem(city);
-
         }
-        System.out.println(comboBox1.getSelectedItem());
     }//GEN-LAST:event_comboBox1FocusGained
+
+    private void comboBox1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboBox1MouseExited
+        String x = String.valueOf(comboBox1.getSelectedItem());
+        System.out.println(x);
+    }//GEN-LAST:event_comboBox1MouseExited
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

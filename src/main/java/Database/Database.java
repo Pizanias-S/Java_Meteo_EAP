@@ -178,7 +178,7 @@ public class Database {
             statement.close();
             connection.close();
             System.out.println("Done!");
-            System.out.print(CityList);
+            System.out.println(CityList);
         } catch (SQLException throwables) {
             System.out.println(throwables.getLocalizedMessage());
         }
@@ -200,7 +200,7 @@ public class Database {
             statement.close();
             connection.close();
             System.out.println("Done!");
-            System.out.print(CityList);
+            System.out.println(CityList);
         } catch (SQLException throwables) {
             System.out.println(throwables.getLocalizedMessage());
         }
