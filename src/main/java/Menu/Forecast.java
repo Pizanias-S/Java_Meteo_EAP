@@ -57,20 +57,28 @@ public class Forecast extends JPanel {
         uv_icon.setIcon(uv_icn);
         
         // Morning Forecast
-        fm_icn = iconRender("/Icons/sunny.png", 50, 50);
+        fm_icn = iconRender("/Icons/no_data.png", 50, 50);
         fm_icon.setIcon(fm_icn);
-        
+        fm_icon1.setIcon(fm_icn);
+        fm_icon2.setIcon(fm_icn);
+
         //Noon Forecast
-        fn_icn = iconRender("/Icons/sunny.png", 50, 50);
+        fn_icn = iconRender("/Icons/no_data.png", 50, 50);
         fn_icon.setIcon(fn_icn);
-        
+        fn_icon1.setIcon(fn_icn);
+        fn_icon2.setIcon(fn_icn);
+
         //Evening Forecast
-        fe_icn = iconRender("/Icons/partly_cloudy.png", 50, 50);
+        fe_icn = iconRender("/Icons/no_data.png", 50, 50);
         fe_icon.setIcon(fe_icn);
-        
+        fe_icon1.setIcon(fe_icn);
+        fe_icon2.setIcon(fe_icn);
+
         //Night Forecast
-        fnt_icn = iconRender("/Icons/rainy.png", 50, 50);
+        fnt_icn = iconRender("/Icons/no_data.png", 50, 50);
         fnt_icon.setIcon(fnt_icn);
+        fnt_icon1.setIcon(fnt_icn);
+        fnt_icon2.setIcon(fnt_icn);
     }
     
     
@@ -1418,6 +1426,7 @@ public class Forecast extends JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+
     private void searchBar1ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_searchBar1ActionPerformed
 
         
@@ -1617,7 +1626,7 @@ public class Forecast extends JPanel {
                                                    "Patchy light drizzle", "Freezing fog", "Fog",
                                                    "Patchy freezing drizzle nearby", "Mist" -> "foggy";
                                            case "Partly Cloudy" -> "partly_cloudy";
-                                           case "Clear", "Sunny" -> "sunny";
+                                           case "Clear", "Sunny", "Clear " -> "sunny";
                                            default -> "cloudy";
                                        };
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
@@ -1659,7 +1668,7 @@ public class Forecast extends JPanel {
                                                    "Patchy light drizzle", "Freezing fog", "Fog",
                                                    "Patchy freezing drizzle nearby", "Mist" -> "foggy";
                                            case "Partly Cloudy" -> "partly_cloudy";
-                                           case "Clear", "Sunny" -> "sunny";
+                                           case "Clear", "Sunny", "Clear " -> "sunny";
                                            default -> "cloudy";
                                        };
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
@@ -1704,7 +1713,7 @@ public class Forecast extends JPanel {
                                                    "Patchy light drizzle", "Freezing fog", "Fog",
                                                    "Patchy freezing drizzle nearby", "Mist" -> "foggy";
                                            case "Partly Cloudy" -> "partly_cloudy";
-                                           case "Clear", "Sunny" -> "sunny";
+                                           case "Clear", "Sunny", "Clear " -> "clear_night";
                                            default -> "cloudy";
                                        };
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
@@ -1756,7 +1765,7 @@ public class Forecast extends JPanel {
                                                    "Patchy light drizzle", "Freezing fog", "Fog",
                                                    "Patchy freezing drizzle nearby", "Mist" -> "foggy";
                                            case "Partly Cloudy" -> "partly_cloudy";
-                                           case "Clear", "Sunny" -> "sunny";
+                                           case "Clear", "Sunny", "Clear " -> "sunny";
                                            default -> "cloudy";
                                        };
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
@@ -1798,7 +1807,7 @@ public class Forecast extends JPanel {
                                                    "Patchy light drizzle", "Freezing fog", "Fog",
                                                    "Patchy freezing drizzle nearby", "Mist" -> "foggy";
                                            case "Partly Cloudy" -> "partly_cloudy";
-                                           case "Clear", "Sunny" -> "sunny";
+                                           case "Clear", "Sunny", "Clear " -> "sunny";
                                            default -> "cloudy";
                                        };
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
@@ -1840,7 +1849,7 @@ public class Forecast extends JPanel {
                                                    "Patchy light drizzle", "Freezing fog", "Fog",
                                                    "Patchy freezing drizzle nearby", "Mist" -> "foggy";
                                            case "Partly Cloudy" -> "partly_cloudy";
-                                           case "Clear", "Sunny" -> "sunny";
+                                           case "Clear", "Sunny", "Clear " -> "sunny";
                                            default -> "cloudy";
                                        };
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
@@ -1885,7 +1894,7 @@ public class Forecast extends JPanel {
                                                    "Patchy light drizzle", "Freezing fog", "Fog",
                                                    "Patchy freezing drizzle nearby", "Mist" -> "foggy";
                                            case "Partly Cloudy" -> "partly_cloudy";
-                                           case "Clear", "Sunny" -> "sunny";
+                                           case "Clear", "Sunny", "Clear " -> "clear_night";
                                            default -> "cloudy";
                                        };
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
@@ -1938,7 +1947,7 @@ public class Forecast extends JPanel {
                                                    "Patchy light drizzle", "Freezing fog", "Fog",
                                                    "Patchy freezing drizzle nearby", "Mist" -> "foggy";
                                            case "Partly Cloudy" -> "partly_cloudy";
-                                           case "Clear", "Sunny" -> "sunny";
+                                           case "Clear", "Sunny", "Clear " -> "sunny";
                                            default -> "cloudy";
                                        };
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
@@ -1980,7 +1989,7 @@ public class Forecast extends JPanel {
                                                    "Patchy light drizzle", "Freezing fog", "Fog",
                                                    "Patchy freezing drizzle nearby", "Mist" -> "foggy";
                                            case "Partly Cloudy" -> "partly_cloudy";
-                                           case "Clear", "Sunny" -> "sunny";
+                                           case "Clear", "Sunny", "Clear " -> "sunny";
                                            default -> "cloudy";
                                        };
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
@@ -2022,7 +2031,7 @@ public class Forecast extends JPanel {
                                                    "Patchy light drizzle", "Freezing fog", "Fog",
                                                    "Patchy freezing drizzle nearby", "Mist" -> "foggy";
                                            case "Partly Cloudy" -> "partly_cloudy";
-                                           case "Clear", "Sunny" -> "sunny";
+                                           case "Clear", "Sunny", "Clear " -> "sunny";
                                            default -> "cloudy";
                                        };
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
@@ -2067,7 +2076,7 @@ public class Forecast extends JPanel {
                                                    "Patchy light drizzle", "Freezing fog", "Fog",
                                                    "Patchy freezing drizzle nearby", "Mist" -> "foggy";
                                            case "Partly Cloudy" -> "partly_cloudy";
-                                           case "Clear", "Sunny" -> "sunny";
+                                           case "Clear", "Sunny", "Clear " -> "clear_night";
                                            default -> "cloudy";
                                        };
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);

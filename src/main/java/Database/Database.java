@@ -1,7 +1,10 @@
 package Database;
 
+import com.google.gson.JsonArray;
+
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Database {
@@ -19,7 +22,7 @@ public class Database {
     }
     
     // connect to the database
-    public java.sql.Connection connect() {
+    public Connection connect() {
         String connectionString = "jdbc:derby:derbydb2;create=true";
         Connection connection= null;
         try {
@@ -98,7 +101,7 @@ public class Database {
     public void insertNewCity(String Name, String Country, String Region, String Latitude,
                               String Logitude, int Apperance, String Search_Date) throws SQLException {
         try {
-            java.sql.Connection connection = connect();
+            Connection connection = connect();
             String insertSQL = "Insert into City values(?,?,?,?,?,?)";
             String insertSQL2 = "Insert into CityDate values(?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(insertSQL);
@@ -123,7 +126,7 @@ public class Database {
              System.out.println("Done!");
         } catch (SQLException throwables) {
             System.out.println(throwables.getLocalizedMessage());
-            java.sql.Connection connection = connect();
+            Connection connection = connect();
             String insertSQL2 = "Insert into CityDate values(?,?)";
             String updateSQL = String.format("Update City SET APPERANCE = APPERANCE + 1 WHERE NAME = '%s' ", Name);
             PreparedStatement preparedStatement = connection.prepareStatement(updateSQL);
@@ -138,7 +141,7 @@ public class Database {
     public void insertMeteoData(String Name, String Datetime, double Temp_C, int Humidity, int Uvindex,
                               double WindSpeed, String WetherDesc) {
         try {
-            java.sql.Connection connection = connect();
+            Connection connection = connect();
             String insertSQL = "Insert into MeteoData values(?,?,?,?,?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(insertSQL);
             preparedStatement.setString(1, Name);
@@ -167,7 +170,7 @@ public class Database {
         List<String> CityList = new ArrayList<>();
         String CityName;
         try {
-            java.sql.Connection connection = connect();
+            Connection connection = connect();
             Statement statement = connection.createStatement();
             String selectSQL = "Select * from City";
             ResultSet rs = statement.executeQuery(selectSQL);
@@ -189,7 +192,7 @@ public class Database {
         List<String> CityList = new ArrayList<>();
         String CityName;
         try {
-            java.sql.Connection connection = connect();
+            Connection connection = connect();
             Statement statement = connection.createStatement();
             String selectSQL = "Select * from City ORDER BY APPERANCE DESC";
             ResultSet rs = statement.executeQuery(selectSQL);
@@ -205,5 +208,36 @@ public class Database {
             System.out.println(throwables.getLocalizedMessage());
         }
         return CityList;
+    }
+
+    public List<List> selectMeteoDataByCity() {
+        String[] columns;
+        List<String> data = new ArrayList<>();
+        List<List> CityData = new ArrayList<>();
+        try {
+            Connection connection = connect();
+            Statement statement = connection.createStatement();
+            String selectSQL = "Select * from METEODATA WHERE CITYNAME = 'Patra' ";
+            ResultSet rs = statement.executeQuery(selectSQL);
+            while (rs.next()) {
+                String City = rs.getString("CITYNAME");
+                String Datetime = rs.getString("DATETIME");
+                String Temperature = rs.getString("TEMP_C");
+                String Humidity = rs.getString("HUMIDITY");
+                String Uv = rs.getString("UV");
+                String Wind = rs.getString("WINDSPEEDKMPH");
+                String Description = rs.getString("WEATHERDESC");
+                columns = new String[]{"City", "Datetime", "Temperature", "Humidity", "Uv", "Wind", "Description"};
+                data = List.of(new String[]{City, Datetime, Temperature, Humidity, Uv, Wind, Description});
+                CityData.add(data);
+            }
+            statement.close();
+            connection.close();
+            System.out.println("Done!");
+            System.out.println(CityData);
+        } catch (SQLException throwables) {
+            System.out.println(throwables.getLocalizedMessage());
+        }
+        return CityData;
     }
 }

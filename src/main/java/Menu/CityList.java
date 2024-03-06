@@ -5,6 +5,9 @@ import Components.ScrollBarCustom;
 import Database.Database;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.LinkedHashMap;
 import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
@@ -23,6 +26,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import javax.swing.JFrame;
 import javax.swing.plaf.ScrollBarUI;
+import javax.swing.table.DefaultTableModel;
 
 public class CityList extends javax.swing.JPanel {
     
@@ -243,6 +247,13 @@ public class CityList extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+
+//    public void showTableData() {
+//        String[] columnNames = {"City", "Dateitme", "Temperature", "Humidity", "Uv", "WindSpeedKmph", "WeatherDesc"};
+//        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+//
+//        tableDark1.setModel();
+//    }
     private void deleteButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButton1ActionPerformed
         // TODO add your handling code here:
         PopupDialogDelete obj = new PopupDialogDelete(parentFrame);
