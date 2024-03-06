@@ -1,23 +1,38 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package Swing;
 
+import java.awt.Color;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-/**
- *
- * @author dimitriskafasis
- */
+
 public class PopupDialogEdit extends javax.swing.JDialog {
 
     private JFrame parent;
+    private ImageIcon icon;
     
     public PopupDialogEdit(JFrame parent) {
         super(parent, true);
         this.parent = parent;
         initComponents();
+    }
+    
+    private void init(){
+       
+       icon = iconRender("/Icons/edit.png", 36, 36);
+       headingLabel.setIcon(icon);
+       cnclButton.setColor1(Color.decode("#4d4d4d"));
+       cnclButton.setColor2(Color.decode("#333333"));
+       saveButton.setColor1(Color.decode("#e68a00"));
+       saveButton.setColor2(Color.decode("#995c00"));
+    }
+    
+    private ImageIcon iconRender(String path, int w, int h){
+        ImageIcon tempIcon = new ImageIcon(getClass().getResource(path));
+        Image img = tempIcon.getImage();
+        Image newimg = img.getScaledInstance(w, h, java.awt.Image.SCALE_SMOOTH);
+        ImageIcon newIcon = new ImageIcon(newimg);
+        return newIcon;        
     }
 
     /**
@@ -31,25 +46,105 @@ public class PopupDialogEdit extends javax.swing.JDialog {
 
         popupBackground1 = new Components.PopupBackground();
         jPanel1 = new javax.swing.JPanel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        headingLabel = new javax.swing.JLabel();
+        tempTxtField = new javax.swing.JFormattedTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        huTxtField = new javax.swing.JFormattedTextField();
+        jLabel3 = new javax.swing.JLabel();
+        wsTxtField = new javax.swing.JFormattedTextField();
+        jLabel4 = new javax.swing.JLabel();
+        uvTxtField = new javax.swing.JFormattedTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        cnclButton = new Components.DialogButton();
+        saveButton = new Components.DialogButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
 
         jPanel1.setBackground(new java.awt.Color(20, 20, 20));
 
+        headingLabel.setFont(new java.awt.Font("Avenir Next", 1, 18)); // NOI18N
+        headingLabel.setForeground(new java.awt.Color(120, 120, 120));
+        headingLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        headingLabel.setText("Edit Weather Data");
+        headingLabel.setIconTextGap(6);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(headingLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(headingLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        jFormattedTextField1.setText("jFormattedTextField1");
+        tempTxtField.setForeground(new java.awt.Color(220, 220, 220));
+        tempTxtField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
+        tempTxtField.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+
+        jLabel1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(220, 220, 220));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        jLabel1.setText("Temperature:");
+
+        jLabel2.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(220, 220, 220));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        jLabel2.setText("Humidity:");
+
+        huTxtField.setForeground(new java.awt.Color(220, 220, 220));
+        huTxtField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0%"))));
+        huTxtField.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+
+        jLabel3.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(220, 220, 220));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        jLabel3.setText("Windspeed:");
+
+        wsTxtField.setForeground(new java.awt.Color(220, 220, 220));
+        wsTxtField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
+        wsTxtField.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+
+        jLabel4.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(220, 220, 220));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        jLabel4.setText("UV Index:");
+
+        uvTxtField.setForeground(new java.awt.Color(220, 220, 220));
+        uvTxtField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
+        uvTxtField.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+
+        jLabel5.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(220, 220, 220));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        jLabel5.setText("Conditions:");
+
+        jTextField1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        jTextField1.setForeground(new java.awt.Color(220, 220, 220));
+        jTextField1.setText(" ");
+
+        cnclButton.setForeground(new java.awt.Color(220, 220, 220));
+        cnclButton.setText("CANCEL");
+        cnclButton.setFont(new java.awt.Font("Avenir Next", 1, 14)); // NOI18N
+        cnclButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cnclButtonActionPerformed(evt);
+            }
+        });
+
+        saveButton.setForeground(new java.awt.Color(220, 220, 220));
+        saveButton.setText("SAVE");
+        saveButton.setFont(new java.awt.Font("Avenir Next", 1, 14)); // NOI18N
 
         javax.swing.GroupLayout popupBackground1Layout = new javax.swing.GroupLayout(popupBackground1);
         popupBackground1.setLayout(popupBackground1Layout);
@@ -57,17 +152,67 @@ public class PopupDialogEdit extends javax.swing.JDialog {
             popupBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(popupBackground1Layout.createSequentialGroup()
-                .addGap(129, 129, 129)
-                .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(130, Short.MAX_VALUE))
+                .addGap(58, 58, 58)
+                .addGroup(popupBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, popupBackground1Layout.createSequentialGroup()
+                        .addGroup(popupBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, popupBackground1Layout.createSequentialGroup()
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(uvTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, popupBackground1Layout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(wsTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, popupBackground1Layout.createSequentialGroup()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(huTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, popupBackground1Layout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tempTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 37, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, popupBackground1Layout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField1))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, popupBackground1Layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(cnclButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
         popupBackground1Layout.setVerticalGroup(
             popupBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(popupBackground1Layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(55, 55, 55)
-                .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 268, Short.MAX_VALUE))
+                .addGap(52, 52, 52)
+                .addGroup(popupBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tempTxtField)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(popupBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(huTxtField)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(popupBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(wsTxtField)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(popupBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(uvTxtField, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(popupBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(44, 44, 44)
+                .addGroup(popupBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cnclButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(35, 35, 35))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -84,9 +229,26 @@ public class PopupDialogEdit extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void cnclButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cnclButtonActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_cnclButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JFormattedTextField jFormattedTextField1;
+    private Components.DialogButton cnclButton;
+    private javax.swing.JLabel headingLabel;
+    private javax.swing.JFormattedTextField huTxtField;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField jTextField1;
     private Components.PopupBackground popupBackground1;
+    private Components.DialogButton saveButton;
+    private javax.swing.JFormattedTextField tempTxtField;
+    private javax.swing.JFormattedTextField uvTxtField;
+    private javax.swing.JFormattedTextField wsTxtField;
     // End of variables declaration//GEN-END:variables
 }
