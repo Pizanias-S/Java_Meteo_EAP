@@ -166,6 +166,12 @@ public class CityList extends javax.swing.JPanel {
         pdfButton1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
         pdfButton1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
 
+        comboBox1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                comboBox1MouseClicked(evt);
+            }
+        });
+
         deleteButton1.setForeground(new java.awt.Color(220, 220, 220));
         deleteButton1.setText("Delete");
         deleteButton1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
@@ -177,9 +183,14 @@ public class CityList extends javax.swing.JPanel {
         });
 
         editButton1.setForeground(new java.awt.Color(220, 220, 220));
-        editButton1.setText("Edit");
+        editButton1.setText("Edit  ");
         editButton1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
         editButton1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        editButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                editButton1MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -191,8 +202,8 @@ public class CityList extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(comboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(editButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(editButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(deleteButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(pdfButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -208,8 +219,8 @@ public class CityList extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(pdfButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(deleteButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(editButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(comboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -219,6 +230,14 @@ public class CityList extends javax.swing.JPanel {
         PopupDialogDelete obj = new PopupDialogDelete(parentFrame);
         obj.setVisible(true);
     }//GEN-LAST:event_deleteButton1ActionPerformed
+
+    private void comboBox1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboBox1MouseClicked
+        
+    }//GEN-LAST:event_comboBox1MouseClicked
+
+    private void editButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editButton1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editButton1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
