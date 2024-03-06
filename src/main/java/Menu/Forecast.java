@@ -57,20 +57,28 @@ public class Forecast extends JPanel {
         uv_icon.setIcon(uv_icn);
         
         // Morning Forecast
-        fm_icn = iconRender("/Icons/sunny.png", 50, 50);
+        fm_icn = iconRender("/Icons/no_data.png", 50, 50);
         fm_icon.setIcon(fm_icn);
-        
+        fm_icon1.setIcon(fm_icn);
+        fm_icon2.setIcon(fm_icn);
+
         //Noon Forecast
-        fn_icn = iconRender("/Icons/sunny.png", 50, 50);
+        fn_icn = iconRender("/Icons/no_data.png", 50, 50);
         fn_icon.setIcon(fn_icn);
-        
+        fn_icon1.setIcon(fn_icn);
+        fn_icon2.setIcon(fn_icn);
+
         //Evening Forecast
-        fe_icn = iconRender("/Icons/partly_cloudy.png", 50, 50);
+        fe_icn = iconRender("/Icons/no_data.png", 50, 50);
         fe_icon.setIcon(fe_icn);
-        
+        fe_icon1.setIcon(fe_icn);
+        fe_icon2.setIcon(fe_icn);
+
         //Night Forecast
-        fnt_icn = iconRender("/Icons/rainy.png", 50, 50);
+        fnt_icn = iconRender("/Icons/no_data.png", 50, 50);
         fnt_icon.setIcon(fnt_icn);
+        fnt_icon1.setIcon(fnt_icn);
+        fnt_icon2.setIcon(fnt_icn);
     }
     
     
@@ -1418,6 +1426,7 @@ public class Forecast extends JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+
     private void searchBar1ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_searchBar1ActionPerformed
 
         
@@ -1429,9 +1438,8 @@ public class Forecast extends JPanel {
         String formattedDate = dateFormat.format(currentDate);
         c.add(Calendar.DATE,1);
         String formattedDayAfterTomorrowDate = dateFormat.format(c.getTime());
-
-	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HHmm");
-   	LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HHmm");
+        LocalDateTime now = LocalDateTime.now();
              
         try {
             String city = searchBar1.getText();                                      
@@ -1460,7 +1468,6 @@ public class Forecast extends JPanel {
                        JsonObject object = jsonElement.getAsJsonObject();
                        JsonArray areaName = object.get("areaName").getAsJsonArray();
                        JsonArray countryName = object.get("country").getAsJsonArray();
-                       System.out.println(countryName);
                        JsonArray regionName = object.get("region").getAsJsonArray();
                        latitude = object.get("latitude").getAsString();
                        longitude = object.get("longitude").getAsString();
@@ -1490,170 +1497,40 @@ public class Forecast extends JPanel {
                        ws.setText(cndObj.get("windspeedKmph").getAsString() + " Kmph");
                        dateLabel.setText("Last Update: " + cndObj.get("localObsDateTime").getAsString());
                        JsonArray conditions_subarray = cndObj.get("weatherDesc").getAsJsonArray();
-                       System.out.println(cur_temp.getText());
                        for (JsonElement jsonElement3 : conditions_subarray) {
                            JsonObject cndObj2 = jsonElement3.getAsJsonObject();
                            description.setText(cndObj2.get("value").getAsString());
 
                            String desc = cndObj2.get("value").getAsString();
-                           String temp_cur_icn = "";
-                           switch (desc) {
-                               case "Moderate or heavy snow in area with thunder":
-                                   temp_cur_icn = "cur_snowy";
-                                   break;
-                               case "Patchy light snow in area with thunder":
-                                   temp_cur_icn = "cur_snowy";
-                                   break;
-                               case "Moderate or heavy rain in area with thunder":
-                                   temp_cur_icn = "cur_thunderstorm";
-                                   break;
-                               case "Patchy light rain in area with thunder":
-                                   temp_cur_icn = "cur_thunderstorm";
-                                   break;
-                               case "Moderate or heavy showers of ice pellets":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Light showers of ice pellets":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Moderate or heavy snow showers":
-                                   temp_cur_icn = "cur_snowy";
-                                   break;
-                               case "Light snow showers":
-                                   temp_cur_icn = "cur_snowy";
-                                   break;
-                               case "Moderate or heavy sleet showers":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Light sleet showers":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Torrential rain shower":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Moderate or heavy rain shower":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Light rain shower":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Ice pellets":
-                                   temp_cur_icn = "cur_snowy";
-                                   break;
-                               case "Heavy snow":
-                                   temp_cur_icn = "cur_snowy";
-                                   break;
-                               case "Patchy heavy snow":
-                                   temp_cur_icn = "cur_snowy";
-                                   break;
-                               case "Moderate snow":
-                                   temp_cur_icn = "cur_snowy";
-                                   break;
-                               case "Patchy moderate snow":
-                                   temp_cur_icn = "cur_snowy";
-                                   break;
-                               case "Light snow":
-                                   temp_cur_icn = "cur_snowy";
-                                   break;
-                               case "Patchy light snow":
-                                   temp_cur_icn = "cur_snowy";
-                                   break;
-                               case "Moderate or heavy sleet":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Light sleet":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Moderate or Heavy freezing rain":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Light freezing rain":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Heavy rain":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Heavy rain at times":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Moderate rain":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Moderate rain at times":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Rain shower":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Light rain":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Patchy light rain":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Heavy freezing drizzle":
-                                   temp_cur_icn = "cur_foggy";
-                                   break;
-                               case "Freezing drizzle":
-                                   temp_cur_icn = "cur_foggy";
-                                   break;
-                               case "Light drizzle":
-                                   temp_cur_icn = "cur_foggy";
-                                   break;
-                               case "Patchy light drizzle":
-                                   temp_cur_icn = "cur_foggy";
-                                   break;
-                               case "Freezing fog":
-                                   temp_cur_icn = "cur_foggy";
-                                   break;
-                               case "Fog":
-                                   temp_cur_icn = "cur_foggy";
-                                   break;
-                               case "Blizzard":
-                                   temp_cur_icn = "cur_snowy";
-                                   break;
-                               case "Blowing snow":
-                                   temp_cur_icn = "cur_snowy";
-                                   break;
-                               case "Thundery outbreaks in nearby":
-                                   temp_cur_icn = "cur_";
-                                   break;
-                               case "Patchy freezing drizzle nearby":
-                                   temp_cur_icn = "cur_foggy";
-                                   break;
-                               case "Patchy sleet nearby":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Patchy snow nearby":
-                                   temp_cur_icn = "cur_snowy";
-                                   break;
-                               case "Patchy rain nearby":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Heavy rain, mist":
-                                   temp_cur_icn = "cur_rainy";
-                                   break;
-                               case "Mist":
-                                   temp_cur_icn = "cur_foggy";
-                                   break;
-                               case "Overcast":
-                                   temp_cur_icn = "cur_cloudy";
-                                   break;
-                               case "Cloudy":
-                                   temp_cur_icn = "cur_cloudy";
-                                   break;
-                               case "Partly Cloudy":
-                                   temp_cur_icn = "cur_partly_cloudy";
-                                   break;
-                               case "Clear":
-                                   temp_cur_icn = "cur_clear_night";
-                                   break;
-                               case "Sunny":
-                                   temp_cur_icn = "cur_sunny";
-                                   break;
-                               default:
-                                   temp_cur_icn = "cur_cloudy";
-                           }
+                           String temp_cur_icn = switch (desc) {
+                               case "Moderate or heavy snow in area with thunder",
+                                       "Patchy light snow in area with thunder", "Moderate or heavy snow showers",
+                                       "Light snow showers", "Ice pellets", "Patchy heavy snow", "Heavy snow",
+                                       "Patchy moderate snow", "Moderate snow", "Light snow", "Patchy light snow",
+                                       "Blizzard", "Blowing snow", "Patchy snow nearby" ->
+                                       "cur_snowy";
+                               case "Moderate or heavy rain in area with thunder",
+                                       "Patchy light rain in area with thunder" ->
+                                       "cur_thunderstorm";
+                               case "Moderate or heavy showers of ice pellets", "Heavy rain, mist",
+                                       "Light showers of ice pellets", "Moderate or heavy sleet showers",
+                                       "Light sleet showers", "Torrential rain shower",
+                                       "Moderate or heavy rain shower", "Light rain shower", "Moderate or heavy sleet",
+                                       "Light sleet", "Moderate or Heavy freezing rain", "Heavy rain", "Moderate rain",
+                                       "Light freezing rain", "Moderate rain at times", "Heavy rain at times",
+                                       "Rain shower", "Light rain", "Patchy light rain", "Patchy sleet nearby",
+                                       "Patchy rain nearby" ->
+                                       "cur_rainy";
+                               case "Heavy freezing drizzle", "Freezing drizzle", "Light drizzle",
+                                       "Patchy light drizzle", "Freezing fog", "Fog",
+                                       "Patchy freezing drizzle nearby", "Mist" ->
+                                       "cur_foggy";
+                               case "Thundery outbreaks in nearby" -> "cur_";
+                               case "Partly Cloudy" -> "cur_partly_cloudy";
+                               case "Clear", "Clear " -> "cur_clear_night";
+                               case "Sunny" -> "cur_sunny";
+                               default -> "cur_cloudy";
+                           };
                            cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 100, 100);
                            cur_conditions.setIcon(cur_con_icon);
 
@@ -1664,8 +1541,8 @@ public class Forecast extends JPanel {
                    for (JsonElement jsonElement4 : forecast_array) {
                        JsonObject wObj0 = jsonElement4.getAsJsonObject();
                        String stringDate = wObj0.get("date").getAsString();
-                        System.out.println(jsonElement4);
                        if (stringDate.equalsIgnoreCase(formattedDate)) {
+                           materialTabbedPane2.setTitleAt(0, formattedDate); // change tab title
                            JsonArray fcast0 = wObj0.get("hourly").getAsJsonArray();
                            for (JsonElement jsonElement5 : fcast0) {
                                JsonObject h2 = jsonElement5.getAsJsonObject();
@@ -1707,7 +1584,7 @@ public class Forecast extends JPanel {
                                                    "Patchy light drizzle", "Freezing fog", "Fog",
                                                    "Patchy freezing drizzle nearby", "Mist" -> "foggy";
                                            case "Partly Cloudy" -> "partly_cloudy";
-                                           case "Clear", "Sunny" -> "sunny";
+                                           case "Clear", "Sunny", "Clear " -> "sunny";
                                            default -> "cloudy";
                                        };
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
@@ -1749,7 +1626,7 @@ public class Forecast extends JPanel {
                                                    "Patchy light drizzle", "Freezing fog", "Fog",
                                                    "Patchy freezing drizzle nearby", "Mist" -> "foggy";
                                            case "Partly Cloudy" -> "partly_cloudy";
-                                           case "Clear", "Sunny" -> "sunny";
+                                           case "Clear", "Sunny", "Clear " -> "sunny";
                                            default -> "cloudy";
                                        };
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
@@ -1791,7 +1668,7 @@ public class Forecast extends JPanel {
                                                    "Patchy light drizzle", "Freezing fog", "Fog",
                                                    "Patchy freezing drizzle nearby", "Mist" -> "foggy";
                                            case "Partly Cloudy" -> "partly_cloudy";
-                                           case "Clear", "Sunny" -> "sunny";
+                                           case "Clear", "Sunny", "Clear " -> "sunny";
                                            default -> "cloudy";
                                        };
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
@@ -1836,7 +1713,7 @@ public class Forecast extends JPanel {
                                                    "Patchy light drizzle", "Freezing fog", "Fog",
                                                    "Patchy freezing drizzle nearby", "Mist" -> "foggy";
                                            case "Partly Cloudy" -> "partly_cloudy";
-                                           case "Clear", "Sunny" -> "sunny";
+                                           case "Clear", "Sunny", "Clear " -> "clear_night";
                                            default -> "cloudy";
                                        };
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
@@ -1844,8 +1721,9 @@ public class Forecast extends JPanel {
                                    }
                                }
                            }
+                           // TOMORROW
                        }else if (stringDate.equalsIgnoreCase(dateTomorrow)) {
-                           dateLabel.setText("Last Update: " + wObj0.get("localObsDateTime").getAsString());
+                           materialTabbedPane2.setTitleAt(1, dateTomorrow); // change tab title
                            JsonArray fcast0 = wObj0.get("hourly").getAsJsonArray();
                            for (JsonElement jsonElement5 : fcast0) {
                                JsonObject h2 = jsonElement5.getAsJsonObject();
@@ -1887,7 +1765,7 @@ public class Forecast extends JPanel {
                                                    "Patchy light drizzle", "Freezing fog", "Fog",
                                                    "Patchy freezing drizzle nearby", "Mist" -> "foggy";
                                            case "Partly Cloudy" -> "partly_cloudy";
-                                           case "Clear", "Sunny" -> "sunny";
+                                           case "Clear", "Sunny", "Clear " -> "sunny";
                                            default -> "cloudy";
                                        };
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
@@ -1929,7 +1807,7 @@ public class Forecast extends JPanel {
                                                    "Patchy light drizzle", "Freezing fog", "Fog",
                                                    "Patchy freezing drizzle nearby", "Mist" -> "foggy";
                                            case "Partly Cloudy" -> "partly_cloudy";
-                                           case "Clear", "Sunny" -> "sunny";
+                                           case "Clear", "Sunny", "Clear " -> "sunny";
                                            default -> "cloudy";
                                        };
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
@@ -1971,7 +1849,7 @@ public class Forecast extends JPanel {
                                                    "Patchy light drizzle", "Freezing fog", "Fog",
                                                    "Patchy freezing drizzle nearby", "Mist" -> "foggy";
                                            case "Partly Cloudy" -> "partly_cloudy";
-                                           case "Clear", "Sunny" -> "sunny";
+                                           case "Clear", "Sunny", "Clear " -> "sunny";
                                            default -> "cloudy";
                                        };
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
@@ -2016,7 +1894,7 @@ public class Forecast extends JPanel {
                                                    "Patchy light drizzle", "Freezing fog", "Fog",
                                                    "Patchy freezing drizzle nearby", "Mist" -> "foggy";
                                            case "Partly Cloudy" -> "partly_cloudy";
-                                           case "Clear", "Sunny" -> "sunny";
+                                           case "Clear", "Sunny", "Clear " -> "clear_night";
                                            default -> "cloudy";
                                        };
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
@@ -2024,23 +1902,25 @@ public class Forecast extends JPanel {
                                    }
                                }
                            }
+                           // DAY AFTER TOMORROW
                        }else if (stringDate.equalsIgnoreCase(formattedDayAfterTomorrowDate)) {
-                           materialTabbedPane2.setTitleAt(2, stringDate.substring(5)); // change tab title
+                           materialTabbedPane2.setTitleAt(2, formattedDayAfterTomorrowDate); // change tab title
+
                            JsonArray fcast0 = wObj0.get("hourly").getAsJsonArray();
                            for (JsonElement jsonElement5 : fcast0) {
                                JsonObject h2 = jsonElement5.getAsJsonObject();
                                String stringTime = h2.get("time").getAsString();
 
                                if (stringTime.equalsIgnoreCase("600")) {
-                                   fn_temp1.setText(h2.get("tempC").getAsString() + "°C");
-                                   fn_h1.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
-                                   fn_ws1.setText("WindSpeed: " + h2.get("windspeedKmph").getAsString() + " kmph");
-                                   fn_uv1.setText("UV: " + h2.get("uvIndex").getAsString());
+                                   fm_temp2.setText(h2.get("tempC").getAsString() + "°C");
+                                   fm_h2.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
+                                   fm_ws2.setText("WindSpeed: " + h2.get("windspeedKmph").getAsString() + " kmph");
+                                   fm_uv2.setText("UV: " + h2.get("uvIndex").getAsString());
                                    JsonArray description_subarray = h2.get("weatherDesc").getAsJsonArray();
 
                                    for (JsonElement jsonElement11 : description_subarray) {
                                        JsonObject m = jsonElement11.getAsJsonObject();
-                                       fn_description1.setText(m.get("value").getAsString());
+                                       fm_description2.setText(m.get("value").getAsString());
                                        String desc = m.get("value").getAsString();
                                        String temp_cur_icn = switch (desc) {
                                            case "Moderate or heavy snow in area with thunder",
@@ -2067,11 +1947,11 @@ public class Forecast extends JPanel {
                                                    "Patchy light drizzle", "Freezing fog", "Fog",
                                                    "Patchy freezing drizzle nearby", "Mist" -> "foggy";
                                            case "Partly Cloudy" -> "partly_cloudy";
-                                           case "Clear", "Sunny" -> "sunny";
+                                           case "Clear", "Sunny", "Clear " -> "sunny";
                                            default -> "cloudy";
                                        };
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
-                                       fn_icon1.setIcon(cur_con_icon);
+                                       fm_icon2.setIcon(cur_con_icon);
                                    }
                                } else if (stringTime.equalsIgnoreCase("1200")) {
                                    fn_temp2.setText(h2.get("tempC").getAsString() + "°C");
@@ -2109,7 +1989,7 @@ public class Forecast extends JPanel {
                                                    "Patchy light drizzle", "Freezing fog", "Fog",
                                                    "Patchy freezing drizzle nearby", "Mist" -> "foggy";
                                            case "Partly Cloudy" -> "partly_cloudy";
-                                           case "Clear", "Sunny" -> "sunny";
+                                           case "Clear", "Sunny", "Clear " -> "sunny";
                                            default -> "cloudy";
                                        };
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
@@ -2117,7 +1997,7 @@ public class Forecast extends JPanel {
                                    }
                                } else if (stringTime.equalsIgnoreCase("1800")) {
                                    fe_temp2.setText(h2.get("tempC").getAsString() + "°C");
-                                   fe_h1.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
+                                   fe_h2.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
                                    fe_ws2.setText("WindSpeed: " + h2.get("windspeedKmph").getAsString() + " kmph");
                                    fe_uv2.setText("UV: " + h2.get("uvIndex").getAsString());
                                    JsonArray description_subarray = h2.get("weatherDesc").getAsJsonArray();
@@ -2151,7 +2031,7 @@ public class Forecast extends JPanel {
                                                    "Patchy light drizzle", "Freezing fog", "Fog",
                                                    "Patchy freezing drizzle nearby", "Mist" -> "foggy";
                                            case "Partly Cloudy" -> "partly_cloudy";
-                                           case "Clear", "Sunny" -> "sunny";
+                                           case "Clear", "Sunny", "Clear " -> "sunny";
                                            default -> "cloudy";
                                        };
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
@@ -2196,7 +2076,7 @@ public class Forecast extends JPanel {
                                                    "Patchy light drizzle", "Freezing fog", "Fog",
                                                    "Patchy freezing drizzle nearby", "Mist" -> "foggy";
                                            case "Partly Cloudy" -> "partly_cloudy";
-                                           case "Clear", "Sunny" -> "sunny";
+                                           case "Clear", "Sunny", "Clear " -> "clear_night";
                                            default -> "cloudy";
                                        };
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
@@ -2211,11 +2091,12 @@ public class Forecast extends JPanel {
                }      
            } catch (Exception e) {
                    System.out.println("It doesn't exist1");
+                   System.out.println(e);
                    //searchError.setText("City not found");
            }
 
      } catch (Exception e) {
-                   System.out.println("It doesn't exist2");
+                   System.out.println(e);
                    searchError.setText("City not found");
      }
     }//GEN-LAST:event_searchBar1ActionPerformed
@@ -2225,10 +2106,11 @@ public class Forecast extends JPanel {
         int cityHumidity = Integer.parseInt(h.getText().split("%")[0]);
         int cityUv = Integer.parseInt(uv.getText());
         double cityWind = Double.parseDouble(ws.getText().split(" ")[0]);
+        String cityName = cityLabel.getText().split(",")[0];
         String[] bits = dateLabel.getText().split(": ");
         String dateLast = bits[bits.length-1];
              Database connectDB = Database.getConnectionInstance();
-             connectDB.insertMeteoData(cityLabel.getText(), dateLast, cityTemp,
+             connectDB.insertMeteoData(cityName, dateLast, cityTemp,
                      cityHumidity, cityUv, cityWind, description.getText());
     }//GEN-LAST:event_saveButton1MouseClicked
 

@@ -2,17 +2,31 @@ package Menu;
 
 import Components.ModernScrollbarUI;
 import Components.ScrollBarCustom;
+import Database.Database;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.LinkedHashMap;
+import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+
+import Database.Database;
 import Swing.PopupDialogDelete;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import javax.swing.JFrame;
 import javax.swing.plaf.ScrollBarUI;
+import javax.swing.table.DefaultTableModel;
 
 public class CityList extends javax.swing.JPanel {
     
@@ -166,6 +180,20 @@ public class CityList extends javax.swing.JPanel {
         pdfButton1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
         pdfButton1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
 
+        comboBox1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                comboBox1FocusGained(evt);
+            }
+        });
+        comboBox1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                comboBox1MouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                comboBox1MouseExited(evt);
+            }
+        });
+
         deleteButton1.setForeground(new java.awt.Color(220, 220, 220));
         deleteButton1.setText("Delete");
         deleteButton1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
@@ -177,9 +205,14 @@ public class CityList extends javax.swing.JPanel {
         });
 
         editButton1.setForeground(new java.awt.Color(220, 220, 220));
-        editButton1.setText("Edit");
+        editButton1.setText("Edit  ");
         editButton1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
         editButton1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        editButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                editButton1MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -191,7 +224,7 @@ public class CityList extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(comboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(editButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(editButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(deleteButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -208,17 +241,47 @@ public class CityList extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(pdfButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(deleteButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(editButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(comboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+
+//    public void showTableData() {
+//        String[] columnNames = {"City", "Dateitme", "Temperature", "Humidity", "Uv", "WindSpeedKmph", "WeatherDesc"};
+//        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+//
+//        tableDark1.setModel();
+//    }
     private void deleteButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButton1ActionPerformed
         // TODO add your handling code here:
         PopupDialogDelete obj = new PopupDialogDelete(parentFrame);
         obj.setVisible(true);
     }//GEN-LAST:event_deleteButton1ActionPerformed
+
+    private void comboBox1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboBox1MouseClicked
+//        String x = String.valueOf(comboBox1.getSelectedItem());
+//        System.out.println(x);
+    }//GEN-LAST:event_comboBox1MouseClicked
+
+    private void editButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editButton1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editButton1MouseClicked
+
+    private void comboBox1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_comboBox1FocusGained
+        Database connectDB = Database.getConnectionInstance();
+        List<String> cityLists = connectDB.selectCitysbyApperance();
+        Set<String> citySet = new TreeSet<>(cityLists);
+        for (String city : citySet) {
+            comboBox1.addItem(city);
+        }
+    }//GEN-LAST:event_comboBox1FocusGained
+
+    private void comboBox1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboBox1MouseExited
+        String x = String.valueOf(comboBox1.getSelectedItem());
+        System.out.println(x);
+    }//GEN-LAST:event_comboBox1MouseExited
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
