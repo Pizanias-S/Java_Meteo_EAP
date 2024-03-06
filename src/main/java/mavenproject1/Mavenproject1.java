@@ -15,7 +15,8 @@ import javax.swing.*;
 
 public class Mavenproject1 extends javax.swing.JFrame{
 
-    private JFrame parentFrame;
+    public JFrame parentFrame;
+    
     public Mavenproject1() {
         Database connectDB = Database.getConnectionInstance();
         connectDB.createTableCity();

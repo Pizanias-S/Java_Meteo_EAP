@@ -28,16 +28,19 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import Database.Database;
+import Swing.PopupDialogInfo;
 import okhttp3.Response;
 
 public class Forecast extends JPanel {
     
     private ImageIcon c_icon, cur_con_icon, h_icn, ws_icn, uv_icn, fm_icn, fn_icn, fe_icn, fnt_icn;
+    private JFrame parentFrame;
     
         
     public Forecast() {
         initComponents();
         setOpaque(false);
+        parentFrame = (JFrame) this.getParent();
         // City Label & Location Icon
         c_icon = iconRender("/Icons/location.png", 27, 27);
         city_icon.setIcon(c_icon);
@@ -89,6 +92,8 @@ public class Forecast extends JPanel {
         ImageIcon newIcon = new ImageIcon(newimg);
         return newIcon;        
     }
+    
+    
     
     
 
@@ -290,6 +295,7 @@ public class Forecast extends JPanel {
         searchError.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
         materialTabbedPane2.setForeground(new java.awt.Color(220, 220, 220));
+        materialTabbedPane2.setToolTipText("");
         materialTabbedPane2.setFont(new java.awt.Font("Avenir Next", 0, 14)); // NOI18N
 
         jPanel1.setOpaque(false);
@@ -637,6 +643,7 @@ public class Forecast extends JPanel {
         );
 
         materialTabbedPane2.addTab("Today", jPanel1);
+        jPanel1.getAccessibleContext().setAccessibleName("");
 
         jPanel2.setOpaque(false);
 
@@ -984,6 +991,7 @@ public class Forecast extends JPanel {
         );
 
         materialTabbedPane2.addTab("Tomorrow", jPanel2);
+        jPanel2.getAccessibleContext().setAccessibleName("");
 
         jPanel3.setOpaque(false);
 
@@ -1330,7 +1338,10 @@ public class Forecast extends JPanel {
                     .addContainerGap()))
         );
 
-        materialTabbedPane2.addTab("Next", jPanel3);
+        materialTabbedPane2.addTab("Day After", jPanel3);
+        jPanel3.getAccessibleContext().setAccessibleName("");
+
+        materialTabbedPane2.setSelectedIndex(1);
 
         dateLabel.setFont(new java.awt.Font("Avenir Next", 2, 10)); // NOI18N
         dateLabel.setForeground(new java.awt.Color(200, 200, 200));
@@ -2116,6 +2127,19 @@ public class Forecast extends JPanel {
 
     private void saveButton1ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_saveButton1ActionPerformed
         // TODO add your handling code here:
+        PopupDialogInfo notification = new PopupDialogInfo(parentFrame);
+        notification.init();
+        notification.setInfo("Weather data saved to DB");
+        Timer timer = new Timer(1500, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                notification.setVisible(false);
+                notification.dispose();
+            }
+        });
+        timer.setRepeats(false);
+        timer.start();
+
+        notification.setVisible(true); // if modal, application will pause here
     }//GEN-LAST:event_saveButton1ActionPerformed
 
     

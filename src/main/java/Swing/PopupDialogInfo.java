@@ -1,8 +1,14 @@
 package Swing;
 
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import java.util.Timer;
+import org.jdesktop.animation.timing.Animator;
+import org.jdesktop.animation.timing.TimingTarget;
+import org.jdesktop.animation.timing.TimingTargetAdapter;
 
 
 public class PopupDialogInfo extends javax.swing.JDialog {
@@ -10,20 +16,24 @@ public class PopupDialogInfo extends javax.swing.JDialog {
  
     private JFrame parent;
     private ImageIcon icon;
+    private boolean showing;
+    private Thread thread;
+    //private int animate = 10;
+    private Animator animator;
     
     public PopupDialogInfo(JFrame parent) {
         super(parent, true);
         this.parent = parent;
         initComponents();
+        setLocationRelativeTo(null);
     }
     
-    private void init(){
-       
-       icon = iconRender("/Icons/info.png", 36, 36);
+    public void init(){
+       icon = iconRender("/Icons/info.png", 28, 28);
        titleLabel.setIcon(icon);
     }
     
-    private void setInfo(String str){
+    public void setInfo(String str){
         infoLabel.setText(str);
     }
     
@@ -34,7 +44,7 @@ public class PopupDialogInfo extends javax.swing.JDialog {
         ImageIcon newIcon = new ImageIcon(newimg);
         return newIcon;        
     }
-
+ 
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -60,7 +70,7 @@ public class PopupDialogInfo extends javax.swing.JDialog {
         titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         titleLabel.setText("INFO");
         titleLabel.setToolTipText("");
-        titleLabel.setIconTextGap(6);
+        titleLabel.setIconTextGap(8);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
