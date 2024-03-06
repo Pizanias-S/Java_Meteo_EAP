@@ -10,12 +10,14 @@ import Database.Database;
 public class PopupDialogDelete extends javax.swing.JDialog {
 
     private final JFrame frame;
+    private final String city;
     private ImageIcon icon;
     
-    public PopupDialogDelete(JFrame frame) {
+    public PopupDialogDelete(JFrame frame, String city) {
         super(frame, true);
         initComponents();
         this.frame = frame;
+        this.city = city;
         setLocationRelativeTo(null);
         init();
     }
@@ -153,9 +155,10 @@ public class PopupDialogDelete extends javax.swing.JDialog {
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         // TODO add your handling code here:
-//        Database connectDB = Database.getConnectionInstance();
-//        connectDB.DeleteDataByCity("Sparti");
+        Database connectDB = Database.getConnectionInstance();
+        connectDB.DeleteDataByCity(city);
         dispose();
+        System.out.println("Τα δεδομένα της πόλης " + city+ " διαγράφτηκαν από την βάση");
     }//GEN-LAST:event_deleteButtonActionPerformed
 
 

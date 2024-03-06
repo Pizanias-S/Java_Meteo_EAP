@@ -307,9 +307,10 @@ public class CityList extends javax.swing.JPanel {
 
 
     private void deleteButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButton1ActionPerformed
-        // TODO add your handling code here:
-        PopupDialogDelete obj = new PopupDialogDelete(parentFrame);
+        String city = "Sparti";
+        PopupDialogDelete obj = new PopupDialogDelete(parentFrame, city);
         obj.setVisible(true);
+
     }//GEN-LAST:event_deleteButton1ActionPerformed
 
     private void comboBox1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboBox1MouseClicked
@@ -320,7 +321,8 @@ public class CityList extends javax.swing.JPanel {
     private void editButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editButton1MouseClicked
             Database connectDB = Database.getConnectionInstance();
             List<List> DataList = connectDB.selectMeteoDataByCity("Patra");
-            String[] columnNames1 = {"City", "Datetime", "Temperature", "Humidity", "Uv", "WindSpeedKmph", "WeatherDesc"};
+            String[] columnNames1 = {"City", "Datetime", "Temperature", "Humidity", "Uv", "Wind Speed", "WeatherDesc"};
+
             DefaultTableModel tableModel1 = new DefaultTableModel(columnNames1, 0);
             tableDark1.setModel(tableModel1);
             for (List DataTable : DataList) {
