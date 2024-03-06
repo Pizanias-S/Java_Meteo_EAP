@@ -58,7 +58,7 @@ public class PopupDialogDelete extends javax.swing.JDialog {
         jLabel3.setFont(new java.awt.Font("Avenir Next", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(220, 220, 220));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("<html>This action will permanently delete all data from the current city. Do you want to proceed?</html> ");
+        jLabel3.setText("<html>This action will permanently delete all data from the selected city. Do you want to proceed?</html> ");
         jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         cancelButton.setForeground(new java.awt.Color(220, 220, 220));

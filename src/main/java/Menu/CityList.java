@@ -46,6 +46,7 @@ public class CityList extends javax.swing.JPanel {
         panel.setBackground(new Color(30, 30, 30));
         jScrollPane1.setCorner(JScrollPane.UPPER_RIGHT_CORNER,panel);
         tableDark1.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        materialTabbedPane1.setTitleAt(0, "Meteo Data"); // change tab title
         
         // Fix table2
         tableDark2.setBackground(new Color(30,30,30));
@@ -57,6 +58,7 @@ public class CityList extends javax.swing.JPanel {
         panel1.setBackground(new Color(30, 30, 30));
         jScrollPane2.setCorner(JScrollPane.UPPER_RIGHT_CORNER,panel1);
         tableDark2.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        materialTabbedPane1.setTitleAt(1, "City Searched Data"); // change tab title
         
         // Fix table3
         tableDark3.setBackground(new Color(30,30,30));
@@ -67,7 +69,8 @@ public class CityList extends javax.swing.JPanel {
         JPanel panel2 = new JPanel();
         panel2.setBackground(new Color(30, 30, 30));
         jScrollPane3.setCorner(JScrollPane.UPPER_RIGHT_CORNER,panel2);
-        tableDark3.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);       
+        tableDark3.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        materialTabbedPane1.setTitleAt(2, "Citys"); // change tab title
     }
 
 
@@ -115,9 +118,24 @@ public class CityList extends javax.swing.JPanel {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "City", "Temperature", "Humidity", "Windspeed", "UV", "Conditions", "Last Modified"
+                "City", "Datetime", "Temperature", "Humidity", "Uv", "Wind Speed", "WeatherDesc"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tableDark1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         tableDark1.setFillsViewportHeight(true);
         tableDark1.setFont(new java.awt.Font("Avenir Next", 0, 14)); // NOI18N
@@ -130,15 +148,41 @@ public class CityList extends javax.swing.JPanel {
         tableDark2.setForeground(new java.awt.Color(220, 220, 220));
         tableDark2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "City", "Searched Date"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tableDark2.setFont(new java.awt.Font("Avenir Next", 0, 14)); // NOI18N
         jScrollPane2.setViewportView(tableDark2);
 
@@ -147,27 +191,42 @@ public class CityList extends javax.swing.JPanel {
         tableDark3.setForeground(new java.awt.Color(220, 220, 220));
         tableDark3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3"
+                "City", "Region", "Country", "Latitude", "Longitude", "Appearance"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tableDark3.setFont(new java.awt.Font("Avenir Next", 0, 14)); // NOI18N
         jScrollPane3.setViewportView(tableDark3);
 
@@ -260,7 +319,7 @@ public class CityList extends javax.swing.JPanel {
 
     private void editButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editButton1MouseClicked
             Database connectDB = Database.getConnectionInstance();
-        List<List> DataList = connectDB.selectMeteoDataByCity("Patra");
+            List<List> DataList = connectDB.selectMeteoDataByCity("Patra");
             String[] columnNames1 = {"City", "Datetime", "Temperature", "Humidity", "Uv", "WindSpeedKmph", "WeatherDesc"};
             DefaultTableModel tableModel1 = new DefaultTableModel(columnNames1, 0);
             tableDark1.setModel(tableModel1);
