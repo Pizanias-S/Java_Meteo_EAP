@@ -30,7 +30,6 @@ public class Database {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        System.out.println(connection);
         return connection;
     }
     
@@ -123,7 +122,6 @@ public class Database {
             }
             preparedStatement.close();
             connection.close();
-             System.out.println("Done!");
         } catch (SQLException throwables) {
             System.out.println(throwables.getLocalizedMessage());
             Connection connection = connect();
@@ -159,7 +157,6 @@ public class Database {
             }
             preparedStatement.close();
             connection.close();
-            System.out.println("Done!");
         } catch (SQLException throwables) {
             System.out.println(throwables.getLocalizedMessage());
             System.out.println("Data already exits");
@@ -180,44 +177,45 @@ public class Database {
             }
             statement.close();
             connection.close();
-            System.out.println("Done!");
-            System.out.println(CityList);
         } catch (SQLException throwables) {
             System.out.println(throwables.getLocalizedMessage());
         }
         return CityList;
     }
 
-    public List<String> selectCitysbyApperance() {
-        List<String> CityList = new ArrayList<>();
-        String CityName;
+    public List<List> selectCitysbyApperance() {
+        List<String> data;
+        List<List> CityList = new ArrayList<>();
         try {
             Connection connection = connect();
             Statement statement = connection.createStatement();
             String selectSQL = "Select * from City ORDER BY APPERANCE DESC";
             ResultSet rs = statement.executeQuery(selectSQL);
             while (rs.next()) {
-                CityName = rs.getString("Name");
-                CityList.add(CityName);
+                String City = rs.getString("NAME");
+                String Region = rs.getString("LOCATION");
+                String Country = rs.getString("COUNTRY");
+                String Lat = rs.getString("LATITUDE");
+                String Lon = rs.getString("LOGITUDE");
+                String Appearance = rs.getString("APPERANCE");
+                data = List.of(new String[]{City, Region, Country, Lat, Lon, Appearance});
+                CityList.add(data);
             }
             statement.close();
             connection.close();
-            System.out.println("Done!");
-            System.out.println(CityList);
         } catch (SQLException throwables) {
             System.out.println(throwables.getLocalizedMessage());
         }
         return CityList;
     }
 
-    public List<List> selectMeteoDataByCity() {
-        String[] columns;
-        List<String> data = new ArrayList<>();
+    public List<List> selectMeteoDataByCity(String Querry) {
+        List<String> data;
         List<List> CityData = new ArrayList<>();
         try {
             Connection connection = connect();
             Statement statement = connection.createStatement();
-            String selectSQL = "Select * from METEODATA WHERE CITYNAME = 'Patra' ";
+            String selectSQL = "Select * from METEODATA WHERE CITYNAME = '" +Querry+ "' ";
             ResultSet rs = statement.executeQuery(selectSQL);
             while (rs.next()) {
                 String City = rs.getString("CITYNAME");
@@ -227,17 +225,49 @@ public class Database {
                 String Uv = rs.getString("UV");
                 String Wind = rs.getString("WINDSPEEDKMPH");
                 String Description = rs.getString("WEATHERDESC");
-                columns = new String[]{"City", "Datetime", "Temperature", "Humidity", "Uv", "Wind", "Description"};
                 data = List.of(new String[]{City, Datetime, Temperature, Humidity, Uv, Wind, Description});
                 CityData.add(data);
             }
             statement.close();
             connection.close();
-            System.out.println("Done!");
-            System.out.println(CityData);
         } catch (SQLException throwables) {
             System.out.println(throwables.getLocalizedMessage());
         }
         return CityData;
+    }
+
+    public List<List> selectSerchedTimesByCity(String Querry) {
+        List<String> data;
+        List<List> SearchedDate = new ArrayList<>();
+        try {
+            Connection connection = connect();
+            Statement statement = connection.createStatement();
+            String selectSQL = "Select * from CITYDATE WHERE CITYNAME = '" +Querry+ "' ";
+            ResultSet rs = statement.executeQuery(selectSQL);
+            while (rs.next()) {
+                String City = rs.getString("CITYNAME");
+                String Datetime = rs.getString("SEARCHDATE");
+                data = List.of(new String[]{City, Datetime});
+                SearchedDate.add(data);
+            }
+            statement.close();
+            connection.close();
+        } catch (SQLException throwables) {
+            System.out.println(throwables.getLocalizedMessage());
+        }
+        return SearchedDate;
+    }
+
+    public void DeleteDataByCity(String Querry) {
+        try {
+            Connection connection = connect();
+            Statement statement = connection.createStatement();
+            String deleteSQL = "Delete from METEODATA WHERE CITYNAME = '" +Querry+ "' ";
+            statement.executeUpdate(deleteSQL);
+            statement.close();
+            connection.close();
+        } catch (SQLException throwables) {
+            System.out.println(throwables.getLocalizedMessage());
+        };
     }
 }

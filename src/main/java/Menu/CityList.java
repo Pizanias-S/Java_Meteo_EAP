@@ -7,8 +7,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -22,8 +22,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 import javax.swing.JFrame;
 import javax.swing.plaf.ScrollBarUI;
 import javax.swing.table.DefaultTableModel;
@@ -71,7 +69,7 @@ public class CityList extends javax.swing.JPanel {
         jScrollPane3.setCorner(JScrollPane.UPPER_RIGHT_CORNER,panel2);
         tableDark3.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);       
     }
-    
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -248,12 +246,7 @@ public class CityList extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
 
-//    public void showTableData() {
-//        String[] columnNames = {"City", "Dateitme", "Temperature", "Humidity", "Uv", "WindSpeedKmph", "WeatherDesc"};
-//        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
-//
-//        tableDark1.setModel();
-//    }
+
     private void deleteButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButton1ActionPerformed
         // TODO add your handling code here:
         PopupDialogDelete obj = new PopupDialogDelete(parentFrame);
@@ -266,12 +259,38 @@ public class CityList extends javax.swing.JPanel {
     }//GEN-LAST:event_comboBox1MouseClicked
 
     private void editButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editButton1MouseClicked
-        // TODO add your handling code here:
+            Database connectDB = Database.getConnectionInstance();
+        List<List> DataList = connectDB.selectMeteoDataByCity("Patra");
+            String[] columnNames1 = {"City", "Datetime", "Temperature", "Humidity", "Uv", "WindSpeedKmph", "WeatherDesc"};
+            DefaultTableModel tableModel1 = new DefaultTableModel(columnNames1, 0);
+            tableDark1.setModel(tableModel1);
+            for (List DataTable : DataList) {
+                Object[] objectDataTable = DataTable.toArray(new Object[0]);
+                tableModel1.addRow(objectDataTable);
+            }
+            List<List> SearchList = connectDB.selectSerchedTimesByCity("Patra");
+            String[] columnNames2 = {"City", "Searched Date"};
+            DefaultTableModel tableModel2 = new DefaultTableModel(columnNames2, 0);
+            tableDark2.setModel(tableModel2);
+            for (List SearchTable : SearchList) {
+                Object[] objectSearchTable = SearchTable.toArray(new Object[0]);
+                tableModel2.addRow(objectSearchTable);
+            }
+            List<List> CitysList = connectDB.selectCitysbyApperance();
+            String[] columnNames3 = {"City", "Region", "Country", "Latitude", "Longitude", "Appearance"};
+            DefaultTableModel tableModel3 = new DefaultTableModel(columnNames3, 0);
+            tableDark3.setModel(tableModel3);
+            for (List CitysTable : CitysList) {
+                Object[] objectCitysTable = CitysTable.toArray(new Object[0]);
+                tableModel3.addRow(objectCitysTable);
+            }
+
+
     }//GEN-LAST:event_editButton1MouseClicked
 
     private void comboBox1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_comboBox1FocusGained
         Database connectDB = Database.getConnectionInstance();
-        List<String> cityLists = connectDB.selectCitysbyApperance();
+        List<String> cityLists = connectDB.selectAllCitys();
         Set<String> citySet = new TreeSet<>(cityLists);
         for (String city : citySet) {
             comboBox1.addItem(city);

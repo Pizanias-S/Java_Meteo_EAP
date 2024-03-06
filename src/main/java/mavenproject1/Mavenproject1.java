@@ -21,7 +21,6 @@ public class Mavenproject1 extends javax.swing.JFrame{
         connectDB.createTableCity();
         connectDB.createTableMeteoData();
         connectDB.createCityDate();
-        connectDB.selectMeteoDataByCity();
         initComponents();
         setBackground(new Color(0.0f,0.0f,0.0f,0.0f));
         parentFrame = (JFrame) this.getParent();

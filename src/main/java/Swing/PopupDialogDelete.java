@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import Database.Database;
 
 
 public class PopupDialogDelete extends javax.swing.JDialog {
@@ -152,15 +153,9 @@ public class PopupDialogDelete extends javax.swing.JDialog {
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         // TODO add your handling code here:
-        try {
-//            tx.begin();                      
-//            City city = cityController.findCity(jTextField7.getText());
-//            Query query = em.createQuery("DELETE FROM Citydata c WHERE c.cityareaname = :cityareaname");       // Διαγραφή δεδομένων πόλης
-//            query.setParameter("cityareaname", city).executeUpdate();
-//            tx.commit();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+//        Database connectDB = Database.getConnectionInstance();
+//        connectDB.DeleteDataByCity("Sparti");
+        dispose();
     }//GEN-LAST:event_deleteButtonActionPerformed
 
 
