@@ -1,33 +1,48 @@
 package Menu;
 
+import Components.DeleteButton;
+import Components.EditButton;
+import Components.SaveButton;
+import Components.SearchBar;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import java.awt.Image;
+import java.time.format.DateTimeFormatter;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import javax.swing.ImageIcon;
+import javax.swing.*;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import Database.Database;
+import okhttp3.Response;
 
-public class Forecast extends javax.swing.JPanel {
+public class Forecast extends JPanel {
     
     private ImageIcon c_icon, cur_con_icon, h_icn, ws_icn, uv_icn, fm_icn, fn_icn, fe_icn, fnt_icn;
     
         
-    public Forecast(String main_city) {
+    public Forecast() {
         initComponents();
         setOpaque(false);
         // City Label & Location Icon
         c_icon = iconRender("/Icons/location.png", 27, 27);
         city_icon.setIcon(c_icon);
         cityLabel.repaint();
-        cityLabel.setText(main_city);
+        cityLabel.setText("--");
         
         // Current Conditions icon
         cur_con_icon =  iconRender("/Icons/cur_partly_cloudy.png", 100, 100);
@@ -42,27 +57,35 @@ public class Forecast extends javax.swing.JPanel {
         uv_icon.setIcon(uv_icn);
         
         // Morning Forecast
-        fm_icn = iconRender("/Icons/sunny.png", 50, 50);
+        fm_icn = iconRender("/Icons/no_data.png", 50, 50);
         fm_icon.setIcon(fm_icn);
-        
+        fm_icon1.setIcon(fm_icn);
+        fm_icon2.setIcon(fm_icn);
+
         //Noon Forecast
-        fn_icn = iconRender("/Icons/sunny.png", 50, 50);
+        fn_icn = iconRender("/Icons/no_data.png", 50, 50);
         fn_icon.setIcon(fn_icn);
-        
+        fn_icon1.setIcon(fn_icn);
+        fn_icon2.setIcon(fn_icn);
+
         //Evening Forecast
-        fe_icn = iconRender("/Icons/partly_cloudy.png", 50, 50);
+        fe_icn = iconRender("/Icons/no_data.png", 50, 50);
         fe_icon.setIcon(fe_icn);
-        
+        fe_icon1.setIcon(fe_icn);
+        fe_icon2.setIcon(fe_icn);
+
         //Night Forecast
-        fnt_icn = iconRender("/Icons/rainy.png", 50, 50);
+        fnt_icn = iconRender("/Icons/no_data.png", 50, 50);
         fnt_icon.setIcon(fnt_icn);
+        fnt_icon1.setIcon(fnt_icn);
+        fnt_icon2.setIcon(fnt_icn);
     }
     
     
     private ImageIcon iconRender(String path, int w, int h){
         ImageIcon tempIcon = new ImageIcon(getClass().getResource(path));
         Image img = tempIcon.getImage();
-        Image newimg = img.getScaledInstance(w, h, java.awt.Image.SCALE_SMOOTH);
+        Image newimg = img.getScaledInstance(w, h, Image.SCALE_SMOOTH);
         ImageIcon newIcon = new ImageIcon(newimg);
         return newIcon;        
     }
@@ -78,6 +101,7 @@ public class Forecast extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        materialTabbedPane1 = new Components.MaterialTabbedPane();
         cur_temp = new javax.swing.JLabel();
         cityLabel = new javax.swing.JLabel();
         city_icon = new javax.swing.JLabel();
@@ -89,9 +113,13 @@ public class Forecast extends javax.swing.JPanel {
         h = new javax.swing.JLabel();
         ws = new javax.swing.JLabel();
         uv = new javax.swing.JLabel();
-        line = new javax.swing.JPanel();
-        line1 = new javax.swing.JPanel();
-        column = new javax.swing.JPanel();
+        searchBar1 = new Components.SearchBar();
+        saveButton1 = new Components.SaveButton();
+        searchError = new javax.swing.JLabel();
+        materialTabbedPane2 = new Components.MaterialTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
+        column12 = new javax.swing.JPanel();
+        line13 = new javax.swing.JPanel();
         fm = new javax.swing.JLabel();
         fm_icon = new javax.swing.JLabel();
         fm_temp = new javax.swing.JLabel();
@@ -99,35 +127,99 @@ public class Forecast extends javax.swing.JPanel {
         fm_h = new javax.swing.JLabel();
         fm_ws = new javax.swing.JLabel();
         fm_uv = new javax.swing.JLabel();
-        fn = new javax.swing.JLabel();
-        column1 = new javax.swing.JPanel();
-        fn_icon = new javax.swing.JLabel();
-        fn_temp = new javax.swing.JLabel();
-        fn_description = new javax.swing.JLabel();
+        line14 = new javax.swing.JPanel();
         fn_h = new javax.swing.JLabel();
         fn_ws = new javax.swing.JLabel();
         fn_uv = new javax.swing.JLabel();
-        fe = new javax.swing.JLabel();
-        column2 = new javax.swing.JPanel();
-        fe_icon = new javax.swing.JLabel();
-        fe_temp = new javax.swing.JLabel();
-        fe_description = new javax.swing.JLabel();
+        column18 = new javax.swing.JPanel();
+        fn = new javax.swing.JLabel();
+        fn_icon = new javax.swing.JLabel();
+        fn_temp = new javax.swing.JLabel();
+        fn_description = new javax.swing.JLabel();
         fe_h = new javax.swing.JLabel();
         fe_ws = new javax.swing.JLabel();
         fe_uv = new javax.swing.JLabel();
+        column19 = new javax.swing.JPanel();
+        fe = new javax.swing.JLabel();
+        fe_icon = new javax.swing.JLabel();
+        fe_temp = new javax.swing.JLabel();
+        fe_description = new javax.swing.JLabel();
+        fnt_h = new javax.swing.JLabel();
+        fnt_ws = new javax.swing.JLabel();
+        fnt_uv = new javax.swing.JLabel();
         fnt = new javax.swing.JLabel();
         fnt_icon = new javax.swing.JLabel();
         fnt_temp = new javax.swing.JLabel();
         fnt_description = new javax.swing.JLabel();
-        fnt_h = new javax.swing.JLabel();
-        fnt_ws = new javax.swing.JLabel();
-        fnt_uv = new javax.swing.JLabel();
-        searchBar1 = new Components.SearchBar();
-        editButton1 = new Components.EditButton();
-        deleteButton1 = new Components.DeleteButton();
-        saveButton1 = new Components.SaveButton();
+        jPanel2 = new javax.swing.JPanel();
+        fm_h1 = new javax.swing.JLabel();
+        fm_ws1 = new javax.swing.JLabel();
+        fm_uv1 = new javax.swing.JLabel();
+        fm1 = new javax.swing.JLabel();
+        fm_icon1 = new javax.swing.JLabel();
+        fm_temp1 = new javax.swing.JLabel();
+        fm_description1 = new javax.swing.JLabel();
+        line15 = new javax.swing.JPanel();
+        column15 = new javax.swing.JPanel();
+        line16 = new javax.swing.JPanel();
+        fn_h1 = new javax.swing.JLabel();
+        fn_ws1 = new javax.swing.JLabel();
+        fn_uv1 = new javax.swing.JLabel();
+        fn1 = new javax.swing.JLabel();
+        fn_icon1 = new javax.swing.JLabel();
+        fn_temp1 = new javax.swing.JLabel();
+        fn_description1 = new javax.swing.JLabel();
+        column16 = new javax.swing.JPanel();
+        fe_h1 = new javax.swing.JLabel();
+        fe_ws1 = new javax.swing.JLabel();
+        fe_uv1 = new javax.swing.JLabel();
+        fe1 = new javax.swing.JLabel();
+        fe_icon1 = new javax.swing.JLabel();
+        fe_temp1 = new javax.swing.JLabel();
+        fe_description1 = new javax.swing.JLabel();
+        column17 = new javax.swing.JPanel();
+        fnt_h1 = new javax.swing.JLabel();
+        fnt_ws1 = new javax.swing.JLabel();
+        fnt_uv1 = new javax.swing.JLabel();
+        fnt1 = new javax.swing.JLabel();
+        fnt_icon1 = new javax.swing.JLabel();
+        fnt_temp1 = new javax.swing.JLabel();
+        fnt_description1 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        line17 = new javax.swing.JPanel();
+        line18 = new javax.swing.JPanel();
+        fn2 = new javax.swing.JLabel();
+        fn_icon2 = new javax.swing.JLabel();
+        fn_temp2 = new javax.swing.JLabel();
+        fn_description2 = new javax.swing.JLabel();
+        fm_h2 = new javax.swing.JLabel();
+        fm_ws2 = new javax.swing.JLabel();
+        fm_uv2 = new javax.swing.JLabel();
+        fm2 = new javax.swing.JLabel();
+        fm_icon2 = new javax.swing.JLabel();
+        fm_temp2 = new javax.swing.JLabel();
+        fm_description2 = new javax.swing.JLabel();
+        column20 = new javax.swing.JPanel();
+        fn_h2 = new javax.swing.JLabel();
+        fn_ws2 = new javax.swing.JLabel();
+        fn_uv2 = new javax.swing.JLabel();
+        fe2 = new javax.swing.JLabel();
+        fe_icon2 = new javax.swing.JLabel();
+        fe_temp2 = new javax.swing.JLabel();
+        fe_description2 = new javax.swing.JLabel();
+        column21 = new javax.swing.JPanel();
+        fe_h2 = new javax.swing.JLabel();
+        fe_ws2 = new javax.swing.JLabel();
+        fe_uv2 = new javax.swing.JLabel();
+        fnt2 = new javax.swing.JLabel();
+        fnt_icon2 = new javax.swing.JLabel();
+        fnt_temp2 = new javax.swing.JLabel();
+        fnt_description2 = new javax.swing.JLabel();
+        column22 = new javax.swing.JPanel();
+        fnt_h2 = new javax.swing.JLabel();
+        fnt_ws2 = new javax.swing.JLabel();
+        fnt_uv2 = new javax.swing.JLabel();
         dateLabel = new javax.swing.JLabel();
-        searchError = new javax.swing.JLabel();
 
         cur_temp.setFont(new java.awt.Font("Avenir Next", 1, 48)); // NOI18N
         cur_temp.setForeground(new java.awt.Color(200, 200, 200));
@@ -140,7 +232,7 @@ public class Forecast extends javax.swing.JPanel {
         cityLabel.setFont(new java.awt.Font("Avenir Next", 1, 24)); // NOI18N
         cityLabel.setForeground(new java.awt.Color(200, 200, 200));
         cityLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        cityLabel.setText("City");
+        cityLabel.setText("<html>City<html>");
         cityLabel.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
         description.setFont(new java.awt.Font("Avenir Next", 0, 18)); // NOI18N
@@ -168,52 +260,70 @@ public class Forecast extends javax.swing.JPanel {
         uv.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         uv.setText("--");
 
-        line.setBackground(new java.awt.Color(150, 150, 150));
-        line.setForeground(new java.awt.Color(150, 150, 150));
-        line.setToolTipText("");
-        line.setMinimumSize(new java.awt.Dimension(100, 3));
-        line.setPreferredSize(new java.awt.Dimension(100, 6));
+        searchBar1.setForeground(new java.awt.Color(220, 220, 220));
+        searchBar1.setFont(new java.awt.Font("Avenir Next", 0, 14)); // NOI18N
+        searchBar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchBar1ActionPerformed(evt);
+            }
+        });
 
-        javax.swing.GroupLayout lineLayout = new javax.swing.GroupLayout(line);
-        line.setLayout(lineLayout);
-        lineLayout.setHorizontalGroup(
-            lineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        saveButton1.setForeground(new java.awt.Color(220, 220, 220));
+        saveButton1.setText("Save");
+        saveButton1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        saveButton1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        saveButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                saveButton1MouseClicked(evt);
+            }
+        });
+        saveButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveButton1ActionPerformed(evt);
+            }
+        });
+
+        searchError.setFont(new java.awt.Font("Avenir Next", 0, 10)); // NOI18N
+        searchError.setForeground(new java.awt.Color(120, 120, 120));
+        searchError.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        searchError.setText(" ");
+        searchError.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+
+        materialTabbedPane2.setForeground(new java.awt.Color(220, 220, 220));
+        materialTabbedPane2.setFont(new java.awt.Font("Avenir Next", 0, 14)); // NOI18N
+
+        jPanel1.setOpaque(false);
+
+        column12.setBackground(new java.awt.Color(150, 150, 150));
+        column12.setToolTipText("");
+        column12.setMinimumSize(new java.awt.Dimension(100, 3));
+
+        javax.swing.GroupLayout column12Layout = new javax.swing.GroupLayout(column12);
+        column12.setLayout(column12Layout);
+        column12Layout.setHorizontalGroup(
+            column12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
-        lineLayout.setVerticalGroup(
-            lineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        column12Layout.setVerticalGroup(
+            column12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 246, Short.MAX_VALUE)
+        );
+
+        line13.setBackground(new java.awt.Color(150, 150, 150));
+        line13.setForeground(new java.awt.Color(150, 150, 150));
+        line13.setToolTipText("");
+        line13.setMinimumSize(new java.awt.Dimension(100, 3));
+        line13.setPreferredSize(new java.awt.Dimension(100, 6));
+
+        javax.swing.GroupLayout line13Layout = new javax.swing.GroupLayout(line13);
+        line13.setLayout(line13Layout);
+        line13Layout.setHorizontalGroup(
+            line13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        line13Layout.setVerticalGroup(
+            line13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 3, Short.MAX_VALUE)
-        );
-
-        line1.setBackground(new java.awt.Color(150, 150, 150));
-        line1.setForeground(new java.awt.Color(150, 150, 150));
-        line1.setToolTipText("");
-        line1.setMinimumSize(new java.awt.Dimension(100, 3));
-
-        javax.swing.GroupLayout line1Layout = new javax.swing.GroupLayout(line1);
-        line1.setLayout(line1Layout);
-        line1Layout.setHorizontalGroup(
-            line1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        line1Layout.setVerticalGroup(
-            line1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 3, Short.MAX_VALUE)
-        );
-
-        column.setBackground(new java.awt.Color(150, 150, 150));
-        column.setToolTipText("");
-        column.setMinimumSize(new java.awt.Dimension(100, 3));
-
-        javax.swing.GroupLayout columnLayout = new javax.swing.GroupLayout(column);
-        column.setLayout(columnLayout);
-        columnLayout.setHorizontalGroup(
-            columnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        columnLayout.setVerticalGroup(
-            columnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 212, Short.MAX_VALUE)
         );
 
         fm.setFont(new java.awt.Font("Avenir Next", 2, 12)); // NOI18N
@@ -248,37 +358,21 @@ public class Forecast extends javax.swing.JPanel {
         fm_uv.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         fm_uv.setText("UV: --");
 
-        fn.setFont(new java.awt.Font("Avenir Next", 2, 12)); // NOI18N
-        fn.setForeground(new java.awt.Color(220, 220, 220));
-        fn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fn.setText("Noon");
+        line14.setBackground(new java.awt.Color(150, 150, 150));
+        line14.setForeground(new java.awt.Color(150, 150, 150));
+        line14.setToolTipText("");
+        line14.setMinimumSize(new java.awt.Dimension(100, 3));
 
-        column1.setBackground(new java.awt.Color(150, 150, 150));
-        column1.setToolTipText("");
-        column1.setMinimumSize(new java.awt.Dimension(100, 3));
-
-        javax.swing.GroupLayout column1Layout = new javax.swing.GroupLayout(column1);
-        column1.setLayout(column1Layout);
-        column1Layout.setHorizontalGroup(
-            column1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        javax.swing.GroupLayout line14Layout = new javax.swing.GroupLayout(line14);
+        line14.setLayout(line14Layout);
+        line14Layout.setHorizontalGroup(
+            line14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 809, Short.MAX_VALUE)
         );
-        column1Layout.setVerticalGroup(
-            column1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 212, Short.MAX_VALUE)
+        line14Layout.setVerticalGroup(
+            line14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 3, Short.MAX_VALUE)
         );
-
-        fn_icon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-
-        fn_temp.setFont(new java.awt.Font("Avenir Next", 1, 18)); // NOI18N
-        fn_temp.setForeground(new java.awt.Color(220, 220, 220));
-        fn_temp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fn_temp.setText("--˚C");
-
-        fn_description.setFont(new java.awt.Font("Avenir Next", 0, 14)); // NOI18N
-        fn_description.setForeground(new java.awt.Color(220, 220, 220));
-        fn_description.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fn_description.setText("--");
 
         fn_h.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
         fn_h.setForeground(new java.awt.Color(180, 180, 180));
@@ -295,37 +389,37 @@ public class Forecast extends javax.swing.JPanel {
         fn_uv.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         fn_uv.setText("UV: --");
 
-        fe.setFont(new java.awt.Font("Avenir Next", 2, 12)); // NOI18N
-        fe.setForeground(new java.awt.Color(220, 220, 220));
-        fe.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fe.setText("Evening");
+        column18.setBackground(new java.awt.Color(150, 150, 150));
+        column18.setToolTipText("");
+        column18.setMinimumSize(new java.awt.Dimension(100, 3));
 
-        column2.setBackground(new java.awt.Color(150, 150, 150));
-        column2.setToolTipText("");
-        column2.setMinimumSize(new java.awt.Dimension(100, 3));
-
-        javax.swing.GroupLayout column2Layout = new javax.swing.GroupLayout(column2);
-        column2.setLayout(column2Layout);
-        column2Layout.setHorizontalGroup(
-            column2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout column18Layout = new javax.swing.GroupLayout(column18);
+        column18.setLayout(column18Layout);
+        column18Layout.setHorizontalGroup(
+            column18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
-        column2Layout.setVerticalGroup(
-            column2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 212, Short.MAX_VALUE)
+        column18Layout.setVerticalGroup(
+            column18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 246, Short.MAX_VALUE)
         );
 
-        fe_icon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fn.setFont(new java.awt.Font("Avenir Next", 2, 12)); // NOI18N
+        fn.setForeground(new java.awt.Color(220, 220, 220));
+        fn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fn.setText("Noon");
 
-        fe_temp.setFont(new java.awt.Font("Avenir Next", 1, 18)); // NOI18N
-        fe_temp.setForeground(new java.awt.Color(220, 220, 220));
-        fe_temp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fe_temp.setText("--˚C");
+        fn_icon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
-        fe_description.setFont(new java.awt.Font("Avenir Next", 0, 14)); // NOI18N
-        fe_description.setForeground(new java.awt.Color(220, 220, 220));
-        fe_description.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fe_description.setText("--");
+        fn_temp.setFont(new java.awt.Font("Avenir Next", 1, 18)); // NOI18N
+        fn_temp.setForeground(new java.awt.Color(220, 220, 220));
+        fn_temp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fn_temp.setText("--˚C");
+
+        fn_description.setFont(new java.awt.Font("Avenir Next", 0, 14)); // NOI18N
+        fn_description.setForeground(new java.awt.Color(220, 220, 220));
+        fn_description.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fn_description.setText("--");
 
         fe_h.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
         fe_h.setForeground(new java.awt.Color(180, 180, 180));
@@ -341,6 +435,53 @@ public class Forecast extends javax.swing.JPanel {
         fe_uv.setForeground(new java.awt.Color(180, 180, 180));
         fe_uv.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         fe_uv.setText("UV: --");
+
+        column19.setBackground(new java.awt.Color(150, 150, 150));
+        column19.setToolTipText("");
+        column19.setMinimumSize(new java.awt.Dimension(100, 3));
+
+        javax.swing.GroupLayout column19Layout = new javax.swing.GroupLayout(column19);
+        column19.setLayout(column19Layout);
+        column19Layout.setHorizontalGroup(
+            column19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        column19Layout.setVerticalGroup(
+            column19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 246, Short.MAX_VALUE)
+        );
+
+        fe.setFont(new java.awt.Font("Avenir Next", 2, 12)); // NOI18N
+        fe.setForeground(new java.awt.Color(220, 220, 220));
+        fe.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fe.setText("Evening");
+
+        fe_icon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        fe_temp.setFont(new java.awt.Font("Avenir Next", 1, 18)); // NOI18N
+        fe_temp.setForeground(new java.awt.Color(220, 220, 220));
+        fe_temp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fe_temp.setText("--˚C");
+
+        fe_description.setFont(new java.awt.Font("Avenir Next", 0, 14)); // NOI18N
+        fe_description.setForeground(new java.awt.Color(220, 220, 220));
+        fe_description.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fe_description.setText("--");
+
+        fnt_h.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        fnt_h.setForeground(new java.awt.Color(180, 180, 180));
+        fnt_h.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fnt_h.setText("Humidity: --%");
+
+        fnt_ws.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        fnt_ws.setForeground(new java.awt.Color(180, 180, 180));
+        fnt_ws.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fnt_ws.setText("Windspeed: - Km/h");
+
+        fnt_uv.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        fnt_uv.setForeground(new java.awt.Color(180, 180, 180));
+        fnt_uv.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fnt_uv.setText("UV: --");
 
         fnt.setFont(new java.awt.Font("Avenir Next", 2, 12)); // NOI18N
         fnt.setForeground(new java.awt.Color(220, 220, 220));
@@ -359,233 +500,117 @@ public class Forecast extends javax.swing.JPanel {
         fnt_description.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         fnt_description.setText("--");
 
-        fnt_h.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
-        fnt_h.setForeground(new java.awt.Color(180, 180, 180));
-        fnt_h.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fnt_h.setText("Humidity: --%");
-
-        fnt_ws.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
-        fnt_ws.setForeground(new java.awt.Color(180, 180, 180));
-        fnt_ws.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fnt_ws.setText("Windspeed: - Km/h");
-
-        fnt_uv.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
-        fnt_uv.setForeground(new java.awt.Color(180, 180, 180));
-        fnt_uv.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fnt_uv.setText("UV: --");
-
-        searchBar1.setForeground(new java.awt.Color(220, 220, 220));
-        searchBar1.setFont(new java.awt.Font("Avenir Next", 0, 14)); // NOI18N
-        searchBar1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchBar1ActionPerformed(evt);
-            }
-        });
-
-        editButton1.setForeground(new java.awt.Color(220, 220, 220));
-        editButton1.setText("Edit");
-        editButton1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
-        editButton1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-
-        deleteButton1.setForeground(new java.awt.Color(220, 220, 220));
-        deleteButton1.setText("Delete");
-        deleteButton1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
-        deleteButton1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-
-        saveButton1.setForeground(new java.awt.Color(220, 220, 220));
-        saveButton1.setText("Save");
-        saveButton1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
-        saveButton1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-
-        dateLabel.setFont(new java.awt.Font("Avenir Next", 2, 10)); // NOI18N
-        dateLabel.setForeground(new java.awt.Color(220, 220, 220));
-        dateLabel.setText("Last Update: --");
-
-        searchError.setFont(new java.awt.Font("Avenir Next", 0, 10)); // NOI18N
-        searchError.setForeground(new java.awt.Color(120, 120, 120));
-        searchError.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        searchError.setText("City not found");
-        searchError.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(100, 100, 100)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(cur_temp, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(city_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(0, 0, 0)
-                                    .addComponent(cityLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(description, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                .addComponent(h, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(ws, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                .addComponent(h_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(ws_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(uv_icon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(uv, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE))))))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(20, 20, 20)
-                                .addComponent(searchBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(36, 36, 36)
-                                .addComponent(searchError, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addComponent(cur_conditions, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(110, 110, 110))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(saveButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(15, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(fm_temp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fm_icon, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fm_description, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fm_h, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fm_ws, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                    .addComponent(fm_uv, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fm, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(column12, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(fn_temp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fn_icon, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fn_description, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fn_h, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fn_ws, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fn_uv, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(column18, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(fe_temp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fe_icon, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fe_description, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fe_h, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fe_ws, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fe_uv, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fe, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(column19, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(fnt_temp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fnt_icon, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fnt_description, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fnt_h, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fnt_ws, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fnt_uv, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fnt, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(43, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addComponent(line13, javax.swing.GroupLayout.DEFAULT_SIZE, 809, Short.MAX_VALUE)
+                    .addContainerGap()))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addComponent(line14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(8, 8, 8)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(column19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(column18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(column12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(fnt)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(editButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(fnt_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(deleteButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(50, 50, 50)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(fm_temp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fm_description, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fm_h, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fm_ws, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-                                    .addComponent(fm_uv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fm_icon, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(20, 20, 20)
-                                .addComponent(column, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(20, 20, 20)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(fn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fn_icon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fn_temp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fn_description, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fn_h, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fn_ws, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fn_uv, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(20, 20, 20)
-                                .addComponent(column1, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(20, 20, 20)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(fe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fe_icon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fe_temp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fe_description, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fe_h, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fe_ws, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fe_uv, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(20, 20, 20)
-                                .addComponent(column2, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(20, 20, 20)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(fnt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fnt_icon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fnt_temp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fnt_description, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fnt_h, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fnt_ws, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-
-                                    .addComponent(fnt_uv, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(line1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(line, javax.swing.GroupLayout.DEFAULT_SIZE, 683, Short.MAX_VALUE))
-                        .addContainerGap(71, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(cur_temp, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(city_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(0, 0, 0)
-                                    .addComponent(cityLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(description, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                .addComponent(h, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(ws, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                .addComponent(h_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(ws_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(uv_icon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(uv, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE))))))
-                        .addGap(20, 20, 20)
-                        .addComponent(searchBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cur_conditions, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(110, 110, 110)
-
-                                    .addComponent(fnt_uv, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))
-//                            .addComponent(line1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-//                            .addComponent(line, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 703, Short.MAX_VALUE))
-                        .addContainerGap(60, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(dateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-
-        ));
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(cur_conditions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(cur_temp, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(cityLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(city_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(searchBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(searchError)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(description, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(h_icon, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                    .addComponent(ws_icon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(uv_icon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(5, 5, 5)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(h, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ws, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(uv, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(deleteButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(editButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(saveButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(line, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(fnt_temp, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fnt_description)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fnt_h)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fnt_ws)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fnt_uv))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(fe)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fe_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fe_temp, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fe_description)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fe_h)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fe_ws)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fe_uv))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(fn)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fn_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fn_temp, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fn_description)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fn_h)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fn_ws)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fn_uv))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(fm)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(fm_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -597,1060 +622,1616 @@ public class Forecast extends javax.swing.JPanel {
                                 .addComponent(fm_h)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(fm_ws)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(fm_uv))
-                            .addComponent(column, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(fn)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(fn_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(fn_temp, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(fn_description)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(fn_h)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(fn_ws)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(fn_uv, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(column1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(fnt)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(fnt_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(fnt_temp, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(fnt_description)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(fnt_h)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(fnt_ws)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(fnt_uv, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fm_uv)))))
+                .addContainerGap(18, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addComponent(line13, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(269, Short.MAX_VALUE)))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addContainerGap(263, Short.MAX_VALUE)
+                    .addComponent(line14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()))
+        );
+
+        materialTabbedPane2.addTab("Today", jPanel1);
+
+        jPanel2.setOpaque(false);
+
+        fm_h1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        fm_h1.setForeground(new java.awt.Color(180, 180, 180));
+        fm_h1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fm_h1.setText("Humidity: --%");
+
+        fm_ws1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        fm_ws1.setForeground(new java.awt.Color(180, 180, 180));
+        fm_ws1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fm_ws1.setText("Windspeed: - Km/h");
+
+        fm_uv1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        fm_uv1.setForeground(new java.awt.Color(180, 180, 180));
+        fm_uv1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fm_uv1.setText("UV: --");
+
+        fm1.setFont(new java.awt.Font("Avenir Next", 2, 12)); // NOI18N
+        fm1.setForeground(new java.awt.Color(220, 220, 220));
+        fm1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fm1.setText("Morning");
+
+        fm_icon1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        fm_temp1.setFont(new java.awt.Font("Avenir Next", 1, 18)); // NOI18N
+        fm_temp1.setForeground(new java.awt.Color(220, 220, 220));
+        fm_temp1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fm_temp1.setText("--˚C");
+
+        fm_description1.setFont(new java.awt.Font("Avenir Next", 0, 14)); // NOI18N
+        fm_description1.setForeground(new java.awt.Color(220, 220, 220));
+        fm_description1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fm_description1.setText("--");
+
+        line15.setBackground(new java.awt.Color(150, 150, 150));
+        line15.setForeground(new java.awt.Color(150, 150, 150));
+        line15.setToolTipText("");
+        line15.setMinimumSize(new java.awt.Dimension(100, 3));
+        line15.setPreferredSize(new java.awt.Dimension(100, 6));
+
+        javax.swing.GroupLayout line15Layout = new javax.swing.GroupLayout(line15);
+        line15.setLayout(line15Layout);
+        line15Layout.setHorizontalGroup(
+            line15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 809, Short.MAX_VALUE)
+        );
+        line15Layout.setVerticalGroup(
+            line15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 3, Short.MAX_VALUE)
+        );
+
+        column15.setBackground(new java.awt.Color(150, 150, 150));
+        column15.setToolTipText("");
+        column15.setMinimumSize(new java.awt.Dimension(100, 3));
+
+        javax.swing.GroupLayout column15Layout = new javax.swing.GroupLayout(column15);
+        column15.setLayout(column15Layout);
+        column15Layout.setHorizontalGroup(
+            column15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        column15Layout.setVerticalGroup(
+            column15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        line16.setBackground(new java.awt.Color(150, 150, 150));
+        line16.setForeground(new java.awt.Color(150, 150, 150));
+        line16.setToolTipText("");
+        line16.setMinimumSize(new java.awt.Dimension(100, 3));
+        line16.setPreferredSize(new java.awt.Dimension(100, 6));
+
+        javax.swing.GroupLayout line16Layout = new javax.swing.GroupLayout(line16);
+        line16.setLayout(line16Layout);
+        line16Layout.setHorizontalGroup(
+            line16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 809, Short.MAX_VALUE)
+        );
+        line16Layout.setVerticalGroup(
+            line16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 3, Short.MAX_VALUE)
+        );
+
+        fn_h1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        fn_h1.setForeground(new java.awt.Color(180, 180, 180));
+        fn_h1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fn_h1.setText("Humidity: --%");
+
+        fn_ws1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        fn_ws1.setForeground(new java.awt.Color(180, 180, 180));
+        fn_ws1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fn_ws1.setText("Windspeed: - Km/h");
+
+        fn_uv1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        fn_uv1.setForeground(new java.awt.Color(180, 180, 180));
+        fn_uv1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fn_uv1.setText("UV: --");
+
+        fn1.setFont(new java.awt.Font("Avenir Next", 2, 12)); // NOI18N
+        fn1.setForeground(new java.awt.Color(220, 220, 220));
+        fn1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fn1.setText("Noon");
+
+        fn_icon1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        fn_temp1.setFont(new java.awt.Font("Avenir Next", 1, 18)); // NOI18N
+        fn_temp1.setForeground(new java.awt.Color(220, 220, 220));
+        fn_temp1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fn_temp1.setText("--˚C");
+
+        fn_description1.setFont(new java.awt.Font("Avenir Next", 0, 14)); // NOI18N
+        fn_description1.setForeground(new java.awt.Color(220, 220, 220));
+        fn_description1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fn_description1.setText("--");
+
+        column16.setBackground(new java.awt.Color(150, 150, 150));
+        column16.setToolTipText("");
+        column16.setMinimumSize(new java.awt.Dimension(100, 3));
+
+        javax.swing.GroupLayout column16Layout = new javax.swing.GroupLayout(column16);
+        column16.setLayout(column16Layout);
+        column16Layout.setHorizontalGroup(
+            column16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        column16Layout.setVerticalGroup(
+            column16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 246, Short.MAX_VALUE)
+        );
+
+        fe_h1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        fe_h1.setForeground(new java.awt.Color(180, 180, 180));
+        fe_h1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fe_h1.setText("Humidity: --%");
+
+        fe_ws1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        fe_ws1.setForeground(new java.awt.Color(180, 180, 180));
+        fe_ws1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fe_ws1.setText("Windspeed: - Km/h");
+
+        fe_uv1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        fe_uv1.setForeground(new java.awt.Color(180, 180, 180));
+        fe_uv1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fe_uv1.setText("UV: --");
+
+        fe1.setFont(new java.awt.Font("Avenir Next", 2, 12)); // NOI18N
+        fe1.setForeground(new java.awt.Color(220, 220, 220));
+        fe1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fe1.setText("Evening");
+
+        fe_icon1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        fe_temp1.setFont(new java.awt.Font("Avenir Next", 1, 18)); // NOI18N
+        fe_temp1.setForeground(new java.awt.Color(220, 220, 220));
+        fe_temp1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fe_temp1.setText("--˚C");
+
+        fe_description1.setFont(new java.awt.Font("Avenir Next", 0, 14)); // NOI18N
+        fe_description1.setForeground(new java.awt.Color(220, 220, 220));
+        fe_description1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fe_description1.setText("--");
+
+        column17.setBackground(new java.awt.Color(150, 150, 150));
+        column17.setToolTipText("");
+        column17.setMinimumSize(new java.awt.Dimension(100, 3));
+
+        javax.swing.GroupLayout column17Layout = new javax.swing.GroupLayout(column17);
+        column17.setLayout(column17Layout);
+        column17Layout.setHorizontalGroup(
+            column17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        column17Layout.setVerticalGroup(
+            column17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 246, Short.MAX_VALUE)
+        );
+
+        fnt_h1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        fnt_h1.setForeground(new java.awt.Color(180, 180, 180));
+        fnt_h1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fnt_h1.setText("Humidity: --%");
+
+        fnt_ws1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        fnt_ws1.setForeground(new java.awt.Color(180, 180, 180));
+        fnt_ws1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fnt_ws1.setText("Windspeed: - Km/h");
+
+        fnt_uv1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        fnt_uv1.setForeground(new java.awt.Color(180, 180, 180));
+        fnt_uv1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fnt_uv1.setText("UV: --");
+
+        fnt1.setFont(new java.awt.Font("Avenir Next", 2, 12)); // NOI18N
+        fnt1.setForeground(new java.awt.Color(220, 220, 220));
+        fnt1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fnt1.setText("Night");
+
+        fnt_icon1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        fnt_temp1.setFont(new java.awt.Font("Avenir Next", 1, 18)); // NOI18N
+        fnt_temp1.setForeground(new java.awt.Color(220, 220, 220));
+        fnt_temp1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fnt_temp1.setText("--˚C");
+
+        fnt_description1.setFont(new java.awt.Font("Avenir Next", 0, 14)); // NOI18N
+        fnt_description1.setForeground(new java.awt.Color(220, 220, 220));
+        fnt_description1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fnt_description1.setText("--");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap(15, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(fm_temp1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fm_icon1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fm_description1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fm_h1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fm_ws1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                    .addComponent(fm_uv1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fm1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(column15, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(fn_temp1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fn_icon1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fn_description1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fn_h1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fn_ws1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fn_uv1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fn1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(column16, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(fe_temp1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fe_icon1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fe_description1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fe_h1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fe_ws1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fe_uv1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fe1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(column17, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(fnt_temp1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fnt_icon1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fnt_description1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fnt_h1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fnt_ws1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fnt_uv1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fnt1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(43, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addComponent(line15, javax.swing.GroupLayout.DEFAULT_SIZE, 809, Short.MAX_VALUE)
+                    .addContainerGap()))
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addComponent(line16, javax.swing.GroupLayout.DEFAULT_SIZE, 809, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(8, 8, 8)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(column15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(column17, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(column16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(fnt1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fnt_icon1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fnt_temp1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fnt_description1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fnt_h1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fnt_ws1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fnt_uv1))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(fe1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fe_icon1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fe_temp1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fe_description1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fe_h1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fe_ws1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fe_uv1))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(fn1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fn_icon1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fn_temp1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fn_description1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fn_h1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fn_ws1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fn_uv1))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(fm1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fm_icon1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fm_temp1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fm_description1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fm_h1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fm_ws1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fm_uv1)))))
+                .addGap(0, 0, 0))
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addComponent(line15, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 269, Short.MAX_VALUE)))
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                    .addContainerGap(263, Short.MAX_VALUE)
+                    .addComponent(line16, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()))
+        );
+
+        materialTabbedPane2.addTab("Tomorrow", jPanel2);
+
+        jPanel3.setOpaque(false);
+
+        line17.setBackground(new java.awt.Color(150, 150, 150));
+        line17.setForeground(new java.awt.Color(150, 150, 150));
+        line17.setToolTipText("");
+        line17.setMinimumSize(new java.awt.Dimension(100, 3));
+        line17.setPreferredSize(new java.awt.Dimension(100, 6));
+
+        javax.swing.GroupLayout line17Layout = new javax.swing.GroupLayout(line17);
+        line17.setLayout(line17Layout);
+        line17Layout.setHorizontalGroup(
+            line17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 809, Short.MAX_VALUE)
+        );
+        line17Layout.setVerticalGroup(
+            line17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 3, Short.MAX_VALUE)
+        );
+
+        line18.setBackground(new java.awt.Color(150, 150, 150));
+        line18.setForeground(new java.awt.Color(150, 150, 150));
+        line18.setToolTipText("");
+        line18.setMinimumSize(new java.awt.Dimension(100, 3));
+        line18.setPreferredSize(new java.awt.Dimension(100, 6));
+
+        javax.swing.GroupLayout line18Layout = new javax.swing.GroupLayout(line18);
+        line18.setLayout(line18Layout);
+        line18Layout.setHorizontalGroup(
+            line18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 809, Short.MAX_VALUE)
+        );
+        line18Layout.setVerticalGroup(
+            line18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 3, Short.MAX_VALUE)
+        );
+
+        fn2.setFont(new java.awt.Font("Avenir Next", 2, 12)); // NOI18N
+        fn2.setForeground(new java.awt.Color(220, 220, 220));
+        fn2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fn2.setText("Noon");
+
+        fn_icon2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        fn_temp2.setFont(new java.awt.Font("Avenir Next", 1, 18)); // NOI18N
+        fn_temp2.setForeground(new java.awt.Color(220, 220, 220));
+        fn_temp2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fn_temp2.setText("--˚C");
+
+        fn_description2.setFont(new java.awt.Font("Avenir Next", 0, 14)); // NOI18N
+        fn_description2.setForeground(new java.awt.Color(220, 220, 220));
+        fn_description2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fn_description2.setText("--");
+
+        fm_h2.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        fm_h2.setForeground(new java.awt.Color(180, 180, 180));
+        fm_h2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fm_h2.setText("Humidity: --%");
+
+        fm_ws2.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        fm_ws2.setForeground(new java.awt.Color(180, 180, 180));
+        fm_ws2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fm_ws2.setText("Windspeed: - Km/h");
+
+        fm_uv2.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        fm_uv2.setForeground(new java.awt.Color(180, 180, 180));
+        fm_uv2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fm_uv2.setText("UV: --");
+
+        fm2.setFont(new java.awt.Font("Avenir Next", 2, 12)); // NOI18N
+        fm2.setForeground(new java.awt.Color(220, 220, 220));
+        fm2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fm2.setText("Morning");
+
+        fm_icon2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        fm_temp2.setFont(new java.awt.Font("Avenir Next", 1, 18)); // NOI18N
+        fm_temp2.setForeground(new java.awt.Color(220, 220, 220));
+        fm_temp2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fm_temp2.setText("--˚C");
+
+        fm_description2.setFont(new java.awt.Font("Avenir Next", 0, 14)); // NOI18N
+        fm_description2.setForeground(new java.awt.Color(220, 220, 220));
+        fm_description2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fm_description2.setText("--");
+
+        column20.setBackground(new java.awt.Color(150, 150, 150));
+        column20.setToolTipText("");
+        column20.setMinimumSize(new java.awt.Dimension(100, 3));
+
+        javax.swing.GroupLayout column20Layout = new javax.swing.GroupLayout(column20);
+        column20.setLayout(column20Layout);
+        column20Layout.setHorizontalGroup(
+            column20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        column20Layout.setVerticalGroup(
+            column20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 247, Short.MAX_VALUE)
+        );
+
+        fn_h2.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        fn_h2.setForeground(new java.awt.Color(180, 180, 180));
+        fn_h2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fn_h2.setText("Humidity: --%");
+
+        fn_ws2.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        fn_ws2.setForeground(new java.awt.Color(180, 180, 180));
+        fn_ws2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fn_ws2.setText("Windspeed: - Km/h");
+
+        fn_uv2.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        fn_uv2.setForeground(new java.awt.Color(180, 180, 180));
+        fn_uv2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fn_uv2.setText("UV: --");
+
+        fe2.setFont(new java.awt.Font("Avenir Next", 2, 12)); // NOI18N
+        fe2.setForeground(new java.awt.Color(220, 220, 220));
+        fe2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fe2.setText("Evening");
+
+        fe_icon2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        fe_temp2.setFont(new java.awt.Font("Avenir Next", 1, 18)); // NOI18N
+        fe_temp2.setForeground(new java.awt.Color(220, 220, 220));
+        fe_temp2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fe_temp2.setText("--˚C");
+
+        fe_description2.setFont(new java.awt.Font("Avenir Next", 0, 14)); // NOI18N
+        fe_description2.setForeground(new java.awt.Color(220, 220, 220));
+        fe_description2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fe_description2.setText("--");
+
+        column21.setBackground(new java.awt.Color(150, 150, 150));
+        column21.setToolTipText("");
+        column21.setMinimumSize(new java.awt.Dimension(100, 3));
+
+        javax.swing.GroupLayout column21Layout = new javax.swing.GroupLayout(column21);
+        column21.setLayout(column21Layout);
+        column21Layout.setHorizontalGroup(
+            column21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        column21Layout.setVerticalGroup(
+            column21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 247, Short.MAX_VALUE)
+        );
+
+        fe_h2.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        fe_h2.setForeground(new java.awt.Color(180, 180, 180));
+        fe_h2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fe_h2.setText("Humidity: --%");
+
+        fe_ws2.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        fe_ws2.setForeground(new java.awt.Color(180, 180, 180));
+        fe_ws2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fe_ws2.setText("Windspeed: - Km/h");
+
+        fe_uv2.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        fe_uv2.setForeground(new java.awt.Color(180, 180, 180));
+        fe_uv2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fe_uv2.setText("UV: --");
+
+        fnt2.setFont(new java.awt.Font("Avenir Next", 2, 12)); // NOI18N
+        fnt2.setForeground(new java.awt.Color(220, 220, 220));
+        fnt2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fnt2.setText("Night");
+
+        fnt_icon2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        fnt_temp2.setFont(new java.awt.Font("Avenir Next", 1, 18)); // NOI18N
+        fnt_temp2.setForeground(new java.awt.Color(220, 220, 220));
+        fnt_temp2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fnt_temp2.setText("--˚C");
+
+        fnt_description2.setFont(new java.awt.Font("Avenir Next", 0, 14)); // NOI18N
+        fnt_description2.setForeground(new java.awt.Color(220, 220, 220));
+        fnt_description2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fnt_description2.setText("--");
+
+        column22.setBackground(new java.awt.Color(150, 150, 150));
+        column22.setToolTipText("");
+        column22.setMinimumSize(new java.awt.Dimension(100, 3));
+
+        javax.swing.GroupLayout column22Layout = new javax.swing.GroupLayout(column22);
+        column22.setLayout(column22Layout);
+        column22Layout.setHorizontalGroup(
+            column22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        column22Layout.setVerticalGroup(
+            column22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 247, Short.MAX_VALUE)
+        );
+
+        fnt_h2.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        fnt_h2.setForeground(new java.awt.Color(180, 180, 180));
+        fnt_h2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fnt_h2.setText("Humidity: --%");
+
+        fnt_ws2.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        fnt_ws2.setForeground(new java.awt.Color(180, 180, 180));
+        fnt_ws2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fnt_ws2.setText("Windspeed: - Km/h");
+
+        fnt_uv2.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        fnt_uv2.setForeground(new java.awt.Color(180, 180, 180));
+        fnt_uv2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fnt_uv2.setText("UV: --");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap(15, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(fm_temp2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fm_icon2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fm_description2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fm_h2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fm_ws2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fm_uv2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fm2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(column20, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(fn_temp2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fn_icon2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fn_description2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fn_h2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fn_ws2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fn_uv2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fn2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(column21, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(fe_temp2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fe_icon2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fe_description2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fe_h2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fe_ws2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fe_uv2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fe2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(column22, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(fnt_temp2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fnt_icon2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fnt_description2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fnt_h2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fnt_ws2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fnt_uv2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fnt2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(43, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addComponent(line17, javax.swing.GroupLayout.DEFAULT_SIZE, 809, Short.MAX_VALUE)
+                    .addContainerGap()))
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                    .addComponent(line18, javax.swing.GroupLayout.DEFAULT_SIZE, 809, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(8, 8, 8)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(column22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(column21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(column20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(fnt2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fnt_icon2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fnt_temp2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fnt_description2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fnt_h2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fnt_ws2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fnt_uv2))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(fe2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fe_icon2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fe_temp2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fe_description2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fe_h2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fe_ws2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fe_uv2))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(fn2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fn_icon2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fn_temp2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fn_description2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fn_h2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fn_ws2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fn_uv2))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(fm2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fm_icon2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fm_temp2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fm_description2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fm_h2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fm_ws2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fm_uv2)))))
+                .addContainerGap(17, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addComponent(line17, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 269, Short.MAX_VALUE)))
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                    .addContainerGap(263, Short.MAX_VALUE)
+                    .addComponent(line18, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()))
+        );
+
+        materialTabbedPane2.addTab("Next", jPanel3);
+
+        dateLabel.setFont(new java.awt.Font("Avenir Next", 2, 10)); // NOI18N
+        dateLabel.setForeground(new java.awt.Color(200, 200, 200));
+        dateLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        dateLabel.setText("Last Updated:");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(100, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(fe)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                .addComponent(h, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(ws, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                .addComponent(h_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(ws_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(uv_icon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(uv, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)))
+                                    .addComponent(cur_temp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(description, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(searchError, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(150, 150, 150))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(searchBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(city_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cityLabel)))
+                        .addComponent(cur_conditions, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(dateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(saveButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(materialTabbedPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 70, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cur_temp, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(searchBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(searchError)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(city_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cityLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(fe_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(fe_temp, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(fe_description)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(fe_h)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(fe_ws)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(fe_uv, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(column2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(description, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(h_icon, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                            .addComponent(ws_icon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(uv_icon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(5, 5, 5)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(h, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ws, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(uv, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(cur_conditions, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(materialTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(line1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dateLabel)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(dateLabel)
+                    .addComponent(saveButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void searchBar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBar1ActionPerformed
+
+    private void searchBar1ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_searchBar1ActionPerformed
 
         
         Date currentDate = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, 1);
+        String dateTomorrow = dateFormat.format(c.getTime());
         String formattedDate = dateFormat.format(currentDate);
-
-	// test code for time
-	// needed imports:
-	// import java.time.format.DateTimeFormatter;
-	// import java.time.LocalDateTime;  
-	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HHmm");
-   	LocalDateTime now = LocalDateTime.now();
-	int time = Integer.parseInt(dtf.format(now));
+        c.add(Calendar.DATE,1);
+        String formattedDayAfterTomorrowDate = dateFormat.format(c.getTime());
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HHmm");
+        LocalDateTime now = LocalDateTime.now();
              
         try {
             String city = searchBar1.getText();                                      
             String urlToCall = "https://wttr.in/" + city + "?format=j1";              
             OkHttpClient client = new OkHttpClient();                               
             Request request = new Request.Builder().url(urlToCall).build();  
+            searchError.setText("");
             
-            try (okhttp3.Response response = client.newCall(request).execute()) {     
-                   if (response.isSuccessful() && response.body() != null) {
-                      String responseString = response.body().string();                   
-                      GsonBuilder builder = new GsonBuilder();                             
-                      builder.setPrettyPrinting();
-                      Gson gson = builder.create();
-                      JsonObject json = gson.fromJson(responseString, JsonObject.class); 
-                      JsonArray city_array = json.get("nearest_area").getAsJsonArray();  
-		      JsonArray conditions_array = json.get("current_condition").getAsJsonArray(); 
-		      JsonArray forecast_array = json.get("weather").getAsJsonArray();     
-                      // System.out.println(array);
-                      String name = null;
-            
-                      for (JsonElement jsonElement : city_array) {                              
-                      	JsonObject object = jsonElement.getAsJsonObject();
-                      	JsonArray areaName = object.get("areaName").getAsJsonArray();
-                         
-			for (JsonElement jsonElement2 : areaName) {                      
-                             JsonObject object1 = jsonElement2.getAsJsonObject();         
-                             name = object1.get("value").getAsString();
-                             cityLabel.setText(name);                                          
-                   	}
-		      }
-		   
-                      for (JsonElement jsonElement2 : conditions_array) {                      
-                        	JsonObject cndObj = jsonElement2.getAsJsonObject();         
-                   	        cur_temp.setText( cndObj.get("temp_C").getAsString()+"°C");
-                         	h.setText( cndObj.get("humidity").getAsString()+"%");
-                        	uv.setText( cndObj.get("uvIndex").getAsString());
-                        	ws.setText( cndObj.get("windspeedKmph").getAsString()+" Kmph"); 
-				       
-                        	JsonArray conditions_subarray = cndObj.get("weatherDesc").getAsJsonArray();
-                    
-                      	for (JsonElement jsonElement3 : conditions_subarray) {                      
-                                JsonObject cndObj2 = jsonElement3.getAsJsonObject();                                               
-                                description.setText( cndObj2.get("value").getAsString());
-                                
-                                String desc = cndObj2.get("value").getAsString();
-                                String temp_cur_icn = "";
-                            	switch(desc){
-         				case "Moderate or heavy snow in area with thunder":
-                				temp_cur_icn = "cur_snowy";
-						break;
-         				case "Patchy light snow in area with thunder":
-             					temp_cur_icn = "cur_snowy";
-						break;
-					case "Moderate or heavy rain in area with thunder":
-						temp_cur_icn = "cur_thunderstorm";
-						break;
-					case "Patchy light rain in area with thunder":
-						temp_cur_icn = "cur_thunderstorm";
-						break;
-					case "Moderate or heavy showers of ice pellets":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Light showers of ice pellets":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Moderate or heavy snow showers":
-						temp_cur_icn = "cur_snowy";
-						break;
-					case "Light snow showers":
-						temp_cur_icn = "cur_snowy";
-						break;
-					case "Moderate or heavy sleet showers":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Light sleet showers":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Torrential rain shower":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Moderate or heavy rain shower":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Light rain shower":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Ice pellets":
-						temp_cur_icn = "cur_snowy";
-						break;
-					case "Heavy snow":
-						temp_cur_icn = "cur_snowy";
-						break;
-					case "Patchy heavy snow":
-						temp_cur_icn = "cur_snowy";
-						break;
-					case "Moderate snow":
-						temp_cur_icn = "cur_snowy";
-						break;
-					case "Patchy moderate snow":
-						temp_cur_icn = "cur_snowy";
-						break;
-					case "Light snow":
-						temp_cur_icn = "cur_snowy";
-						break;
-					case "Patchy light snow":
-						temp_cur_icn = "cur_snowy";
-						break;
-					case "Moderate or heavy sleet":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Light sleet":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Moderate or Heavy freezing rain":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Light freezing rain":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Heavy rain":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Heavy rain at times":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Moderate rain":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Moderate rain at times":
-						temp_cur_icn = "cur_rainy";
-						break;
-                                        case "Rain shower":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Light rain":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Patchy light rain":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Heavy freezing drizzle":
-						temp_cur_icn = "cur_foggy";
-						break;
-					case "Freezing drizzle":
-						temp_cur_icn = "cur_foggy";
-						break;
-					case "Light drizzle":
-						temp_cur_icn = "cur_foggy";
-						break;
-					case "Patchy light drizzle":
-						temp_cur_icn = "cur_foggy";
-						break;
-					case "Freezing fog":
-						temp_cur_icn = "cur_foggy";
-						break;
-					case "Fog":
-						temp_cur_icn = "cur_foggy";
-						break;
-					case "Blizzard":
-						temp_cur_icn = "cur_snowy";
-						break;
-					case "Blowing snow":
-						temp_cur_icn = "cur_snowy";
-						break;
-					case "Thundery outbreaks in nearby":
-						temp_cur_icn = "cur_";
-						break;
-					case "Patchy freezing drizzle nearby":
-						temp_cur_icn = "cur_foggy";
-						break;
-					case "Patchy sleet nearby":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Patchy snow nearby":
-						temp_cur_icn = "cur_snowy";
-						break;
-					case "Patchy rain nearby":
-						temp_cur_icn = "cur_rainy";
-						break;
-					case "Heavy rain, mist":
-						temp_cur_icn = "cur_rainy";
-						break;					
-					case "Mist":
-						temp_cur_icn = "cur_foggy";
-						break;
-					case "Overcast":
-						temp_cur_icn = "cur_cloudy";
-						break;
-					case "Cloudy":
-						temp_cur_icn = "cur_cloudy";
-						break;
-					case "Partly Cloudy":
-						temp_cur_icn = "cur_partly_cloudy";
-						break;
-					case "Clear":					
-					        temp_cur_icn = "cur_clear_night";
-					        break;						
-					case   "Sunny":
-						temp_cur_icn = "cur_sunny";
-						break;
-					default:
-						temp_cur_icn = "cur_cloudy";
-                  		}
-				cur_con_icon =  iconRender("/Icons/"+temp_cur_icn+".png", 100, 100);
-        			cur_conditions.setIcon(cur_con_icon);
-                            
-                        }
-                      }
-		      
-                      
-                      
-                      for (JsonElement jsonElement4 : forecast_array) {                              
-                           JsonObject wObj0 = jsonElement4.getAsJsonObject();
-                           String stringDate=wObj0.get("date").getAsString();
-                   
-                        if (stringDate.equalsIgnoreCase(formattedDate)){
-                         	JsonArray fcast0 = wObj0.get("hourly").getAsJsonArray();    
-                                 for (JsonElement jsonElement5 : fcast0){        
-                                     JsonObject h2 = jsonElement5.getAsJsonObject(); 
-                                     String stringTime=h2.get("time").getAsString();
-                                     
-                                     if (stringTime.equalsIgnoreCase("600")){
-                                         fm_temp.setText(h2.get("tempC").getAsString()+"°C");
-                                         fm_h.setText("Humidity: "+h2.get("humidity").getAsString()+"%");
-                                         fm_ws.setText("WindSpeed: "+h2.get("windspeedKmph").getAsString()+" kmph");
-                                         fm_uv.setText("UV: "+h2.get("uvIndex").getAsString());
-                                         JsonArray description_subarray = h2.get("weatherDesc").getAsJsonArray();
-                    
-                                        for (JsonElement jsonElement11 : description_subarray) {                      
-                                             JsonObject m = jsonElement11.getAsJsonObject();                                               
-                                fm_description.setText( m.get("value").getAsString());   String desc = m.get("value").getAsString();
-                                String temp_cur_icn = "";
-                            	switch(desc){
-         				case "Moderate or heavy snow in area with thunder":
-                				temp_cur_icn = "snowy";
-						break;
-         				case "Patchy light snow in area with thunder":
-             					temp_cur_icn = "snowy";
-						break;
-					case "Moderate or heavy rain in area with thunder":
-						temp_cur_icn = "thunderstorm";
-						break;
-					case "Patchy light rain in area with thunder":
-						temp_cur_icn = "thunderstorm";
-						break;
-					case "Moderate or heavy showers of ice pellets":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light showers of ice pellets":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate or heavy snow showers":
-						temp_cur_icn = "snowy";
-						break;
-					case "Light snow showers":
-						temp_cur_icn = "snowy";
-						break;
-					case "Moderate or heavy sleet showers":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light sleet showers":
-						temp_cur_icn = "rainy";
-						break;
-					case "Torrential rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate or heavy rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Ice pellets":
-						temp_cur_icn = "snowy";
-						break;
-					case "Heavy snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy heavy snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Moderate snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy moderate snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Light snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy light snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Moderate or heavy sleet":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light sleet":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate or Heavy freezing rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light freezing rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Heavy rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Heavy rain at times":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate rain at times":
-						temp_cur_icn = "rainy";
-						break;
-                                        case "Rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Patchy light rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Heavy freezing drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Freezing drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Light drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Patchy light drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Freezing fog":
-						temp_cur_icn = "foggy";
-						break;
-					case "Fog":
-						temp_cur_icn = "foggy";
-						break;
-					case "Blizzard":
-						temp_cur_icn = "snowy";
-						break;
-					case "Blowing snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Thundery outbreaks in nearby":
-						temp_cur_icn = "thunderstorm";
-						break;
-					case "Patchy freezing drizzle nearby":
-						temp_cur_icn = "foggy";
-						break;
-					case "Patchy sleet nearby":
-						temp_cur_icn = "rainy";
-						break;
-					case "Patchy snow nearby":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy rain nearby":
-						temp_cur_icn = "rainy";
-						break;
-					case "Heavy rain, mist":
-						temp_cur_icn = "rainy";
-						break;			
-					case "Mist":
-						temp_cur_icn = "foggy";
-						break;
-					case "Overcast":
-						temp_cur_icn = "cloudy";
-						break;
-					case "Cloudy":
-						temp_cur_icn = "cloudy";
-						break;
-					case "Partly Cloudy":
-						temp_cur_icn = "partly_cloudy";
-						break;
-					case "Clear":
-						temp_cur_icn = "sunny";
-						break;
-					case "Sunny":
-						temp_cur_icn = "sunny";
-						break;
-					default:
-						temp_cur_icn = "cloudy";
-                  		}
-				cur_con_icon =  iconRender("/Icons/"+temp_cur_icn+".png",50 ,50);
-        			fm_icon.setIcon(cur_con_icon);
-                                         }
-                                       }
-                                     else if(stringTime.equalsIgnoreCase("1200")){
-                                           fn_temp.setText(h2.get("tempC").getAsString()+"°C");
-                                           fn_h.setText("Humidity: "+h2.get("humidity").getAsString()+"%");
-                                           fn_ws.setText("WindSpeed: "+h2.get("windspeedKmph").getAsString()+" kmph");
-                                           fn_uv.setText("UV: "+h2.get("uvIndex").getAsString());
-                                           JsonArray description_subarray = h2.get("weatherDesc").getAsJsonArray();
-                    
-                                      	for (JsonElement jsonElement10 : description_subarray) {                      
-                                             JsonObject n = jsonElement10.getAsJsonObject();                                               
-                                             fn_description.setText( n.get("value").getAsString()); 
-                                String desc = n.get("value").getAsString();
-                                String temp_cur_icn = "";
-                            	switch(desc){
-         				case "Moderate or heavy snow in area with thunder":
-                				temp_cur_icn = "snowy";
-						break;
-         				case "Patchy light snow in area with thunder":
-             					temp_cur_icn = "snowy";
-						break;
-					case "Moderate or heavy rain in area with thunder":
-						temp_cur_icn = "thunderstorm";
-						break;
-					case "Patchy light rain in area with thunder":
-						temp_cur_icn = "thunderstorm";
-						break;
-					case "Moderate or heavy showers of ice pellets":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light showers of ice pellets":
-						temp_cur_icn = "rainy";
-						break;
-					case "Heavy rain, mist":
-						temp_cur_icn = "rainy";
-						break;
-					case "Rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate or heavy snow showers":
-						temp_cur_icn = "snowy";
-						break;
-					case "Light snow showers":
-						temp_cur_icn = "snowy";
-						break;
-					case "Moderate or heavy sleet showers":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light sleet showers":
-						temp_cur_icn = "rainy";
-						break;
-					case "Torrential rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate or heavy rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Ice pellets":
-						temp_cur_icn = "snowy";
-						break;
-					case "Heavy snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy heavy snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Moderate snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy moderate snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Light snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy light snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Moderate or heavy sleet":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light sleet":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate or Heavy freezing rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light freezing rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Heavy rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Heavy rain at times":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate rain at times":
-						temp_cur_icn = "rainy";
-						break;					
-					case "Light rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Patchy light rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Heavy freezing drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Freezing drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Light drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Patchy light drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Freezing fog":
-						temp_cur_icn = "foggy";
-						break;
-					case "Fog":
-						temp_cur_icn = "foggy";
-						break;
-					case "Blizzard":
-						temp_cur_icn = "snowy";
-						break;
-					case "Blowing snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Thundery outbreaks in nearby":
-						temp_cur_icn = "thunderstorm";
-						break;
-					case "Patchy freezing drizzle nearby":
-						temp_cur_icn = "foggy";
-						break;
-					case "Patchy sleet nearby":
-						temp_cur_icn = "rainy";
-						break;
-					case "Patchy snow nearby":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy rain nearby":
-						temp_cur_icn = "rainy";
-						break;
-					case "Mist":
-						temp_cur_icn = "foggy";
-						break;
-					case "Overcast":
-						temp_cur_icn = "cloudy";
-						break;
-					case "Cloudy":
-						temp_cur_icn = "cloudy";
-						break;
-					case "Partly Cloudy":
-						temp_cur_icn = "partly_cloudy";
-						break;
-					case "Clear":
-						temp_cur_icn = "sunny";
-						break;
-					case "Sunny":
-						temp_cur_icn = "sunny";
-						break;
-					default:
-						temp_cur_icn = "cloudy";
-                  		}
-				cur_con_icon =  iconRender("/Icons/"+temp_cur_icn+".png", 50 , 50);
-        			fn_icon.setIcon(cur_con_icon);
-                                       }
-                                     }
-                                        else if(stringTime.equalsIgnoreCase("1800")){
-                                           fe_temp.setText(h2.get("tempC").getAsString()+"°C");
-                                           fe_h.setText("Humidity: "+h2.get("humidity").getAsString()+"%");
-                                           fe_ws.setText("WindSpeed: "+h2.get("windspeedKmph").getAsString()+" kmph");
-                                           fe_uv.setText("UV: "+h2.get("uvIndex").getAsString());
-                                           JsonArray description_subarray = h2.get("weatherDesc").getAsJsonArray();
-                    
-                                      	for (JsonElement jsonElement9 : description_subarray) {                      
-                                             JsonObject e = jsonElement9.getAsJsonObject();                                               
-                                             fe_description.setText( e.get("value").getAsString()); 
-                                String desc = e.get("value").getAsString();    
-				String temp_cur_icn = "";
-                            	switch(desc){
-         				case "Moderate or heavy snow in area with thunder":
-                				temp_cur_icn = "snowy";
-						break;
-         				case "Patchy light snow in area with thunder":
-             					temp_cur_icn = "snowy";
-						break;
-					case "Moderate or heavy rain in area with thunder":
-						temp_cur_icn = "thunderstorm";
-						break;
-					case "Patchy light rain in area with thunder":
-						temp_cur_icn = "thunderstorm";
-						break;
-					case "Moderate or heavy showers of ice pellets":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light showers of ice pellets":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate or heavy snow showers":
-						temp_cur_icn = "snowy";
-						break;
-					case "Light snow showers":
-						temp_cur_icn = "snowy";
-						break;
-					case "Heavy rain, mist":
-						temp_cur_icn = "rainy";
-						break;
-					case "Rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate or heavy sleet showers":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light sleet showers":
-						temp_cur_icn = "rainy";
-						break;
-					case "Torrential rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate or heavy rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Ice pellets":
-						temp_cur_icn = "snowy";
-						break;
-					case "Heavy snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy heavy snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Moderate snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy moderate snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Light snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy light snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Moderate or heavy sleet":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light sleet":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate or Heavy freezing rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light freezing rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Heavy rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Heavy rain at times":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate rain at times":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Patchy light rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Heavy freezing drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Freezing drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Light drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Patchy light drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Freezing fog":
-						temp_cur_icn = "foggy";
-						break;
-					case "Fog":
-						temp_cur_icn = "foggy";
-						break;
-					case "Blizzard":
-						temp_cur_icn = "snowy";
-						break;
-					case "Blowing snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Thundery outbreaks in nearby":
-						temp_cur_icn = "thunderstorm";
-						break;
-					case "Patchy freezing drizzle nearby":
-						temp_cur_icn = "foggy";
-						break;
-					case "Patchy sleet nearby":
-						temp_cur_icn = "rainy";
-						break;
-					case "Patchy snow nearby":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy rain nearby":
-						temp_cur_icn = "rainy";
-						break;
-					case "Mist":
-						temp_cur_icn = "foggy";
-						break;
-					case "Overcast":
-						temp_cur_icn = "cloudy";
-						break;
-					case "Cloudy":
-						temp_cur_icn = "cloudy";
-						break;
-					case "Partly Cloudy":
-						temp_cur_icn = "partly_cloudy";
-						break;
-					case "Clear":
-						temp_cur_icn = "sunny";
-						break;
-					case "Sunny":
-						temp_cur_icn = "sunny";
-						break;
-					default:
-						temp_cur_icn = "cloudy";
-                  		}
-				cur_con_icon =  iconRender("/Icons/"+temp_cur_icn+".png", 50, 50);
-        			fe_icon.setIcon(cur_con_icon);
-                                             
-                                             
-                                        }
-                                    }
-                                     
-                                        else if(stringTime.equalsIgnoreCase("2100")){
-                                           fnt_temp.setText(h2.get("tempC").getAsString()+"°C");
-                                           fnt_h.setText("Humidity: "+h2.get("humidity").getAsString()+"%");
-                                           fnt_ws.setText("WindSpeed: "+h2.get("windspeedKmph").getAsString()+" kmph");
-                                           fnt_uv.setText("UV: "+h2.get("uvIndex").getAsString());
-                                           JsonArray description_subarray = h2.get("weatherDesc").getAsJsonArray();
-                    
-                                      	for (JsonElement jsonElement8 : description_subarray) {                      
-                                             JsonObject nt = jsonElement8.getAsJsonObject();                                               
-                                             fnt_description.setText( nt.get("value").getAsString()); 
-                                             
-                                String desc = nt.get("value").getAsString();    
-				String temp_cur_icn = "";
-                            	switch(desc){
-         				case "Moderate or heavy snow in area with thunder":
-                				temp_cur_icn = "snowy";
-						break;
-         				case "Patchy light snow in area with thunder":
-             					temp_cur_icn = "snowy";
-						break;
-					case "Moderate or heavy rain in area with thunder":
-						temp_cur_icn = "thunderstorm";
-						break;
-					case "Patchy light rain in area with thunder":
-						temp_cur_icn = "thunderstorm";
-						break;
-					case "Moderate or heavy showers of ice pellets":
-						temp_cur_icn = "rainy";
-						break;
-					case "Heavy rain, mist":
-						temp_cur_icn = "rainy";
-						break;
-					case "Rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light showers of ice pellets":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate or heavy snow showers":
-						temp_cur_icn = "snowy";
-						break;
-					case "Light snow showers":
-						temp_cur_icn = "snowy";
-						break;
-					case "Moderate or heavy sleet showers":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light sleet showers":
-						temp_cur_icn = "rainy";
-						break;
-					case "Torrential rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate or heavy rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light rain shower":
-						temp_cur_icn = "rainy";
-						break;
-					case "Ice pellets":
-						temp_cur_icn = "snowy";
-						break;
-					case "Heavy snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy heavy snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Moderate snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy moderate snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Light snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy light snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Moderate or heavy sleet":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light sleet":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate or Heavy freezing rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light freezing rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Heavy rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Heavy rain at times":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Moderate rain at times":
-						temp_cur_icn = "rainy";
-						break;
-					case "Light rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Patchy light rain":
-						temp_cur_icn = "rainy";
-						break;
-					case "Heavy freezing drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Freezing drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Light drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Patchy light drizzle":
-						temp_cur_icn = "foggy";
-						break;
-					case "Freezing fog":
-						temp_cur_icn = "foggy";
-						break;
-					case "Fog":
-						temp_cur_icn = "foggy";
-						break;
-					case "Blizzard":
-						temp_cur_icn = "snowy";
-						break;
-					case "Blowing snow":
-						temp_cur_icn = "snowy";
-						break;
-					case "Thundery outbreaks in nearby":
-						temp_cur_icn = "thunderstorm";
-						break;
-					case "Patchy freezing drizzle nearby":
-						temp_cur_icn = "foggy";
-						break;
-					case "Patchy sleet nearby":
-						temp_cur_icn = "rainy";
-						break;
-					case "Patchy snow nearby":
-						temp_cur_icn = "snowy";
-						break;
-					case "Patchy rain nearby":
-						temp_cur_icn = "rainy";
-						break;
-					case "Mist":
-						temp_cur_icn = "foggy";
-						break;
-					case "Overcast":
-						temp_cur_icn = "cloudy";
-						break;
-					case "Cloudy":
-						temp_cur_icn = "cloudy";
-						break;
-					case "Partly Cloudy":
-						temp_cur_icn = "partly_cloudy";
-						break;
-					case "Clear":
-						temp_cur_icn = "clear_night";
-						break;
-					case "Sunny":
-						temp_cur_icn = "clear_night";
-						break;
-					default:
-						temp_cur_icn = "cur_cloudy";
-                  		}
-				cur_con_icon =  iconRender("/Icons/"+temp_cur_icn+".png", 50, 50);
-        			fnt_icon.setIcon(cur_con_icon);
-                            
-                                         }
-                                    }                
-                                 }
-                             }
-                          }
-                      }
+            try (Response response = client.newCall(request).execute()) {
+               if (response.isSuccessful() && response.body() != null) {
+                   String responseString = response.body().string();
+                   GsonBuilder builder = new GsonBuilder();
+                   builder.setPrettyPrinting();
+                   Gson gson = builder.create();
+                   JsonObject json = gson.fromJson(responseString, JsonObject.class);
+                   JsonArray city_array = json.get("nearest_area").getAsJsonArray();
+                   JsonArray conditions_array = json.get("current_condition").getAsJsonArray();
+                   JsonArray forecast_array = json.get("weather").getAsJsonArray();
+                   String name = null;
+                   String country = null;
+                   String region = null;
+
+                   String longitude = null;
+                   String latitude = null;
+                   for (JsonElement jsonElement : city_array) {
+                       JsonObject object = jsonElement.getAsJsonObject();
+                       JsonArray areaName = object.get("areaName").getAsJsonArray();
+                       JsonArray countryName = object.get("country").getAsJsonArray();
+                       JsonArray regionName = object.get("region").getAsJsonArray();
+                       latitude = object.get("latitude").getAsString();
+                       longitude = object.get("longitude").getAsString();
+                       for (JsonElement jsonElement2 : areaName) {
+                           JsonObject object1 = jsonElement2.getAsJsonObject();
+                           name = object1.get("value").getAsString();
+                           //cityLabel.setText(name);
+                       }
+                       for (JsonElement jsonCountry : countryName) {
+                           JsonObject objectCountry = jsonCountry.getAsJsonObject();
+                           country = objectCountry.get("value").getAsString();
+                       }
+                       for (JsonElement jsonRegion : regionName) {
+                           JsonObject objectRegion = jsonRegion.getAsJsonObject();
+                           region = objectRegion.get("value").getAsString();
+                       }
+                       cityLabel.setText(name+", "+region+", "+country);
+                   }
+                   Database connectDB = Database.getConnectionInstance();
+                   connectDB.insertNewCity(name, country, region, latitude, longitude, 1,
+                           LocalDateTime.now().withNano(0).toString());
+                   for (JsonElement jsonElement2 : conditions_array) {
+                       JsonObject cndObj = jsonElement2.getAsJsonObject();
+                       cur_temp.setText(cndObj.get("temp_C").getAsString() + "°C");
+                       h.setText(cndObj.get("humidity").getAsString() + "%");
+                       uv.setText(cndObj.get("uvIndex").getAsString());
+                       ws.setText(cndObj.get("windspeedKmph").getAsString() + " Kmph");
+                       dateLabel.setText("Last Update: " + cndObj.get("localObsDateTime").getAsString());
+                       JsonArray conditions_subarray = cndObj.get("weatherDesc").getAsJsonArray();
+                       for (JsonElement jsonElement3 : conditions_subarray) {
+                           JsonObject cndObj2 = jsonElement3.getAsJsonObject();
+                           description.setText(cndObj2.get("value").getAsString());
+
+                           String desc = cndObj2.get("value").getAsString();
+                           String temp_cur_icn = switch (desc) {
+                               case "Moderate or heavy snow in area with thunder",
+                                       "Patchy light snow in area with thunder", "Moderate or heavy snow showers",
+                                       "Light snow showers", "Ice pellets", "Patchy heavy snow", "Heavy snow",
+                                       "Patchy moderate snow", "Moderate snow", "Light snow", "Patchy light snow",
+                                       "Blizzard", "Blowing snow", "Patchy snow nearby" ->
+                                       "cur_snowy";
+                               case "Moderate or heavy rain in area with thunder",
+                                       "Patchy light rain in area with thunder" ->
+                                       "cur_thunderstorm";
+                               case "Moderate or heavy showers of ice pellets", "Heavy rain, mist",
+                                       "Light showers of ice pellets", "Moderate or heavy sleet showers",
+                                       "Light sleet showers", "Torrential rain shower",
+                                       "Moderate or heavy rain shower", "Light rain shower", "Moderate or heavy sleet",
+                                       "Light sleet", "Moderate or Heavy freezing rain", "Heavy rain", "Moderate rain",
+                                       "Light freezing rain", "Moderate rain at times", "Heavy rain at times",
+                                       "Rain shower", "Light rain", "Patchy light rain", "Patchy sleet nearby",
+                                       "Patchy rain nearby" ->
+                                       "cur_rainy";
+                               case "Heavy freezing drizzle", "Freezing drizzle", "Light drizzle",
+                                       "Patchy light drizzle", "Freezing fog", "Fog",
+                                       "Patchy freezing drizzle nearby", "Mist" ->
+                                       "cur_foggy";
+                               case "Thundery outbreaks in nearby" -> "cur_";
+                               case "Partly Cloudy" -> "cur_partly_cloudy";
+                               case "Clear", "Clear " -> "cur_clear_night";
+                               case "Sunny" -> "cur_sunny";
+                               default -> "cur_cloudy";
+                           };
+                           cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 100, 100);
+                           cur_conditions.setIcon(cur_con_icon);
+
+                       }
+                   }
+
+
+                   for (JsonElement jsonElement4 : forecast_array) {
+                       JsonObject wObj0 = jsonElement4.getAsJsonObject();
+                       String stringDate = wObj0.get("date").getAsString();
+                       if (stringDate.equalsIgnoreCase(formattedDate)) {
+                           materialTabbedPane2.setTitleAt(0, formattedDate); // change tab title
+                           JsonArray fcast0 = wObj0.get("hourly").getAsJsonArray();
+                           for (JsonElement jsonElement5 : fcast0) {
+                               JsonObject h2 = jsonElement5.getAsJsonObject();
+                               String stringTime = h2.get("time").getAsString();
+
+                               if (stringTime.equalsIgnoreCase("600")) {
+                                   fm_temp.setText(h2.get("tempC").getAsString() + "°C");
+                                   fm_h.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
+                                   fm_ws.setText("WindSpeed: " + h2.get("windspeedKmph").getAsString() + " kmph");
+                                   fm_uv.setText("UV: " + h2.get("uvIndex").getAsString());
+                                   JsonArray description_subarray = h2.get("weatherDesc").getAsJsonArray();
+
+                                   for (JsonElement jsonElement11 : description_subarray) {
+                                       JsonObject m = jsonElement11.getAsJsonObject();
+                                       fm_description.setText(m.get("value").getAsString());
+                                       String desc = m.get("value").getAsString();
+                                       String temp_cur_icn = switch (desc) {
+                                           case "Moderate or heavy snow in area with thunder",
+                                                   "Patchy light snow in area with thunder",
+                                                   "Moderate or heavy snow showers",
+                                                   "Light snow showers", "Ice pellets", "Heavy snow",
+                                                   "Patchy heavy snow", "Moderate snow", "Light snow",
+                                                   "Patchy moderate snow", "Patchy light snow", "Blizzard",
+                                                   "Blowing snow", "Patchy snow nearby" -> "snowy";
+                                           case "Moderate or heavy rain in area with thunder",
+                                                   "Patchy light rain in area with thunder",
+                                                   "Thundery outbreaks in nearby" -> "thunderstorm";
+                                           case "Moderate or heavy showers of ice pellets",
+                                                   "Light showers of ice pellets", "Moderate or heavy sleet showers",
+                                                   "Light sleet showers", "Torrential rain shower",
+                                                   "Moderate or heavy rain shower", "Light rain shower",
+                                                   "Moderate or heavy sleet", "Light sleet",
+                                                   "Moderate or Heavy freezing rain", "Light freezing rain",
+                                                   "Heavy rain", "Heavy rain at times", "Moderate rain",
+                                                   "Moderate rain at times", "Rain shower", "Light rain",
+                                                   "Patchy light rain", "Patchy sleet nearby", "Patchy rain nearby",
+                                                   "Heavy rain, mist" -> "rainy";
+                                           case "Heavy freezing drizzle", "Freezing drizzle", "Light drizzle",
+                                                   "Patchy light drizzle", "Freezing fog", "Fog",
+                                                   "Patchy freezing drizzle nearby", "Mist" -> "foggy";
+                                           case "Partly Cloudy" -> "partly_cloudy";
+                                           case "Clear", "Sunny", "Clear " -> "sunny";
+                                           default -> "cloudy";
+                                       };
+                                       cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
+                                       fm_icon.setIcon(cur_con_icon);
+                                   }
+                               } else if (stringTime.equalsIgnoreCase("1200")) {
+                                   fn_temp.setText(h2.get("tempC").getAsString() + "°C");
+                                   fn_h.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
+                                   fn_ws.setText("WindSpeed: " + h2.get("windspeedKmph").getAsString() + " kmph");
+                                   fn_uv.setText("UV: " + h2.get("uvIndex").getAsString());
+                                   JsonArray description_subarray = h2.get("weatherDesc").getAsJsonArray();
+
+                                   for (JsonElement jsonElement10 : description_subarray) {
+                                       JsonObject n = jsonElement10.getAsJsonObject();
+                                       fn_description.setText(n.get("value").getAsString());
+                                       String desc = n.get("value").getAsString();
+                                       String temp_cur_icn = switch (desc) {
+                                           case "Moderate or heavy snow in area with thunder",
+                                                   "Patchy light snow in area with thunder",
+                                                   "Moderate or heavy snow showers",
+                                                   "Light snow showers", "Ice pellets", "Heavy snow",
+                                                   "Patchy heavy snow", "Moderate snow", "Light snow",
+                                                   "Patchy moderate snow", "Patchy light snow", "Blizzard",
+                                                   "Blowing snow", "Patchy snow nearby" -> "snowy";
+                                           case "Moderate or heavy rain in area with thunder",
+                                                   "Patchy light rain in area with thunder",
+                                                   "Thundery outbreaks in nearby" -> "thunderstorm";
+                                           case "Moderate or heavy showers of ice pellets",
+                                                   "Light showers of ice pellets", "Moderate or heavy sleet showers",
+                                                   "Light sleet showers", "Torrential rain shower",
+                                                   "Moderate or heavy rain shower", "Light rain shower",
+                                                   "Moderate or heavy sleet", "Light sleet",
+                                                   "Moderate or Heavy freezing rain", "Light freezing rain",
+                                                   "Heavy rain", "Heavy rain at times", "Moderate rain",
+                                                   "Moderate rain at times", "Rain shower", "Light rain",
+                                                   "Patchy light rain", "Patchy sleet nearby", "Patchy rain nearby",
+                                                   "Heavy rain, mist" -> "rainy";
+                                           case "Heavy freezing drizzle", "Freezing drizzle", "Light drizzle",
+                                                   "Patchy light drizzle", "Freezing fog", "Fog",
+                                                   "Patchy freezing drizzle nearby", "Mist" -> "foggy";
+                                           case "Partly Cloudy" -> "partly_cloudy";
+                                           case "Clear", "Sunny", "Clear " -> "sunny";
+                                           default -> "cloudy";
+                                       };
+                                       cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
+                                       fn_icon.setIcon(cur_con_icon);
+                                   }
+                               } else if (stringTime.equalsIgnoreCase("1800")) {
+                                   fe_temp.setText(h2.get("tempC").getAsString() + "°C");
+                                   fe_h.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
+                                   fe_ws.setText("WindSpeed: " + h2.get("windspeedKmph").getAsString() + " kmph");
+                                   fe_uv.setText("UV: " + h2.get("uvIndex").getAsString());
+                                   JsonArray description_subarray = h2.get("weatherDesc").getAsJsonArray();
+
+                                   for (JsonElement jsonElement9 : description_subarray) {
+                                       JsonObject e = jsonElement9.getAsJsonObject();
+                                       fe_description.setText(e.get("value").getAsString());
+                                       String desc = e.get("value").getAsString();
+                                       String temp_cur_icn = switch (desc) {
+                                           case "Moderate or heavy snow in area with thunder",
+                                                   "Patchy light snow in area with thunder",
+                                                   "Moderate or heavy snow showers",
+                                                   "Light snow showers", "Ice pellets", "Heavy snow",
+                                                   "Patchy heavy snow", "Moderate snow", "Light snow",
+                                                   "Patchy moderate snow", "Patchy light snow", "Blizzard",
+                                                   "Blowing snow", "Patchy snow nearby" -> "snowy";
+                                           case "Moderate or heavy rain in area with thunder",
+                                                   "Patchy light rain in area with thunder",
+                                                   "Thundery outbreaks in nearby" -> "thunderstorm";
+                                           case "Moderate or heavy showers of ice pellets",
+                                                   "Light showers of ice pellets", "Moderate or heavy sleet showers",
+                                                   "Light sleet showers", "Torrential rain shower",
+                                                   "Moderate or heavy rain shower", "Light rain shower",
+                                                   "Moderate or heavy sleet", "Light sleet",
+                                                   "Moderate or Heavy freezing rain", "Light freezing rain",
+                                                   "Heavy rain", "Heavy rain at times", "Moderate rain",
+                                                   "Moderate rain at times", "Rain shower", "Light rain",
+                                                   "Patchy light rain", "Patchy sleet nearby", "Patchy rain nearby",
+                                                   "Heavy rain, mist" -> "rainy";
+                                           case "Heavy freezing drizzle", "Freezing drizzle", "Light drizzle",
+                                                   "Patchy light drizzle", "Freezing fog", "Fog",
+                                                   "Patchy freezing drizzle nearby", "Mist" -> "foggy";
+                                           case "Partly Cloudy" -> "partly_cloudy";
+                                           case "Clear", "Sunny", "Clear " -> "sunny";
+                                           default -> "cloudy";
+                                       };
+                                       cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
+                                       fe_icon.setIcon(cur_con_icon);
+
+
+                                   }
+                               } else if (stringTime.equalsIgnoreCase("2100")) {
+                                   fnt_temp.setText(h2.get("tempC").getAsString() + "°C");
+                                   fnt_h.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
+                                   fnt_ws.setText("WindSpeed: " + h2.get("windspeedKmph").getAsString() + " kmph");
+                                   fnt_uv.setText("UV: " + h2.get("uvIndex").getAsString());
+                                   JsonArray description_subarray = h2.get("weatherDesc").getAsJsonArray();
+
+                                   for (JsonElement jsonElement8 : description_subarray) {
+                                       JsonObject nt = jsonElement8.getAsJsonObject();
+                                       fnt_description.setText(nt.get("value").getAsString());
+
+                                       String desc = nt.get("value").getAsString();
+                                       String temp_cur_icn = switch (desc) {
+                                           case "Moderate or heavy snow in area with thunder",
+                                                   "Patchy light snow in area with thunder",
+                                                   "Moderate or heavy snow showers",
+                                                   "Light snow showers", "Ice pellets", "Heavy snow",
+                                                   "Patchy heavy snow", "Moderate snow", "Light snow",
+                                                   "Patchy moderate snow", "Patchy light snow", "Blizzard",
+                                                   "Blowing snow", "Patchy snow nearby" -> "snowy";
+                                           case "Moderate or heavy rain in area with thunder",
+                                                   "Patchy light rain in area with thunder",
+                                                   "Thundery outbreaks in nearby" -> "thunderstorm";
+                                           case "Moderate or heavy showers of ice pellets",
+                                                   "Light showers of ice pellets", "Moderate or heavy sleet showers",
+                                                   "Light sleet showers", "Torrential rain shower",
+                                                   "Moderate or heavy rain shower", "Light rain shower",
+                                                   "Moderate or heavy sleet", "Light sleet",
+                                                   "Moderate or Heavy freezing rain", "Light freezing rain",
+                                                   "Heavy rain", "Heavy rain at times", "Moderate rain",
+                                                   "Moderate rain at times", "Rain shower", "Light rain",
+                                                   "Patchy light rain", "Patchy sleet nearby", "Patchy rain nearby",
+                                                   "Heavy rain, mist" -> "rainy";
+                                           case "Heavy freezing drizzle", "Freezing drizzle", "Light drizzle",
+                                                   "Patchy light drizzle", "Freezing fog", "Fog",
+                                                   "Patchy freezing drizzle nearby", "Mist" -> "foggy";
+                                           case "Partly Cloudy" -> "partly_cloudy";
+                                           case "Clear", "Sunny", "Clear " -> "clear_night";
+                                           default -> "cloudy";
+                                       };
+                                       cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
+                                       fnt_icon.setIcon(cur_con_icon);
+                                   }
+                               }
+                           }
+                           // TOMORROW
+                       }else if (stringDate.equalsIgnoreCase(dateTomorrow)) {
+                           materialTabbedPane2.setTitleAt(1, dateTomorrow); // change tab title
+                           JsonArray fcast0 = wObj0.get("hourly").getAsJsonArray();
+                           for (JsonElement jsonElement5 : fcast0) {
+                               JsonObject h2 = jsonElement5.getAsJsonObject();
+                               String stringTime = h2.get("time").getAsString();
+
+                               if (stringTime.equalsIgnoreCase("600")) {
+                                   fm_temp1.setText(h2.get("tempC").getAsString() + "°C");
+                                   fm_h1.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
+                                   fm_ws1.setText("WindSpeed: " + h2.get("windspeedKmph").getAsString() + " kmph");
+                                   fm_uv1.setText("UV: " + h2.get("uvIndex").getAsString());
+                                   JsonArray description_subarray = h2.get("weatherDesc").getAsJsonArray();
+
+                                   for (JsonElement jsonElement11 : description_subarray) {
+                                       JsonObject m = jsonElement11.getAsJsonObject();
+                                       fm_description1.setText(m.get("value").getAsString());
+                                       String desc = m.get("value").getAsString();
+                                       String temp_cur_icn = switch (desc) {
+                                           case "Moderate or heavy snow in area with thunder",
+                                                   "Patchy light snow in area with thunder",
+                                                   "Moderate or heavy snow showers",
+                                                   "Light snow showers", "Ice pellets", "Heavy snow",
+                                                   "Patchy heavy snow", "Moderate snow", "Light snow",
+                                                   "Patchy moderate snow", "Patchy light snow", "Blizzard",
+                                                   "Blowing snow", "Patchy snow nearby" -> "snowy";
+                                           case "Moderate or heavy rain in area with thunder",
+                                                   "Patchy light rain in area with thunder",
+                                                   "Thundery outbreaks in nearby" -> "thunderstorm";
+                                           case "Moderate or heavy showers of ice pellets",
+                                                   "Light showers of ice pellets", "Moderate or heavy sleet showers",
+                                                   "Light sleet showers", "Torrential rain shower",
+                                                   "Moderate or heavy rain shower", "Light rain shower",
+                                                   "Moderate or heavy sleet", "Light sleet",
+                                                   "Moderate or Heavy freezing rain", "Light freezing rain",
+                                                   "Heavy rain", "Heavy rain at times", "Moderate rain",
+                                                   "Moderate rain at times", "Rain shower", "Light rain",
+                                                   "Patchy light rain", "Patchy sleet nearby", "Patchy rain nearby",
+                                                   "Heavy rain, mist" -> "rainy";
+                                           case "Heavy freezing drizzle", "Freezing drizzle", "Light drizzle",
+                                                   "Patchy light drizzle", "Freezing fog", "Fog",
+                                                   "Patchy freezing drizzle nearby", "Mist" -> "foggy";
+                                           case "Partly Cloudy" -> "partly_cloudy";
+                                           case "Clear", "Sunny", "Clear " -> "sunny";
+                                           default -> "cloudy";
+                                       };
+                                       cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
+                                       fm_icon1.setIcon(cur_con_icon);
+                                   }
+                               } else if (stringTime.equalsIgnoreCase("1200")) {
+                                   fn_temp1.setText(h2.get("tempC").getAsString() + "°C");
+                                   fn_h1.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
+                                   fn_ws1.setText("WindSpeed: " + h2.get("windspeedKmph").getAsString() + " kmph");
+                                   fn_uv1.setText("UV: " + h2.get("uvIndex").getAsString());
+                                   JsonArray description_subarray = h2.get("weatherDesc").getAsJsonArray();
+
+                                   for (JsonElement jsonElement10 : description_subarray) {
+                                       JsonObject n = jsonElement10.getAsJsonObject();
+                                       fn_description1.setText(n.get("value").getAsString());
+                                       String desc = n.get("value").getAsString();
+                                       String temp_cur_icn = switch (desc) {
+                                           case "Moderate or heavy snow in area with thunder",
+                                                   "Patchy light snow in area with thunder",
+                                                   "Moderate or heavy snow showers",
+                                                   "Light snow showers", "Ice pellets", "Heavy snow",
+                                                   "Patchy heavy snow", "Moderate snow", "Light snow",
+                                                   "Patchy moderate snow", "Patchy light snow", "Blizzard",
+                                                   "Blowing snow", "Patchy snow nearby" -> "snowy";
+                                           case "Moderate or heavy rain in area with thunder",
+                                                   "Patchy light rain in area with thunder",
+                                                   "Thundery outbreaks in nearby" -> "thunderstorm";
+                                           case "Moderate or heavy showers of ice pellets",
+                                                   "Light showers of ice pellets", "Moderate or heavy sleet showers",
+                                                   "Light sleet showers", "Torrential rain shower",
+                                                   "Moderate or heavy rain shower", "Light rain shower",
+                                                   "Moderate or heavy sleet", "Light sleet",
+                                                   "Moderate or Heavy freezing rain", "Light freezing rain",
+                                                   "Heavy rain", "Heavy rain at times", "Moderate rain",
+                                                   "Moderate rain at times", "Rain shower", "Light rain",
+                                                   "Patchy light rain", "Patchy sleet nearby", "Patchy rain nearby",
+                                                   "Heavy rain, mist" -> "rainy";
+                                           case "Heavy freezing drizzle", "Freezing drizzle", "Light drizzle",
+                                                   "Patchy light drizzle", "Freezing fog", "Fog",
+                                                   "Patchy freezing drizzle nearby", "Mist" -> "foggy";
+                                           case "Partly Cloudy" -> "partly_cloudy";
+                                           case "Clear", "Sunny", "Clear " -> "sunny";
+                                           default -> "cloudy";
+                                       };
+                                       cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
+                                       fn_icon1.setIcon(cur_con_icon);
+                                   }
+                               } else if (stringTime.equalsIgnoreCase("1800")) {
+                                   fe_temp1.setText(h2.get("tempC").getAsString() + "°C");
+                                   fe_h1.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
+                                   fe_ws1.setText("WindSpeed: " + h2.get("windspeedKmph").getAsString() + " kmph");
+                                   fe_uv1.setText("UV: " + h2.get("uvIndex").getAsString());
+                                   JsonArray description_subarray = h2.get("weatherDesc").getAsJsonArray();
+
+                                   for (JsonElement jsonElement9 : description_subarray) {
+                                       JsonObject e = jsonElement9.getAsJsonObject();
+                                       fe_description1.setText(e.get("value").getAsString());
+                                       String desc = e.get("value").getAsString();
+                                       String temp_cur_icn = switch (desc) {
+                                           case "Moderate or heavy snow in area with thunder",
+                                                   "Patchy light snow in area with thunder",
+                                                   "Moderate or heavy snow showers",
+                                                   "Light snow showers", "Ice pellets", "Heavy snow",
+                                                   "Patchy heavy snow", "Moderate snow", "Light snow",
+                                                   "Patchy moderate snow", "Patchy light snow", "Blizzard",
+                                                   "Blowing snow", "Patchy snow nearby" -> "snowy";
+                                           case "Moderate or heavy rain in area with thunder",
+                                                   "Patchy light rain in area with thunder",
+                                                   "Thundery outbreaks in nearby" -> "thunderstorm";
+                                           case "Moderate or heavy showers of ice pellets",
+                                                   "Light showers of ice pellets", "Moderate or heavy sleet showers",
+                                                   "Light sleet showers", "Torrential rain shower",
+                                                   "Moderate or heavy rain shower", "Light rain shower",
+                                                   "Moderate or heavy sleet", "Light sleet",
+                                                   "Moderate or Heavy freezing rain", "Light freezing rain",
+                                                   "Heavy rain", "Heavy rain at times", "Moderate rain",
+                                                   "Moderate rain at times", "Rain shower", "Light rain",
+                                                   "Patchy light rain", "Patchy sleet nearby", "Patchy rain nearby",
+                                                   "Heavy rain, mist" -> "rainy";
+                                           case "Heavy freezing drizzle", "Freezing drizzle", "Light drizzle",
+                                                   "Patchy light drizzle", "Freezing fog", "Fog",
+                                                   "Patchy freezing drizzle nearby", "Mist" -> "foggy";
+                                           case "Partly Cloudy" -> "partly_cloudy";
+                                           case "Clear", "Sunny", "Clear " -> "sunny";
+                                           default -> "cloudy";
+                                       };
+                                       cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
+                                       fe_icon1.setIcon(cur_con_icon);
+
+
+                                   }
+                               } else if (stringTime.equalsIgnoreCase("2100")) {
+                                   fnt_temp1.setText(h2.get("tempC").getAsString() + "°C");
+                                   fnt_h1.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
+                                   fnt_ws1.setText("WindSpeed: " + h2.get("windspeedKmph").getAsString() + " kmph");
+                                   fnt_uv1.setText("UV: " + h2.get("uvIndex").getAsString());
+                                   JsonArray description_subarray = h2.get("weatherDesc").getAsJsonArray();
+
+                                   for (JsonElement jsonElement8 : description_subarray) {
+                                       JsonObject nt = jsonElement8.getAsJsonObject();
+                                       fnt_description1.setText(nt.get("value").getAsString());
+
+                                       String desc = nt.get("value").getAsString();
+                                       String temp_cur_icn = switch (desc) {
+                                           case "Moderate or heavy snow in area with thunder",
+                                                   "Patchy light snow in area with thunder",
+                                                   "Moderate or heavy snow showers",
+                                                   "Light snow showers", "Ice pellets", "Heavy snow",
+                                                   "Patchy heavy snow", "Moderate snow", "Light snow",
+                                                   "Patchy moderate snow", "Patchy light snow", "Blizzard",
+                                                   "Blowing snow", "Patchy snow nearby" -> "snowy";
+                                           case "Moderate or heavy rain in area with thunder",
+                                                   "Patchy light rain in area with thunder",
+                                                   "Thundery outbreaks in nearby" -> "thunderstorm";
+                                           case "Moderate or heavy showers of ice pellets",
+                                                   "Light showers of ice pellets", "Moderate or heavy sleet showers",
+                                                   "Light sleet showers", "Torrential rain shower",
+                                                   "Moderate or heavy rain shower", "Light rain shower",
+                                                   "Moderate or heavy sleet", "Light sleet",
+                                                   "Moderate or Heavy freezing rain", "Light freezing rain",
+                                                   "Heavy rain", "Heavy rain at times", "Moderate rain",
+                                                   "Moderate rain at times", "Rain shower", "Light rain",
+                                                   "Patchy light rain", "Patchy sleet nearby", "Patchy rain nearby",
+                                                   "Heavy rain, mist" -> "rainy";
+                                           case "Heavy freezing drizzle", "Freezing drizzle", "Light drizzle",
+                                                   "Patchy light drizzle", "Freezing fog", "Fog",
+                                                   "Patchy freezing drizzle nearby", "Mist" -> "foggy";
+                                           case "Partly Cloudy" -> "partly_cloudy";
+                                           case "Clear", "Sunny", "Clear " -> "clear_night";
+                                           default -> "cloudy";
+                                       };
+                                       cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
+                                       fnt_icon1.setIcon(cur_con_icon);
+                                   }
+                               }
+                           }
+                           // DAY AFTER TOMORROW
+                       }else if (stringDate.equalsIgnoreCase(formattedDayAfterTomorrowDate)) {
+                           materialTabbedPane2.setTitleAt(2, formattedDayAfterTomorrowDate); // change tab title
+
+                           JsonArray fcast0 = wObj0.get("hourly").getAsJsonArray();
+                           for (JsonElement jsonElement5 : fcast0) {
+                               JsonObject h2 = jsonElement5.getAsJsonObject();
+                               String stringTime = h2.get("time").getAsString();
+
+                               if (stringTime.equalsIgnoreCase("600")) {
+                                   fm_temp2.setText(h2.get("tempC").getAsString() + "°C");
+                                   fm_h2.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
+                                   fm_ws2.setText("WindSpeed: " + h2.get("windspeedKmph").getAsString() + " kmph");
+                                   fm_uv2.setText("UV: " + h2.get("uvIndex").getAsString());
+                                   JsonArray description_subarray = h2.get("weatherDesc").getAsJsonArray();
+
+                                   for (JsonElement jsonElement11 : description_subarray) {
+                                       JsonObject m = jsonElement11.getAsJsonObject();
+                                       fm_description2.setText(m.get("value").getAsString());
+                                       String desc = m.get("value").getAsString();
+                                       String temp_cur_icn = switch (desc) {
+                                           case "Moderate or heavy snow in area with thunder",
+                                                   "Patchy light snow in area with thunder",
+                                                   "Moderate or heavy snow showers",
+                                                   "Light snow showers", "Ice pellets", "Heavy snow",
+                                                   "Patchy heavy snow", "Moderate snow", "Light snow",
+                                                   "Patchy moderate snow", "Patchy light snow", "Blizzard",
+                                                   "Blowing snow", "Patchy snow nearby" -> "snowy";
+                                           case "Moderate or heavy rain in area with thunder",
+                                                   "Patchy light rain in area with thunder",
+                                                   "Thundery outbreaks in nearby" -> "thunderstorm";
+                                           case "Moderate or heavy showers of ice pellets",
+                                                   "Light showers of ice pellets", "Moderate or heavy sleet showers",
+                                                   "Light sleet showers", "Torrential rain shower",
+                                                   "Moderate or heavy rain shower", "Light rain shower",
+                                                   "Moderate or heavy sleet", "Light sleet",
+                                                   "Moderate or Heavy freezing rain", "Light freezing rain",
+                                                   "Heavy rain", "Heavy rain at times", "Moderate rain",
+                                                   "Moderate rain at times", "Rain shower", "Light rain",
+                                                   "Patchy light rain", "Patchy sleet nearby", "Patchy rain nearby",
+                                                   "Heavy rain, mist" -> "rainy";
+                                           case "Heavy freezing drizzle", "Freezing drizzle", "Light drizzle",
+                                                   "Patchy light drizzle", "Freezing fog", "Fog",
+                                                   "Patchy freezing drizzle nearby", "Mist" -> "foggy";
+                                           case "Partly Cloudy" -> "partly_cloudy";
+                                           case "Clear", "Sunny", "Clear " -> "sunny";
+                                           default -> "cloudy";
+                                       };
+                                       cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
+                                       fm_icon2.setIcon(cur_con_icon);
+                                   }
+                               } else if (stringTime.equalsIgnoreCase("1200")) {
+                                   fn_temp2.setText(h2.get("tempC").getAsString() + "°C");
+                                   fn_h2.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
+                                   fn_ws2.setText("WindSpeed: " + h2.get("windspeedKmph").getAsString() + " kmph");
+                                   fn_uv2.setText("UV: " + h2.get("uvIndex").getAsString());
+                                   JsonArray description_subarray = h2.get("weatherDesc").getAsJsonArray();
+
+                                   for (JsonElement jsonElement10 : description_subarray) {
+                                       JsonObject n = jsonElement10.getAsJsonObject();
+                                       fn_description2.setText(n.get("value").getAsString());
+                                       String desc = n.get("value").getAsString();
+                                       String temp_cur_icn = switch (desc) {
+                                           case "Moderate or heavy snow in area with thunder",
+                                                   "Patchy light snow in area with thunder",
+                                                   "Moderate or heavy snow showers",
+                                                   "Light snow showers", "Ice pellets", "Heavy snow",
+                                                   "Patchy heavy snow", "Moderate snow", "Light snow",
+                                                   "Patchy moderate snow", "Patchy light snow", "Blizzard",
+                                                   "Blowing snow", "Patchy snow nearby" -> "snowy";
+                                           case "Moderate or heavy rain in area with thunder",
+                                                   "Patchy light rain in area with thunder",
+                                                   "Thundery outbreaks in nearby" -> "thunderstorm";
+                                           case "Moderate or heavy showers of ice pellets",
+                                                   "Light showers of ice pellets", "Moderate or heavy sleet showers",
+                                                   "Light sleet showers", "Torrential rain shower",
+                                                   "Moderate or heavy rain shower", "Light rain shower",
+                                                   "Moderate or heavy sleet", "Light sleet",
+                                                   "Moderate or Heavy freezing rain", "Light freezing rain",
+                                                   "Heavy rain", "Heavy rain at times", "Moderate rain",
+                                                   "Moderate rain at times", "Rain shower", "Light rain",
+                                                   "Patchy light rain", "Patchy sleet nearby", "Patchy rain nearby",
+                                                   "Heavy rain, mist" -> "rainy";
+                                           case "Heavy freezing drizzle", "Freezing drizzle", "Light drizzle",
+                                                   "Patchy light drizzle", "Freezing fog", "Fog",
+                                                   "Patchy freezing drizzle nearby", "Mist" -> "foggy";
+                                           case "Partly Cloudy" -> "partly_cloudy";
+                                           case "Clear", "Sunny", "Clear " -> "sunny";
+                                           default -> "cloudy";
+                                       };
+                                       cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
+                                       fn_icon2.setIcon(cur_con_icon);
+                                   }
+                               } else if (stringTime.equalsIgnoreCase("1800")) {
+                                   fe_temp2.setText(h2.get("tempC").getAsString() + "°C");
+                                   fe_h2.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
+                                   fe_ws2.setText("WindSpeed: " + h2.get("windspeedKmph").getAsString() + " kmph");
+                                   fe_uv2.setText("UV: " + h2.get("uvIndex").getAsString());
+                                   JsonArray description_subarray = h2.get("weatherDesc").getAsJsonArray();
+
+                                   for (JsonElement jsonElement9 : description_subarray) {
+                                       JsonObject e = jsonElement9.getAsJsonObject();
+                                       fe_description2.setText(e.get("value").getAsString());
+                                       String desc = e.get("value").getAsString();
+                                       String temp_cur_icn = switch (desc) {
+                                           case "Moderate or heavy snow in area with thunder",
+                                                   "Patchy light snow in area with thunder",
+                                                   "Moderate or heavy snow showers",
+                                                   "Light snow showers", "Ice pellets", "Heavy snow",
+                                                   "Patchy heavy snow", "Moderate snow", "Light snow",
+                                                   "Patchy moderate snow", "Patchy light snow", "Blizzard",
+                                                   "Blowing snow", "Patchy snow nearby" -> "snowy";
+                                           case "Moderate or heavy rain in area with thunder",
+                                                   "Patchy light rain in area with thunder",
+                                                   "Thundery outbreaks in nearby" -> "thunderstorm";
+                                           case "Moderate or heavy showers of ice pellets",
+                                                   "Light showers of ice pellets", "Moderate or heavy sleet showers",
+                                                   "Light sleet showers", "Torrential rain shower",
+                                                   "Moderate or heavy rain shower", "Light rain shower",
+                                                   "Moderate or heavy sleet", "Light sleet",
+                                                   "Moderate or Heavy freezing rain", "Light freezing rain",
+                                                   "Heavy rain", "Heavy rain at times", "Moderate rain",
+                                                   "Moderate rain at times", "Rain shower", "Light rain",
+                                                   "Patchy light rain", "Patchy sleet nearby", "Patchy rain nearby",
+                                                   "Heavy rain, mist" -> "rainy";
+                                           case "Heavy freezing drizzle", "Freezing drizzle", "Light drizzle",
+                                                   "Patchy light drizzle", "Freezing fog", "Fog",
+                                                   "Patchy freezing drizzle nearby", "Mist" -> "foggy";
+                                           case "Partly Cloudy" -> "partly_cloudy";
+                                           case "Clear", "Sunny", "Clear " -> "sunny";
+                                           default -> "cloudy";
+                                       };
+                                       cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
+                                       fe_icon2.setIcon(cur_con_icon);
+
+
+                                   }
+                               } else if (stringTime.equalsIgnoreCase("2100")) {
+                                   fnt_temp2.setText(h2.get("tempC").getAsString() + "°C");
+                                   fnt_h2.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
+                                   fnt_ws2.setText("WindSpeed: " + h2.get("windspeedKmph").getAsString() + " kmph");
+                                   fnt_uv2.setText("UV: " + h2.get("uvIndex").getAsString());
+                                   JsonArray description_subarray = h2.get("weatherDesc").getAsJsonArray();
+
+                                   for (JsonElement jsonElement8 : description_subarray) {
+                                       JsonObject nt = jsonElement8.getAsJsonObject();
+                                       fnt_description2.setText(nt.get("value").getAsString());
+
+                                       String desc = nt.get("value").getAsString();
+                                       String temp_cur_icn = switch (desc) {
+                                           case "Moderate or heavy snow in area with thunder",
+                                                   "Patchy light snow in area with thunder",
+                                                   "Moderate or heavy snow showers",
+                                                   "Light snow showers", "Ice pellets", "Heavy snow",
+                                                   "Patchy heavy snow", "Moderate snow", "Light snow",
+                                                   "Patchy moderate snow", "Patchy light snow", "Blizzard",
+                                                   "Blowing snow", "Patchy snow nearby" -> "snowy";
+                                           case "Moderate or heavy rain in area with thunder",
+                                                   "Patchy light rain in area with thunder",
+                                                   "Thundery outbreaks in nearby" -> "thunderstorm";
+                                           case "Moderate or heavy showers of ice pellets",
+                                                   "Light showers of ice pellets", "Moderate or heavy sleet showers",
+                                                   "Light sleet showers", "Torrential rain shower",
+                                                   "Moderate or heavy rain shower", "Light rain shower",
+                                                   "Moderate or heavy sleet", "Light sleet",
+                                                   "Moderate or Heavy freezing rain", "Light freezing rain",
+                                                   "Heavy rain", "Heavy rain at times", "Moderate rain",
+                                                   "Moderate rain at times", "Rain shower", "Light rain",
+                                                   "Patchy light rain", "Patchy sleet nearby", "Patchy rain nearby",
+                                                   "Heavy rain, mist" -> "rainy";
+                                           case "Heavy freezing drizzle", "Freezing drizzle", "Light drizzle",
+                                                   "Patchy light drizzle", "Freezing fog", "Fog",
+                                                   "Patchy freezing drizzle nearby", "Mist" -> "foggy";
+                                           case "Partly Cloudy" -> "partly_cloudy";
+                                           case "Clear", "Sunny", "Clear " -> "clear_night";
+                                           default -> "cloudy";
+                                       };
+                                       cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
+                                       fnt_icon2.setIcon(cur_con_icon);
+                                   }
+                               }
+                           }
+                       }
+                   }
+               } else {
+                   searchError.setText("City not found");
+               }      
            } catch (Exception e) {
                    System.out.println("It doesn't exist1");
+                   System.out.println(e);
+                   //searchError.setText("City not found");
            }
 
      } catch (Exception e) {
-                   System.out.println("It doesn't exist2");
+                   System.out.println(e);
+                   searchError.setText("City not found");
      }
-             
-            
-            
-
-
-    
-
-             
-  
-          
     }//GEN-LAST:event_searchBar1ActionPerformed
 
+    private void saveButton1MouseClicked(MouseEvent evt) {//GEN-FIRST:event_saveButton1MouseClicked
+        double cityTemp = Double.parseDouble(cur_temp.getText().split("°")[0]);
+        int cityHumidity = Integer.parseInt(h.getText().split("%")[0]);
+        int cityUv = Integer.parseInt(uv.getText());
+        double cityWind = Double.parseDouble(ws.getText().split(" ")[0]);
+        String cityName = cityLabel.getText().split(",")[0];
+        String[] bits = dateLabel.getText().split(": ");
+        String dateLast = bits[bits.length-1];
+             Database connectDB = Database.getConnectionInstance();
+             connectDB.insertMeteoData(cityName, dateLast, cityTemp,
+                     cityHumidity, cityUv, cityWind, description.getText());
+    }//GEN-LAST:event_saveButton1MouseClicked
 
+    private void saveButton1ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_saveButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_saveButton1ActionPerformed
+
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel cityLabel;
     private javax.swing.JLabel city_icon;
-    private javax.swing.JPanel column;
-    private javax.swing.JPanel column1;
-    private javax.swing.JPanel column2;
+    private javax.swing.JPanel column12;
+    private javax.swing.JPanel column15;
+    private javax.swing.JPanel column16;
+    private javax.swing.JPanel column17;
+    private javax.swing.JPanel column18;
+    private javax.swing.JPanel column19;
+    private javax.swing.JPanel column20;
+    private javax.swing.JPanel column21;
+    private javax.swing.JPanel column22;
     private javax.swing.JLabel cur_conditions;
     private javax.swing.JLabel cur_temp;
     private javax.swing.JLabel dateLabel;
-    private Components.DeleteButton deleteButton1;
     private javax.swing.JLabel description;
-    private Components.EditButton editButton1;
     private javax.swing.JLabel fe;
+    private javax.swing.JLabel fe1;
+    private javax.swing.JLabel fe2;
     private javax.swing.JLabel fe_description;
+    private javax.swing.JLabel fe_description1;
+    private javax.swing.JLabel fe_description2;
     private javax.swing.JLabel fe_h;
+    private javax.swing.JLabel fe_h1;
+    private javax.swing.JLabel fe_h2;
     private javax.swing.JLabel fe_icon;
+    private javax.swing.JLabel fe_icon1;
+    private javax.swing.JLabel fe_icon2;
     private javax.swing.JLabel fe_temp;
+    private javax.swing.JLabel fe_temp1;
+    private javax.swing.JLabel fe_temp2;
     private javax.swing.JLabel fe_uv;
+    private javax.swing.JLabel fe_uv1;
+    private javax.swing.JLabel fe_uv2;
     private javax.swing.JLabel fe_ws;
+    private javax.swing.JLabel fe_ws1;
+    private javax.swing.JLabel fe_ws2;
     private javax.swing.JLabel fm;
+    private javax.swing.JLabel fm1;
+    private javax.swing.JLabel fm2;
     private javax.swing.JLabel fm_description;
+    private javax.swing.JLabel fm_description1;
+    private javax.swing.JLabel fm_description2;
     private javax.swing.JLabel fm_h;
+    private javax.swing.JLabel fm_h1;
+    private javax.swing.JLabel fm_h2;
     private javax.swing.JLabel fm_icon;
+    private javax.swing.JLabel fm_icon1;
+    private javax.swing.JLabel fm_icon2;
     private javax.swing.JLabel fm_temp;
+    private javax.swing.JLabel fm_temp1;
+    private javax.swing.JLabel fm_temp2;
     private javax.swing.JLabel fm_uv;
+    private javax.swing.JLabel fm_uv1;
+    private javax.swing.JLabel fm_uv2;
     private javax.swing.JLabel fm_ws;
+    private javax.swing.JLabel fm_ws1;
+    private javax.swing.JLabel fm_ws2;
     private javax.swing.JLabel fn;
+    private javax.swing.JLabel fn1;
+    private javax.swing.JLabel fn2;
     private javax.swing.JLabel fn_description;
+    private javax.swing.JLabel fn_description1;
+    private javax.swing.JLabel fn_description2;
     private javax.swing.JLabel fn_h;
+    private javax.swing.JLabel fn_h1;
+    private javax.swing.JLabel fn_h2;
     private javax.swing.JLabel fn_icon;
+    private javax.swing.JLabel fn_icon1;
+    private javax.swing.JLabel fn_icon2;
     private javax.swing.JLabel fn_temp;
+    private javax.swing.JLabel fn_temp1;
+    private javax.swing.JLabel fn_temp2;
     private javax.swing.JLabel fn_uv;
+    private javax.swing.JLabel fn_uv1;
+    private javax.swing.JLabel fn_uv2;
     private javax.swing.JLabel fn_ws;
+    private javax.swing.JLabel fn_ws1;
+    private javax.swing.JLabel fn_ws2;
     private javax.swing.JLabel fnt;
+    private javax.swing.JLabel fnt1;
+    private javax.swing.JLabel fnt2;
     private javax.swing.JLabel fnt_description;
+    private javax.swing.JLabel fnt_description1;
+    private javax.swing.JLabel fnt_description2;
     private javax.swing.JLabel fnt_h;
+    private javax.swing.JLabel fnt_h1;
+    private javax.swing.JLabel fnt_h2;
     private javax.swing.JLabel fnt_icon;
+    private javax.swing.JLabel fnt_icon1;
+    private javax.swing.JLabel fnt_icon2;
     private javax.swing.JLabel fnt_temp;
+    private javax.swing.JLabel fnt_temp1;
+    private javax.swing.JLabel fnt_temp2;
     private javax.swing.JLabel fnt_uv;
+    private javax.swing.JLabel fnt_uv1;
+    private javax.swing.JLabel fnt_uv2;
     private javax.swing.JLabel fnt_ws;
+    private javax.swing.JLabel fnt_ws1;
+    private javax.swing.JLabel fnt_ws2;
     private javax.swing.JLabel h;
     private javax.swing.JLabel h_icon;
-    private javax.swing.JPanel line;
-    private javax.swing.JPanel line1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel line13;
+    private javax.swing.JPanel line14;
+    private javax.swing.JPanel line15;
+    private javax.swing.JPanel line16;
+    private javax.swing.JPanel line17;
+    private javax.swing.JPanel line18;
+    private Components.MaterialTabbedPane materialTabbedPane1;
+    private Components.MaterialTabbedPane materialTabbedPane2;
     private Components.SaveButton saveButton1;
     private Components.SearchBar searchBar1;
     private javax.swing.JLabel searchError;

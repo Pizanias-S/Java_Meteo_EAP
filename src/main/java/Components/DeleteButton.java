@@ -13,7 +13,7 @@ import javax.swing.JButton;
 public class DeleteButton extends JButton {
     
     private final Image img;
-    private final Dimension imageSize = new Dimension(18, 18);
+    private final Dimension imageSize = new Dimension(25, 25);
 
     public DeleteButton() {
         setContentAreaFilled(false);

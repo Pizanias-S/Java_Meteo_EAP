@@ -38,6 +38,7 @@ public class PanelBackground extends JPanel {
 
     public PanelBackground() {
         setOpaque(true);
+        
         super.setBackground(Color.BLACK);
     }
 
@@ -48,7 +49,7 @@ public class PanelBackground extends JPanel {
     }
 
     private int round = 15;
-    private Icon image;
+    private Icon image = new ImageIcon(getClass().getResource("/Icons/logo2.png"));;
     private BufferedImage bffImage;
 
     @Override
