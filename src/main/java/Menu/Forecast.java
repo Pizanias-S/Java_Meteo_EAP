@@ -1429,7 +1429,6 @@ public class Forecast extends JPanel {
         String formattedDate = dateFormat.format(currentDate);
         c.add(Calendar.DATE,1);
         String formattedDayAfterTomorrowDate = dateFormat.format(c.getTime());
-        System.out.println(formattedDayAfterTomorrowDate);
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HHmm");
         LocalDateTime now = LocalDateTime.now();
              
@@ -1533,7 +1532,6 @@ public class Forecast extends JPanel {
                    for (JsonElement jsonElement4 : forecast_array) {
                        JsonObject wObj0 = jsonElement4.getAsJsonObject();
                        String stringDate = wObj0.get("date").getAsString();
-                        System.out.println(jsonElement4);
                        if (stringDate.equalsIgnoreCase(formattedDate)) {
                            materialTabbedPane2.setTitleAt(0, formattedDate); // change tab title
                            JsonArray fcast0 = wObj0.get("hourly").getAsJsonArray();
@@ -1902,7 +1900,6 @@ public class Forecast extends JPanel {
                            JsonArray fcast0 = wObj0.get("hourly").getAsJsonArray();
                            for (JsonElement jsonElement5 : fcast0) {
                                JsonObject h2 = jsonElement5.getAsJsonObject();
-                               System.out.println(h2);
                                String stringTime = h2.get("time").getAsString();
 
                                if (stringTime.equalsIgnoreCase("600")) {

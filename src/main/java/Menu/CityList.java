@@ -4,13 +4,19 @@ import Components.ModernScrollbarUI;
 import Components.ScrollBarCustom;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+
+import Database.Database;
 import Swing.PopupDialogDelete;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 import javax.swing.JFrame;
 import javax.swing.plaf.ScrollBarUI;
 
@@ -232,7 +238,13 @@ public class CityList extends javax.swing.JPanel {
     }//GEN-LAST:event_deleteButton1ActionPerformed
 
     private void comboBox1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboBox1MouseClicked
-        
+        Database connectDB = Database.getConnectionInstance();
+        List<String> cityLists = connectDB.selectCitysbyApperance();
+        for (String city : cityLists) {
+            comboBox1.addItem(city);
+
+        }
+        System.out.println(comboBox1.getSelectedItem());
     }//GEN-LAST:event_comboBox1MouseClicked
 
     private void editButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editButton1MouseClicked

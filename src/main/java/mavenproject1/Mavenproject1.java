@@ -18,7 +18,6 @@ public class Mavenproject1 extends javax.swing.JFrame{
     private JFrame parentFrame;
     public Mavenproject1() {
         Database connectDB = Database.getConnectionInstance();
-        System.out.println(connectDB);
         connectDB.createTableCity();
         connectDB.createTableMeteoData();
         connectDB.createCityDate();
@@ -26,7 +25,6 @@ public class Mavenproject1 extends javax.swing.JFrame{
         setBackground(new Color(0.0f,0.0f,0.0f,0.0f));
         parentFrame = (JFrame) this.getParent();
         init();
-        connectDB.selectCitysbyApperance();
         mainPanel.setBackground(new Color(30,30,30));
         setForm(new Forecast());
         menu.addEvent(new EventMenu() {
