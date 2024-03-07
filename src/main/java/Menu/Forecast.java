@@ -34,7 +34,7 @@ import okhttp3.Response;
 public class Forecast extends JPanel {
     
     private ImageIcon c_icon, cur_con_icon, h_icn, ws_icn, uv_icn, fm_icn, fn_icn, fe_icn, fnt_icn;
-    private JFrame parentFrame;
+    public JFrame parentFrame;
     
         
     public Forecast() {
@@ -2140,19 +2140,19 @@ public class Forecast extends JPanel {
 
     private void saveButton1ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_saveButton1ActionPerformed
         // TODO add your handling code here:
-        PopupDialogInfo notification = new PopupDialogInfo(parentFrame);
-        notification.init();
-        notification.setInfo("Weather data saved to DB");
-        Timer timer = new Timer(1500, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                notification.setVisible(false);
-                notification.dispose();
-            }
-        });
-        timer.setRepeats(false);
-        timer.start();
-
-        notification.setVisible(true); // if modal, application will pause here
+//        PopupDialogInfo notification = new PopupDialogInfo(parentFrame);
+//        notification.init();
+//        notification.setInfo("Weather data saved to DB");
+//        Timer timer = new Timer(1500, new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                notification.setVisible(false);
+//                notification.dispose();
+//            }
+//        });
+//        timer.setRepeats(false);
+//        timer.start();
+//
+//        notification.setVisible(true);
     }//GEN-LAST:event_saveButton1ActionPerformed
 
     private void searchInfoButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchInfoButton1ActionPerformed
@@ -2160,7 +2160,7 @@ public class Forecast extends JPanel {
         PopupDialogInfo info = new PopupDialogInfo(parentFrame);
         info.init();
         info.setInfo("Tip: Search location by city & province/country, ICAO airport code or coordinates");
-        Timer timer = new Timer(3000, new ActionListener() {
+        Timer timer = new Timer(4000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 info.setVisible(false);

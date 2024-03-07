@@ -2,8 +2,12 @@ package Swing;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import Database.Database;
 
 
 public class PopupDialogEdit extends javax.swing.JDialog {
@@ -279,11 +283,24 @@ public class PopupDialogEdit extends javax.swing.JDialog {
     }//GEN-LAST:event_saveButtonMouseClicked
 
     private void button1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button1MouseClicked
-        // TODO add your handling code here:
+        String selectedDate = String.valueOf(comboBox1.getSelectedItem());
+        Database connectDB = Database.getConnectionInstance();
+        List<String> DateCityList = connectDB.selectMeteoDataByDateandCity(selectedCity, selectedDate);
+        tempTxtField.setText(DateCityList.get(0));
+        huTxtField.setText(DateCityList.get(1));
+        wsTxtField.setText(DateCityList.get(3));
+        uvTxtField.setText(DateCityList.get(2));
+        jTextField1.setText(DateCityList.get(4));
     }//GEN-LAST:event_button1MouseClicked
 
     private void comboBox1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_comboBox1FocusGained
-        // TODO add your handling code here:
+        Database connectDB = Database.getConnectionInstance();
+        List<String> DateList = connectDB.selectMeteoDataByDateCitys(selectedCity);
+        Set<String> DateSet = new TreeSet<>(DateList);
+        comboBox1.removeAllItems();
+        for (String date : DateSet) {
+            comboBox1.addItem(date);
+        }
     }//GEN-LAST:event_comboBox1FocusGained
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

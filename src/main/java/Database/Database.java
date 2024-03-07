@@ -1,7 +1,11 @@
 package Database;
 
+import Swing.PopupDialogInfo;
 import com.google.gson.JsonArray;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,6 +17,7 @@ public class Database {
     
     // create an object of Database
     private static Database connectionInstance = new Database();
+    private JFrame parentFrame;
 
     private Database() {
     }
@@ -148,7 +153,19 @@ public class Database {
             preparedStatement.setString(7, WetherDesc);
             int count = preparedStatement.executeUpdate();
             if (count > 0) {
-                showMessageDialog(null, "Meteo Data added to the db");
+                PopupDialogInfo notification = new PopupDialogInfo(parentFrame);
+                notification.init();
+                notification.setInfo("Weather data saved to DB");
+                Timer timer = new Timer(1500, new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        notification.setVisible(false);
+                        notification.dispose();
+                    }
+                });
+                timer.setRepeats(false);
+                timer.start();
+
+                notification.setVisible(true);
             } else {
                 showMessageDialog(null, "Something went wrong. Check the exception");
             }
@@ -156,7 +173,19 @@ public class Database {
             connection.close();
         } catch (SQLException throwables) {
             System.out.println(throwables.getLocalizedMessage());
-            showMessageDialog(null, "Data already exits");
+            PopupDialogInfo notification = new PopupDialogInfo(parentFrame);
+            notification.init();
+            notification.setInfo("Data already exists");
+            Timer timer = new Timer(1500, new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    notification.setVisible(false);
+                    notification.dispose();
+                }
+            });
+            timer.setRepeats(false);
+            timer.start();
+
+            notification.setVisible(true);
         }
     }
 
@@ -266,5 +295,52 @@ public class Database {
         } catch (SQLException throwables) {
             System.out.println(throwables.getLocalizedMessage());
         };
+    }
+
+    public List<String> selectMeteoDataByDateCitys(String Querry) {
+        List<String> DateList = new ArrayList<>();
+        try {
+            Connection connection = connect();
+            Statement statement = connection.createStatement();
+            String selectSQL = "Select DATETIME from METEODATA WHERE CITYNAME = '" +Querry+ "' ";
+            ResultSet rs = statement.executeQuery(selectSQL);
+            while (rs.next()) {
+                String DateName = rs.getString("DATETIME");
+                DateList.add(DateName);
+            }
+            statement.close();
+            connection.close();
+        } catch (SQLException throwables) {
+            System.out.println(throwables.getLocalizedMessage());
+        }
+        return DateList;
+    }
+
+    public List<String> selectMeteoDataByDateandCity(String Querry1, String Querry2) {
+        List<String> DateCityList = new ArrayList<>();
+        try {
+            Connection connection = connect();
+            Statement statement = connection.createStatement();
+            String selectSQL = "Select * from METEODATA WHERE CITYNAME = '" +Querry1+ "' AND DATETIME = '" +Querry2+ "' ";
+            ResultSet rs = statement.executeQuery(selectSQL);
+            while (rs.next()) {
+                String temperature = rs.getString("TEMP_C");
+                String humidity = rs.getString("HUMIDITY");
+                String uv = rs.getString("UV");
+                String wind_speed = rs.getString("WINDSPEEDKMPH");
+                String weather_desc = rs.getString("WEATHERDESC");
+                DateCityList.add(temperature);
+                DateCityList.add(humidity);
+                DateCityList.add(uv);
+                DateCityList.add(wind_speed);
+                DateCityList.add(weather_desc);
+            }
+            statement.close();
+            connection.close();
+        } catch (SQLException throwables) {
+            System.out.println(throwables.getLocalizedMessage());
+        }
+        System.out.println(DateCityList);
+        return DateCityList;
     }
 }
