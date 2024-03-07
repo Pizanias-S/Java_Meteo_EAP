@@ -94,6 +94,7 @@ public class CityList extends javax.swing.JPanel {
         comboBox1 = new Components.ComboBox();
         deleteButton1 = new Components.DeleteButton();
         editButton1 = new Components.EditButton();
+        button1 = new Swing.Button();
 
         materialTabbedPane1.setForeground(new java.awt.Color(220, 220, 220));
         materialTabbedPane1.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
@@ -125,7 +126,7 @@ public class CityList extends javax.swing.JPanel {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true, true
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -242,14 +243,6 @@ public class CityList extends javax.swing.JPanel {
                 comboBox1FocusGained(evt);
             }
         });
-        comboBox1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                comboBox1MouseClicked(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                comboBox1MouseExited(evt);
-            }
-        });
 
         deleteButton1.setForeground(new java.awt.Color(220, 220, 220));
         deleteButton1.setText("Delete");
@@ -271,6 +264,13 @@ public class CityList extends javax.swing.JPanel {
             }
         });
 
+        button1.setText("Get");
+        button1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                button1MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -280,6 +280,8 @@ public class CityList extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(comboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(editButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -299,7 +301,8 @@ public class CityList extends javax.swing.JPanel {
                     .addComponent(pdfButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(deleteButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(comboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(editButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(editButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -307,64 +310,77 @@ public class CityList extends javax.swing.JPanel {
 
 
     private void deleteButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButton1ActionPerformed
-        String city = "Sparti";
-        PopupDialogDelete obj = new PopupDialogDelete(parentFrame, city);
-        obj.setVisible(true);
-
+        String selectedCity = String.valueOf(comboBox1.getSelectedItem());
+        String IsNull = "null";
+        if (selectedCity.equals(IsNull)){
+            System.out.println("Please select a city first");
+        }else{
+            PopupDialogDelete obj = new PopupDialogDelete(parentFrame, selectedCity);
+            obj.setVisible(true);
+        }
     }//GEN-LAST:event_deleteButton1ActionPerformed
 
-    private void comboBox1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboBox1MouseClicked
-//        String x = String.valueOf(comboBox1.getSelectedItem());
-//        System.out.println(x);
-    }//GEN-LAST:event_comboBox1MouseClicked
-
     private void editButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editButton1MouseClicked
-            Database connectDB = Database.getConnectionInstance();
-            List<List> DataList = connectDB.selectMeteoDataByCity("Patra");
-            String[] columnNames1 = {"City", "Datetime", "Temperature", "Humidity", "Uv", "Wind Speed", "WeatherDesc"};
-
-            DefaultTableModel tableModel1 = new DefaultTableModel(columnNames1, 0);
-            tableDark1.setModel(tableModel1);
-            for (List DataTable : DataList) {
-                Object[] objectDataTable = DataTable.toArray(new Object[0]);
-                tableModel1.addRow(objectDataTable);
-            }
-            List<List> SearchList = connectDB.selectSerchedTimesByCity("Patra");
-            String[] columnNames2 = {"City", "Searched Date"};
-            DefaultTableModel tableModel2 = new DefaultTableModel(columnNames2, 0);
-            tableDark2.setModel(tableModel2);
-            for (List SearchTable : SearchList) {
-                Object[] objectSearchTable = SearchTable.toArray(new Object[0]);
-                tableModel2.addRow(objectSearchTable);
-            }
-            List<List> CitysList = connectDB.selectCitysbyApperance();
-            String[] columnNames3 = {"City", "Region", "Country", "Latitude", "Longitude", "Appearance"};
-            DefaultTableModel tableModel3 = new DefaultTableModel(columnNames3, 0);
-            tableDark3.setModel(tableModel3);
-            for (List CitysTable : CitysList) {
-                Object[] objectCitysTable = CitysTable.toArray(new Object[0]);
-                tableModel3.addRow(objectCitysTable);
-            }
-
-
+        System.out.println("click");
+        tableDark1.setEditingColumn(2);
+        tableDark1.setEditingColumn(3);
+        tableDark1.setEditingColumn(4);
+        tableDark1.setEditingColumn(5);
+        tableDark1.setEditingColumn(6);
     }//GEN-LAST:event_editButton1MouseClicked
 
     private void comboBox1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_comboBox1FocusGained
         Database connectDB = Database.getConnectionInstance();
         List<String> cityLists = connectDB.selectAllCitys();
         Set<String> citySet = new TreeSet<>(cityLists);
+        comboBox1.removeAllItems();
         for (String city : citySet) {
             comboBox1.addItem(city);
         }
     }//GEN-LAST:event_comboBox1FocusGained
 
-    private void comboBox1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboBox1MouseExited
-        String x = String.valueOf(comboBox1.getSelectedItem());
-        System.out.println(x);
-    }//GEN-LAST:event_comboBox1MouseExited
+    private void button1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button1MouseClicked
+        String selectedCity = String.valueOf(comboBox1.getSelectedItem()); 
+        String IsNull = "null";
+        if (selectedCity.equals(IsNull)){
+            System.out.println("Please select a city first");
+        }
+        else{
+        Database connectDB = Database.getConnectionInstance();
+        List<List> DataList = connectDB.selectMeteoDataByCity(selectedCity);
+        String[] columnNames1 = {"City", "Datetime", "Temperature", "Humidity", "Uv", "Wind Speed", "WeatherDesc"};
+
+        DefaultTableModel tableModel1 = new DefaultTableModel(columnNames1, 0);
+        tableDark1.setModel(tableModel1);
+        tableDark1.setDefaultEditor(Object.class, null);
+        for (List DataTable : DataList) {
+            Object[] objectDataTable = DataTable.toArray(new Object[0]);
+            tableModel1.addRow(objectDataTable);
+        }
+        List<List> SearchList = connectDB.selectSerchedTimesByCity("Patra");
+        String[] columnNames2 = {"City", "Searched Date"};
+        DefaultTableModel tableModel2 = new DefaultTableModel(columnNames2, 0);
+        tableDark2.setModel(tableModel2);
+        tableDark2.setDefaultEditor(Object.class, null);
+        for (List SearchTable : SearchList) {
+            Object[] objectSearchTable = SearchTable.toArray(new Object[0]);
+            tableModel2.addRow(objectSearchTable);
+        }
+        List<List> CitysList = connectDB.selectCitysbyApperance();
+        String[] columnNames3 = {"City", "Region", "Country", "Latitude", "Longitude", "Appearance"};
+        DefaultTableModel tableModel3 = new DefaultTableModel(columnNames3, 0);
+        tableDark3.setModel(tableModel3);
+        tableDark3.setDefaultEditor(Object.class, null);
+        for (List CitysTable : CitysList) {
+            Object[] objectCitysTable = CitysTable.toArray(new Object[0]);
+            tableModel3.addRow(objectCitysTable);
+        }
+        }
+    }//GEN-LAST:event_button1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private Swing.Button button1;
     private Components.ComboBox comboBox1;
     private Components.DeleteButton deleteButton1;
     private Components.EditButton editButton1;
