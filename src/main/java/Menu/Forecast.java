@@ -28,16 +28,19 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import Database.Database;
+import Swing.PopupDialogInfo;
 import okhttp3.Response;
 
 public class Forecast extends JPanel {
     
     private ImageIcon c_icon, cur_con_icon, h_icn, ws_icn, uv_icn, fm_icn, fn_icn, fe_icn, fnt_icn;
+    private JFrame parentFrame;
     
         
     public Forecast() {
         initComponents();
         setOpaque(false);
+        parentFrame = (JFrame) this.getParent();
         // City Label & Location Icon
         c_icon = iconRender("/Icons/location.png", 27, 27);
         city_icon.setIcon(c_icon);
@@ -89,6 +92,8 @@ public class Forecast extends JPanel {
         ImageIcon newIcon = new ImageIcon(newimg);
         return newIcon;        
     }
+    
+    
     
     
 
@@ -220,6 +225,7 @@ public class Forecast extends JPanel {
         fnt_ws2 = new javax.swing.JLabel();
         fnt_uv2 = new javax.swing.JLabel();
         dateLabel = new javax.swing.JLabel();
+        searchInfoButton1 = new Components.SearchInfoButton();
 
         cur_temp.setFont(new java.awt.Font("Avenir Next", 1, 48)); // NOI18N
         cur_temp.setForeground(new java.awt.Color(200, 200, 200));
@@ -290,6 +296,7 @@ public class Forecast extends JPanel {
         searchError.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
         materialTabbedPane2.setForeground(new java.awt.Color(220, 220, 220));
+        materialTabbedPane2.setToolTipText("");
         materialTabbedPane2.setFont(new java.awt.Font("Avenir Next", 0, 14)); // NOI18N
 
         jPanel1.setOpaque(false);
@@ -637,6 +644,7 @@ public class Forecast extends JPanel {
         );
 
         materialTabbedPane2.addTab("Today", jPanel1);
+        jPanel1.getAccessibleContext().setAccessibleName("");
 
         jPanel2.setOpaque(false);
 
@@ -984,6 +992,7 @@ public class Forecast extends JPanel {
         );
 
         materialTabbedPane2.addTab("Tomorrow", jPanel2);
+        jPanel2.getAccessibleContext().setAccessibleName("");
 
         jPanel3.setOpaque(false);
 
@@ -1330,12 +1339,23 @@ public class Forecast extends JPanel {
                     .addContainerGap()))
         );
 
-        materialTabbedPane2.addTab("Next", jPanel3);
+        materialTabbedPane2.addTab("Day After", jPanel3);
+        jPanel3.getAccessibleContext().setAccessibleName("");
+
+        materialTabbedPane2.setSelectedIndex(1);
 
         dateLabel.setFont(new java.awt.Font("Avenir Next", 2, 10)); // NOI18N
         dateLabel.setForeground(new java.awt.Color(200, 200, 200));
         dateLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         dateLabel.setText("Last Updated:");
+
+        searchInfoButton1.setText(" ");
+        searchInfoButton1.setBorderPainted(false);
+        searchInfoButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchInfoButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -1370,6 +1390,8 @@ public class Forecast extends JPanel {
                                         .addComponent(searchError, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(150, 150, 150))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(searchInfoButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(searchBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18))))
                             .addGroup(layout.createSequentialGroup()
@@ -1393,7 +1415,9 @@ public class Forecast extends JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cur_temp, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(searchBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(searchBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(searchInfoButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(searchError)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2116,9 +2140,38 @@ public class Forecast extends JPanel {
 
     private void saveButton1ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_saveButton1ActionPerformed
         // TODO add your handling code here:
+        PopupDialogInfo notification = new PopupDialogInfo(parentFrame);
+        notification.init();
+        notification.setInfo("Weather data saved to DB");
+        Timer timer = new Timer(1500, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                notification.setVisible(false);
+                notification.dispose();
+            }
+        });
+        timer.setRepeats(false);
+        timer.start();
+
+        notification.setVisible(true); // if modal, application will pause here
     }//GEN-LAST:event_saveButton1ActionPerformed
 
-    
+    private void searchInfoButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchInfoButton1ActionPerformed
+        // TODO add your handling code here:
+        PopupDialogInfo info = new PopupDialogInfo(parentFrame);
+        info.init();
+        info.setInfo("Tip: Search location by city & province/country, ICAO airport code or coordinates");
+        Timer timer = new Timer(3000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                info.setVisible(false);
+                info.dispose();
+            }
+        });
+        timer.setRepeats(false);
+        timer.start();
+        info.setVisible(true); 
+    }//GEN-LAST:event_searchInfoButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel cityLabel;
     private javax.swing.JLabel city_icon;
@@ -2235,6 +2288,7 @@ public class Forecast extends JPanel {
     private Components.SaveButton saveButton1;
     private Components.SearchBar searchBar1;
     private javax.swing.JLabel searchError;
+    private Components.SearchInfoButton searchInfoButton1;
     private javax.swing.JLabel uv;
     private javax.swing.JLabel uv_icon;
     private javax.swing.JLabel ws;

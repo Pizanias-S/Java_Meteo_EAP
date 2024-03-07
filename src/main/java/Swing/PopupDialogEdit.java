@@ -17,6 +17,7 @@ public class PopupDialogEdit extends javax.swing.JDialog {
         this.parent = parent;
         this.selectedCity = selectedCity;
         initComponents();
+        setLocationRelativeTo(null);
     }
     
     private void init(){
