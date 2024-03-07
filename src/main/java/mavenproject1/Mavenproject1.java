@@ -7,8 +7,6 @@ import Menu.CityList;
 import Menu.About;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.sql.Date;
-import java.util.List;
 import javax.swing.JComponent;
 import Swing.PopupDialogExit;
 import javax.swing.*;

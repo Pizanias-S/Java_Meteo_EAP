@@ -1,32 +1,33 @@
 package Menu;
 
-import Components.ModernScrollbarUI;
 import Components.ScrollBarCustom;
 import Database.Database;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.event.MouseAdapter;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.time.LocalDateTime;
 import java.util.*;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.Timer;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
-
-import Database.Database;
 import Swing.PopupDialogDelete;
 import Swing.PopupDialogEdit;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
+import Swing.PopupDialogInfo;
 import java.util.List;
 import javax.swing.JFrame;
-import javax.swing.plaf.ScrollBarUI;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileOutputStream;
+
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -319,6 +320,7 @@ public class CityList extends javax.swing.JPanel {
 
 
     private void deleteButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButton1ActionPerformed
+        // Initializing the delete button
         String selectedCity = String.valueOf(comboBox1.getSelectedItem());
         String IsNull = "null";
         if (selectedCity.equals(IsNull)){
@@ -331,6 +333,7 @@ public class CityList extends javax.swing.JPanel {
     }//GEN-LAST:event_deleteButton1ActionPerformed
 
     private void editButton1MouseClicked(MouseEvent evt) {//GEN-FIRST:event_editButton1MouseClicked
+        // Initializing the Data editing process
         String selectedCity = String.valueOf(comboBox1.getSelectedItem());
         String IsNull = "null";
         if (selectedCity.equals(IsNull)){
@@ -342,6 +345,7 @@ public class CityList extends javax.swing.JPanel {
     }//GEN-LAST:event_editButton1MouseClicked
 
     private void comboBox1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_comboBox1FocusGained
+        // Getting the city names for the comboBox from the db
         Database connectDB = Database.getConnectionInstance();
         List<String> cityLists = connectDB.selectAllCitys();
         Set<String> citySet = new TreeSet<>(cityLists);
@@ -352,6 +356,7 @@ public class CityList extends javax.swing.JPanel {
     }//GEN-LAST:event_comboBox1FocusGained
 
     private void button1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button1MouseClicked
+        // Inserting data on tables Meteo Data, City Searched Data and City's
         String selectedCity = String.valueOf(comboBox1.getSelectedItem()); 
         String IsNull = "null";
         if (selectedCity.equals(IsNull)){
@@ -391,7 +396,122 @@ public class CityList extends javax.swing.JPanel {
     }//GEN-LAST:event_button1MouseClicked
 
     private void pdfButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pdfButton1MouseClicked
-        // TODO add your handling code here:
+        // PDF Creator
+        String selectedCity = String.valueOf(comboBox1.getSelectedItem());
+        String IsNull = "null";
+        if (selectedCity.equals(IsNull)){
+            showMessageDialog(null, "Please select a city first");
+        }
+        else{
+            try {
+                if (tableDark1.getValueAt(1, 0) != null) {
+
+                    // Create PDF
+                    Document doc = new Document(PageSize.A4);
+                    PdfWriter.getInstance(doc, new FileOutputStream("WeatherWithUs_"+selectedCity+".pdf"));
+                    doc.open();
+
+                    // Create PDF Table
+                    PdfPTable pdfTable1 = new PdfPTable(tableDark1.getColumnCount());
+                    pdfTable1.setWidthPercentage(100);
+                    PdfPTable pdfTable2 = new PdfPTable(tableDark2.getColumnCount());
+                    pdfTable2.setWidthPercentage(100);
+                    PdfPTable pdfTable3 = new PdfPTable(tableDark3.getColumnCount());
+                    pdfTable3.setWidthPercentage(100);
+
+                    // Greek language
+                    BaseFont arialGreek = BaseFont.createFont("C:\\Windows\\Fonts\\arial.ttf", "CP1253", BaseFont.EMBEDDED);
+                    Font arial = new Font(arialGreek, 14, Font.BOLD);
+                    Font arial18 = new Font(arialGreek, 18, Font.BOLD);
+
+                    // Table column name
+                    for (int i = 0; i < tableDark1.getColumnCount(); i++) {
+                        PdfPCell cell = new PdfPCell(new Paragraph(tableDark1.getColumnName(i)));
+                        cell.setBackgroundColor(BaseColor.RED);
+                        pdfTable1.addCell(cell);
+                    }
+
+                    // Add data for each table
+                    for (int rows = 0; rows < tableDark1.getRowCount(); rows++) {
+                        for (int cols = 0; cols < tableDark1.getColumnCount(); cols++) {
+                            pdfTable1.addCell(tableDark1.getModel().getValueAt(rows, cols).toString());
+                        }
+                    }
+
+                    for (int i = 0; i < tableDark2.getColumnCount(); i++) {
+                        PdfPCell cell = new PdfPCell(new Paragraph(tableDark2.getColumnName(i)));
+                        cell.setBackgroundColor(BaseColor.RED);
+                        pdfTable2.addCell(cell);
+                    }
+
+                    for (int rows = 0; rows < tableDark2.getRowCount(); rows++) {
+                        for (int cols = 0; cols < tableDark2.getColumnCount(); cols++) {
+                            pdfTable2.addCell(tableDark2.getModel().getValueAt(rows, cols).toString());
+                        }
+                    }
+
+                    for (int i = 0; i < tableDark3.getColumnCount(); i++) {
+                        PdfPCell cell = new PdfPCell(new Paragraph(tableDark3.getColumnName(i)));
+                        cell.setBackgroundColor(BaseColor.RED);
+                        pdfTable3.addCell(cell);
+                    }
+
+                    for (int rows = 0; rows < tableDark3.getRowCount(); rows++) {
+                        for (int cols = 0; cols < tableDark3.getColumnCount(); cols++) {
+                            pdfTable3.addCell(tableDark3.getModel().getValueAt(rows, cols).toString());
+                        }
+                    }
+                    // Add tables and spaces to the PDF
+                    doc.add(new Paragraph("R4. Προβολή στατιστικών καιρικών δεδομένων σε αρχείο pdf ", arial18));
+                    doc.add(Chunk.NEWLINE);
+                    doc.add(new Paragraph("Προβολή στατιστικών καιρικών δεδομένων για την πόλη "+selectedCity, arial));
+                    doc.add(Chunk.NEWLINE);
+                    pdfTable1.setSpacingAfter(10);
+                    doc.add(pdfTable1);
+                    doc.add(new Paragraph("Προβολή ημερομηνιών που έγινε αναζήτηση της πόλης "+selectedCity, arial));
+                    doc.add(Chunk.NEWLINE);
+                    pdfTable2.setSpacingAfter(10);
+                    doc.add(pdfTable2);
+                    doc.add(new Paragraph("Προβολή όλως των πόλεων για τις οποίες έχει πραγματοποιηθεί αναζήτηση", arial));
+                    doc.add(Chunk.NEWLINE);
+                    doc.add(pdfTable3);
+                    doc.close();
+
+                    // Open PDF file
+                    File myFile = new File("WeatherWithUs_"+selectedCity+".pdf");
+                    Desktop.getDesktop().open(myFile);
+
+                } else {
+                    PopupDialogInfo notification = new PopupDialogInfo(parentFrame);
+                    notification.init();
+                    notification.setInfo("Please press the Get button for data to appear in the tables");
+                    javax.swing.Timer timer = new Timer(3000, new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            notification.setVisible(false);
+                            notification.dispose();
+                        }
+                    });
+                    timer.setRepeats(false);
+                    timer.start();
+
+                    notification.setVisible(true);
+                }
+            } catch (Exception ex) {
+                PopupDialogInfo notification = new PopupDialogInfo(parentFrame);
+                notification.init();
+                notification.setInfo("There are no Meteo Data for the city of "+selectedCity);
+                javax.swing.Timer timer = new Timer(3000, new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        notification.setVisible(false);
+                        notification.dispose();
+                    }
+                });
+                timer.setRepeats(false);
+                timer.start();
+
+                notification.setVisible(true);
+            }
+        }
     }//GEN-LAST:event_pdfButton1MouseClicked
 
 

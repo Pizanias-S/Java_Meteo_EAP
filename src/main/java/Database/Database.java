@@ -1,14 +1,11 @@
 package Database;
 
 import Swing.PopupDialogInfo;
-import com.google.gson.JsonArray;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -23,6 +20,7 @@ public class Database {
     }
 
     public static Database getConnectionInstance() {
+        // Method to get the connection Instance
         if (connectionInstance == null)
             connectionInstance = new Database();
         return connectionInstance;
@@ -30,6 +28,7 @@ public class Database {
     
     // connect to the database
     public Connection connect() {
+        // Method to connect to the db and create it if it doesn't exist
         String connectionString = "jdbc:derby:derbydb2;create=true";
         Connection connection= null;
         try {
@@ -42,6 +41,7 @@ public class Database {
     
     // create a table City 
     public void createTableCity() {
+        // SQL Create to initialize the City table if it doesn't exist
         try {
             Connection connection = connect();
             Statement statement = connection.createStatement();
@@ -65,6 +65,7 @@ public class Database {
 
     // create a table MeteoData
     public void createTableMeteoData() {
+        // SQL Create to initialize the MeteoData table if it doesn't exist
         try {
             Connection connection = connect();
             Statement statement = connection.createStatement();
@@ -88,6 +89,7 @@ public class Database {
     }
 
     public void createCityDate() {
+        // SQL Create to initialize the CityDate table if it doesn't exist
         try {
             Connection connection = connect();
             Statement statement = connection.createStatement();
@@ -106,6 +108,7 @@ public class Database {
 
     public void insertNewCity(String Name, String Country, String Region, String Latitude,
                               String Logitude, int Apperance, String Search_Date) throws SQLException {
+        // SQL INSERT to add city data to the db
         try {
             Connection connection = connect();
             String insertSQL = "Insert into City values(?,?,?,?,?,?)";
@@ -140,6 +143,7 @@ public class Database {
 
     public void insertMeteoData(String Name, String Datetime, double Temp_C, int Humidity, int Uvindex,
                               double WindSpeed, String WetherDesc) {
+        // SQL INSERT to add meteo data to the db
         try {
             Connection connection = connect();
             String insertSQL = "Insert into MeteoData values(?,?,?,?,?,?,?)";
@@ -190,6 +194,7 @@ public class Database {
     }
 
     public List<String> selectAllCitys() {
+        // SQL SELECT to select all city data
         List<String> CityList = new ArrayList<>();
         String CityName;
         try {
@@ -210,6 +215,7 @@ public class Database {
     }
 
     public List<List> selectCitysbyApperance() {
+        // SQL SELECT to select all city data and sort them by appearance
         List<String> data;
         List<List> CityList = new ArrayList<>();
         try {
@@ -236,6 +242,7 @@ public class Database {
     }
 
     public List<List> selectMeteoDataByCity(String Querry) {
+        // SQL SELECT to select meteo data using cityname
         List<String> data;
         List<List> CityData = new ArrayList<>();
         try {
@@ -263,6 +270,7 @@ public class Database {
     }
 
     public List<List> selectSerchedTimesByCity(String Querry) {
+        // SQL SELECT to select searched data using cityname
         List<String> data;
         List<List> SearchedDate = new ArrayList<>();
         try {
@@ -298,6 +306,7 @@ public class Database {
     }
 
     public List<String> selectMeteoDataByDateCitys(String Querry) {
+        // SQL SELECT to select Datetime from meteo data using cityname
         List<String> DateList = new ArrayList<>();
         try {
             Connection connection = connect();
@@ -317,6 +326,7 @@ public class Database {
     }
 
     public List<String> selectMeteoDataByDateandCity(String Querry1, String Querry2) {
+        // SQL SELECT to select Meteo data using cityname and datetime
         List<String> DateCityList = new ArrayList<>();
         try {
             Connection connection = connect();
@@ -340,7 +350,50 @@ public class Database {
         } catch (SQLException throwables) {
             System.out.println(throwables.getLocalizedMessage());
         }
-        System.out.println(DateCityList);
         return DateCityList;
+    }
+
+    public void updateMeteoDataByDateandCity(String city, String date, double temp, int humidity, int uv,
+                                             double wind, String weather) {
+        // SQL Update to update Meteo data using cityname and datetime
+        try {
+            Connection connection = connect();
+            String updateSQL = "UPDATE MeteoData SET TEMP_C=" +temp+ ", HUMIDITY=" +humidity+ ", UV=" +uv+ ", " +
+                    "WINDSPEEDKMPH=" +wind+ ", WEATHERDESC='" +weather+ "' " +
+                    "WHERE CITYNAME = '" +city+ "' AND DATETIME = '" +date+ "' ";
+            PreparedStatement preparedStatement = connection.prepareStatement(updateSQL);
+            preparedStatement.executeUpdate();
+            PopupDialogInfo notification = new PopupDialogInfo(parentFrame);
+            notification.init();
+            notification.setInfo("Weather data for "+city+" and "+date+" edited in the DB");
+            Timer timer = new Timer(2500, new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    notification.setVisible(false);
+                    notification.dispose();
+                }
+            });
+            timer.setRepeats(false);
+            timer.start();
+
+            notification.setVisible(true);
+
+            preparedStatement.close();
+            connection.close();
+        } catch (SQLException throwables) {
+            System.out.println(throwables.getLocalizedMessage());
+            PopupDialogInfo notification = new PopupDialogInfo(parentFrame);
+            notification.init();
+            notification.setInfo("Something went wrong. Check the exception");
+            Timer timer = new Timer(1500, new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    notification.setVisible(false);
+                    notification.dispose();
+                }
+            });
+            timer.setRepeats(false);
+            timer.start();
+
+            notification.setVisible(true);
+        }
     }
 }

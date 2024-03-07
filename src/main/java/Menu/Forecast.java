@@ -1,32 +1,22 @@
 package Menu;
 
-import Components.DeleteButton;
-import Components.EditButton;
-import Components.SaveButton;
-import Components.SearchBar;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.time.format.DateTimeFormatter;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import javax.swing.*;
-
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import Database.Database;
 import Swing.PopupDialogInfo;
 import okhttp3.Response;
@@ -2114,9 +2104,7 @@ public class Forecast extends JPanel {
                    searchError.setText("City not found");
                }      
            } catch (Exception e) {
-                   System.out.println("It doesn't exist1");
                    System.out.println(e);
-                   //searchError.setText("City not found");
            }
 
      } catch (Exception e) {
