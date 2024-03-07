@@ -285,6 +285,9 @@
         </Property>
         <Property name="horizontalAlignment" type="int" value="11"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="pdfButton1MouseClicked"/>
+      </Events>
     </Component>
     <Component class="Components.ComboBox" name="comboBox1">
       <Events>

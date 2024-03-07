@@ -8,6 +8,9 @@ import java.util.TreeSet;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import Database.Database;
+import javax.swing.InputVerifier;
+import javax.swing.JComponent;
+import javax.swing.JFormattedTextField;
 
 
 public class PopupDialogEdit extends javax.swing.JDialog {
@@ -125,9 +128,11 @@ public class PopupDialogEdit extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
-        tempTxtField.setForeground(new java.awt.Color(220, 220, 220));
+        tempTxtField.setForeground(new java.awt.Color(0, 0, 0));
         tempTxtField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
+        tempTxtField.setFocusLostBehavior(javax.swing.JFormattedTextField.PERSIST);
         tempTxtField.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        tempTxtField.setSelectedTextColor(new java.awt.Color(0, 0, 0));
 
         jLabel1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(220, 220, 220));
@@ -139,27 +144,33 @@ public class PopupDialogEdit extends javax.swing.JDialog {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel2.setText("Humidity:");
 
-        huTxtField.setForeground(new java.awt.Color(220, 220, 220));
+        huTxtField.setForeground(new java.awt.Color(0, 0, 0));
         huTxtField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0%"))));
+        huTxtField.setFocusLostBehavior(javax.swing.JFormattedTextField.PERSIST);
         huTxtField.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        huTxtField.setSelectedTextColor(new java.awt.Color(0, 0, 0));
 
         jLabel3.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(220, 220, 220));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel3.setText("Windspeed:");
 
-        wsTxtField.setForeground(new java.awt.Color(220, 220, 220));
+        wsTxtField.setForeground(new java.awt.Color(0, 0, 0));
         wsTxtField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
+        wsTxtField.setFocusLostBehavior(javax.swing.JFormattedTextField.PERSIST);
         wsTxtField.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        wsTxtField.setSelectedTextColor(new java.awt.Color(0, 0, 0));
 
         jLabel4.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(220, 220, 220));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel4.setText("UV Index:");
 
-        uvTxtField.setForeground(new java.awt.Color(220, 220, 220));
+        uvTxtField.setForeground(new java.awt.Color(0, 0, 0));
         uvTxtField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
+        uvTxtField.setFocusLostBehavior(javax.swing.JFormattedTextField.PERSIST);
         uvTxtField.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
+        uvTxtField.setSelectedTextColor(new java.awt.Color(0, 0, 0));
 
         jLabel5.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(220, 220, 220));
@@ -167,8 +178,11 @@ public class PopupDialogEdit extends javax.swing.JDialog {
         jLabel5.setText("Conditions:");
 
         jTextField1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(220, 220, 220));
+        jTextField1.setForeground(new java.awt.Color(0, 0, 0));
         jTextField1.setText(" ");
+        jTextField1.setToolTipText("");
+        jTextField1.setDisabledTextColor(new java.awt.Color(187, 187, 187));
+        jTextField1.setSelectedTextColor(new java.awt.Color(0, 0, 0));
 
         cnclButton.setForeground(new java.awt.Color(220, 220, 220));
         cnclButton.setText("CANCEL");
@@ -269,8 +283,6 @@ public class PopupDialogEdit extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cnclButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cnclButtonActionPerformed
-        // TODO add your handling code here:
-        System.out.println(selectedCity);
         dispose();
     }//GEN-LAST:event_cnclButtonActionPerformed
 
@@ -279,7 +291,17 @@ public class PopupDialogEdit extends javax.swing.JDialog {
     }//GEN-LAST:event_button1ActionPerformed
 
     private void saveButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveButtonMouseClicked
-        // TODO add your handling code here:
+        String temp = tempTxtField.getText();
+        String humidity = huTxtField.getText();
+        String wind = wsTxtField.getText();
+        String uv = uvTxtField.getText();
+        String desc = jTextField1.getText();
+        
+        System.out.println(temp);
+        System.out.println(humidity);
+        System.out.println(wind);
+        System.out.println(uv);
+        System.out.println(desc);
     }//GEN-LAST:event_saveButtonMouseClicked
 
     private void button1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button1MouseClicked
@@ -300,7 +322,7 @@ public class PopupDialogEdit extends javax.swing.JDialog {
         comboBox1.removeAllItems();
         for (String date : DateSet) {
             comboBox1.addItem(date);
-        }
+        } 
     }//GEN-LAST:event_comboBox1FocusGained
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

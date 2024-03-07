@@ -241,6 +241,11 @@ public class CityList extends javax.swing.JPanel {
         pdfButton1.setText("Convert to PDF");
         pdfButton1.setFont(new java.awt.Font("Avenir Next", 0, 12)); // NOI18N
         pdfButton1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        pdfButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pdfButton1MouseClicked(evt);
+            }
+        });
 
         comboBox1.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -384,6 +389,10 @@ public class CityList extends javax.swing.JPanel {
         }
         }
     }//GEN-LAST:event_button1MouseClicked
+
+    private void pdfButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pdfButton1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pdfButton1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
