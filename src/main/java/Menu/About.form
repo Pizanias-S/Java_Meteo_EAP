@@ -199,7 +199,7 @@
           <Color blue="e6" green="73" red="0" type="rgb"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="https://github.com/.."/>
+        <Property name="text" type="java.lang.String" value="https://github.com/CaptainMorgan89"/>
         <Property name="iconTextGap" type="int" value="8"/>
       </Properties>
     </Component>

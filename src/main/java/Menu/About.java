@@ -110,7 +110,7 @@ public class About extends javax.swing.JPanel {
         gitLabelAK.setFont(new java.awt.Font("Avenir Next", 0, 10)); // NOI18N
         gitLabelAK.setForeground(new java.awt.Color(0, 115, 230));
         gitLabelAK.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        gitLabelAK.setText("https://github.com/..");
+        gitLabelAK.setText("https://github.com/CaptainMorgan89");
         gitLabelAK.setIconTextGap(8);
 
         gitLabelDK.setFont(new java.awt.Font("Avenir Next", 0, 10)); // NOI18N
