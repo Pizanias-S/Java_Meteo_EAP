@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static javax.swing.JOptionPane.showMessageDialog;
+
 public class Database {
     
     // create an object of Database
@@ -106,20 +108,15 @@ public class Database {
             PreparedStatement preparedStatement = connection.prepareStatement(insertSQL);
             PreparedStatement preparedStatement2 = connection.prepareStatement(insertSQL2);
             preparedStatement.setString(1, Name);
-            preparedStatement.setString(2, Country);
-            preparedStatement.setString(3, Region);
+            preparedStatement.setString(2, Region);
+            preparedStatement.setString(3, Country);
             preparedStatement.setString(4, Latitude);
             preparedStatement.setString(5, Logitude);
             preparedStatement.setInt(6, Apperance);
-            int count = preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
             preparedStatement2.setString(1, Name);
             preparedStatement2.setString(2, Search_Date);
             preparedStatement2.executeUpdate();
-            if (count > 0) {
-                System.out.println("City added to the db");
-            } else {
-                System.out.println("Something went wrong. Check the exception");
-            }
             preparedStatement.close();
             connection.close();
         } catch (SQLException throwables) {
@@ -151,15 +148,15 @@ public class Database {
             preparedStatement.setString(7, WetherDesc);
             int count = preparedStatement.executeUpdate();
             if (count > 0) {
-                System.out.println("Meteo Data added to the db");
+                showMessageDialog(null, "Meteo Data added to the db");
             } else {
-                System.out.println("Something went wrong. Check the exception");
+                showMessageDialog(null, "Something went wrong. Check the exception");
             }
             preparedStatement.close();
             connection.close();
         } catch (SQLException throwables) {
             System.out.println(throwables.getLocalizedMessage());
-            System.out.println("Data already exits");
+            showMessageDialog(null, "Data already exits");
         }
     }
 

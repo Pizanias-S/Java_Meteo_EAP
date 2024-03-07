@@ -18,6 +18,7 @@ import javax.swing.border.LineBorder;
 
 import Database.Database;
 import Swing.PopupDialogDelete;
+import Swing.PopupDialogEdit;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -25,6 +26,9 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.plaf.ScrollBarUI;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
+
+import static javax.swing.JOptionPane.showMessageDialog;
 
 public class CityList extends javax.swing.JPanel {
     
@@ -313,20 +317,23 @@ public class CityList extends javax.swing.JPanel {
         String selectedCity = String.valueOf(comboBox1.getSelectedItem());
         String IsNull = "null";
         if (selectedCity.equals(IsNull)){
-            System.out.println("Please select a city first");
+            showMessageDialog(null, "Please select a city first");
         }else{
             PopupDialogDelete obj = new PopupDialogDelete(parentFrame, selectedCity);
             obj.setVisible(true);
+
         }
     }//GEN-LAST:event_deleteButton1ActionPerformed
 
-    private void editButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editButton1MouseClicked
-        System.out.println("click");
-        tableDark1.setEditingColumn(2);
-        tableDark1.setEditingColumn(3);
-        tableDark1.setEditingColumn(4);
-        tableDark1.setEditingColumn(5);
-        tableDark1.setEditingColumn(6);
+    private void editButton1MouseClicked(MouseEvent evt) {//GEN-FIRST:event_editButton1MouseClicked
+        String selectedCity = String.valueOf(comboBox1.getSelectedItem());
+        String IsNull = "null";
+        if (selectedCity.equals(IsNull)){
+            showMessageDialog(null, "Please select a city first");
+        }else{
+            PopupDialogEdit obj = new PopupDialogEdit(parentFrame, selectedCity);
+            obj.setVisible(true);
+        }
     }//GEN-LAST:event_editButton1MouseClicked
 
     private void comboBox1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_comboBox1FocusGained
@@ -343,7 +350,7 @@ public class CityList extends javax.swing.JPanel {
         String selectedCity = String.valueOf(comboBox1.getSelectedItem()); 
         String IsNull = "null";
         if (selectedCity.equals(IsNull)){
-            System.out.println("Please select a city first");
+            showMessageDialog(null, "Please select a city first");
         }
         else{
         Database connectDB = Database.getConnectionInstance();
@@ -357,7 +364,7 @@ public class CityList extends javax.swing.JPanel {
             Object[] objectDataTable = DataTable.toArray(new Object[0]);
             tableModel1.addRow(objectDataTable);
         }
-        List<List> SearchList = connectDB.selectSerchedTimesByCity("Patra");
+        List<List> SearchList = connectDB.selectSerchedTimesByCity(selectedCity);
         String[] columnNames2 = {"City", "Searched Date"};
         DefaultTableModel tableModel2 = new DefaultTableModel(columnNames2, 0);
         tableDark2.setModel(tableModel2);

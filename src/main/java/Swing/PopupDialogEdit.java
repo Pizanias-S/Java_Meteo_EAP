@@ -8,12 +8,14 @@ import javax.swing.JFrame;
 
 public class PopupDialogEdit extends javax.swing.JDialog {
 
+    private final String selectedCity;
     private JFrame parent;
     private ImageIcon icon;
     
-    public PopupDialogEdit(JFrame parent) {
+    public PopupDialogEdit(JFrame parent, String selectedCity) {
         super(parent, true);
         this.parent = parent;
+        this.selectedCity = selectedCity;
         initComponents();
     }
     
@@ -231,6 +233,7 @@ public class PopupDialogEdit extends javax.swing.JDialog {
 
     private void cnclButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cnclButtonActionPerformed
         // TODO add your handling code here:
+        System.out.println(selectedCity);
         dispose();
     }//GEN-LAST:event_cnclButtonActionPerformed
 
