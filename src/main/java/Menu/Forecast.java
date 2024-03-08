@@ -2114,33 +2114,40 @@ public class Forecast extends JPanel {
     }//GEN-LAST:event_searchBar1ActionPerformed
 
     private void saveButton1MouseClicked(MouseEvent evt) {//GEN-FIRST:event_saveButton1MouseClicked
-        double cityTemp = Double.parseDouble(cur_temp.getText().split("°")[0]);
+        double cityTemp;
+        try {
+            cityTemp = Double.parseDouble(cur_temp.getText().split("°")[0]);
+        } catch (NumberFormatException e) {
+            PopupDialogInfo info = new PopupDialogInfo(parentFrame);
+            info.init();
+            info.setInfo("Please search for a city first");
+            Timer timer = new Timer(1500, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    info.setVisible(false);
+                    info.dispose();
+                }
+            });
+            timer.setRepeats(false);
+            timer.start();
+            info.setVisible(true);
+            return;
+        }
+
         int cityHumidity = Integer.parseInt(h.getText().split("%")[0]);
         int cityUv = Integer.parseInt(uv.getText());
         double cityWind = Double.parseDouble(ws.getText().split(" ")[0]);
         String cityName = cityLabel.getText().split(",")[0];
         String[] bits = dateLabel.getText().split(": ");
-        String dateLast = bits[bits.length-1];
-             Database connectDB = Database.getConnectionInstance();
-             connectDB.insertMeteoData(cityName, dateLast, cityTemp,
-                     cityHumidity, cityUv, cityWind, description.getText());
+        String dateLast = bits[bits.length - 1];
+        Database connectDB = Database.getConnectionInstance();
+        connectDB.insertMeteoData(cityName, dateLast, cityTemp,
+                cityHumidity, cityUv, cityWind, description.getText());
     }//GEN-LAST:event_saveButton1MouseClicked
 
     private void saveButton1ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_saveButton1ActionPerformed
         // TODO add your handling code here:
-//        PopupDialogInfo notification = new PopupDialogInfo(parentFrame);
-//        notification.init();
-//        notification.setInfo("Weather data saved to DB");
-//        Timer timer = new Timer(1500, new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                notification.setVisible(false);
-//                notification.dispose();
-//            }
-//        });
-//        timer.setRepeats(false);
-//        timer.start();
-//
-//        notification.setVisible(true);
+
     }//GEN-LAST:event_saveButton1ActionPerformed
 
     private void searchInfoButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchInfoButton1ActionPerformed
