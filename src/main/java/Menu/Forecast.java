@@ -2121,7 +2121,7 @@ public class Forecast extends JPanel {
             PopupDialogInfo info = new PopupDialogInfo(parentFrame);
             info.init();
             info.setInfo("Please search for a city first");
-            Timer timer = new Timer(1500, new ActionListener() {
+            Timer timer = new Timer(2000, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     info.setVisible(false);

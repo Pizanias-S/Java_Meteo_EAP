@@ -324,10 +324,40 @@ public class CityList extends javax.swing.JPanel {
         String selectedCity = String.valueOf(comboBox1.getSelectedItem());
         String IsNull = "null";
         if (selectedCity.equals(IsNull)){
-            showMessageDialog(null, "Please select a city first");
+            PopupDialogInfo notification = new PopupDialogInfo(parentFrame);
+            notification.init();
+            notification.setInfo("Please select a city first");
+            Timer timer = new Timer(1500, new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    notification.setVisible(false);
+                    notification.dispose();
+                }
+            });
+            timer.setRepeats(false);
+            timer.start();
+
+            notification.setVisible(true);
         }else{
-            PopupDialogDelete obj = new PopupDialogDelete(parentFrame, selectedCity);
-            obj.setVisible(true);
+            try{
+                tableDark1.getValueAt(0, 0);
+                PopupDialogDelete obj = new PopupDialogDelete(parentFrame, selectedCity);
+                obj.setVisible(true);
+
+            } catch (Exception e) {
+                PopupDialogInfo notification = new PopupDialogInfo(parentFrame);
+                notification.init();
+                notification.setInfo("The city of "+selectedCity+" does not have any saved data");
+                Timer timer = new Timer(2000, new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        notification.setVisible(false);
+                        notification.dispose();
+                    }
+                });
+                timer.setRepeats(false);
+                timer.start();
+
+                notification.setVisible(true);
+            }
 
         }
     }//GEN-LAST:event_deleteButton1ActionPerformed
@@ -337,10 +367,41 @@ public class CityList extends javax.swing.JPanel {
         String selectedCity = String.valueOf(comboBox1.getSelectedItem());
         String IsNull = "null";
         if (selectedCity.equals(IsNull)){
-            showMessageDialog(null, "Please select a city first");
-        }else{
-            PopupDialogEdit obj = new PopupDialogEdit(parentFrame, selectedCity);
-            obj.setVisible(true);
+            PopupDialogInfo notification = new PopupDialogInfo(parentFrame);
+            notification.init();
+            notification.setInfo("Please select a city first");
+            Timer timer = new Timer(1500, new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    notification.setVisible(false);
+                    notification.dispose();
+                }
+            });
+            timer.setRepeats(false);
+            timer.start();
+
+            notification.setVisible(true);
+
+            }else{
+            try{
+                tableDark1.getValueAt(0, 0);
+                PopupDialogEdit obj = new PopupDialogEdit(parentFrame, selectedCity);
+                obj.setVisible(true);
+            } catch (Exception e) {
+                PopupDialogInfo notification = new PopupDialogInfo(parentFrame);
+                notification.init();
+                notification.setInfo("The city of "+selectedCity+" does not have any saved data");
+                Timer timer = new Timer(2000, new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        notification.setVisible(false);
+                        notification.dispose();
+                    }
+                });
+                timer.setRepeats(false);
+                timer.start();
+
+                notification.setVisible(true);
+            }
+
         }
     }//GEN-LAST:event_editButton1MouseClicked
 
@@ -360,7 +421,19 @@ public class CityList extends javax.swing.JPanel {
         String selectedCity = String.valueOf(comboBox1.getSelectedItem()); 
         String IsNull = "null";
         if (selectedCity.equals(IsNull)){
-            showMessageDialog(null, "Please select a city first");
+            PopupDialogInfo notification = new PopupDialogInfo(parentFrame);
+            notification.init();
+            notification.setInfo("Please select a city first");
+            Timer timer = new Timer(1500, new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    notification.setVisible(false);
+                    notification.dispose();
+                }
+            });
+            timer.setRepeats(false);
+            timer.start();
+
+            notification.setVisible(true);
         }
         else{
         Database connectDB = Database.getConnectionInstance();
@@ -383,7 +456,7 @@ public class CityList extends javax.swing.JPanel {
             Object[] objectSearchTable = SearchTable.toArray(new Object[0]);
             tableModel2.addRow(objectSearchTable);
         }
-        List<List> CitysList = connectDB.selectCitysbyApperance();
+        List<List> CitysList = connectDB.selectCitysbyAppearance();
         String[] columnNames3 = {"City", "Region", "Country", "Latitude", "Longitude", "Appearance"};
         DefaultTableModel tableModel3 = new DefaultTableModel(columnNames3, 0);
         tableDark3.setModel(tableModel3);
@@ -400,11 +473,23 @@ public class CityList extends javax.swing.JPanel {
         String selectedCity = String.valueOf(comboBox1.getSelectedItem());
         String IsNull = "null";
         if (selectedCity.equals(IsNull)){
-            showMessageDialog(null, "Please select a city first");
+            PopupDialogInfo notification = new PopupDialogInfo(parentFrame);
+            notification.init();
+            notification.setInfo("Please select a city first");
+            Timer timer = new Timer(1500, new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    notification.setVisible(false);
+                    notification.dispose();
+                }
+            });
+            timer.setRepeats(false);
+            timer.start();
+
+            notification.setVisible(true);
         }
         else{
             try {
-                if (tableDark1.getValueAt(1, 0) != null) {
+                if (tableDark1.getValueAt(0, 0) != null) {
 
                     // Create PDF
                     Document doc = new Document(PageSize.A4);

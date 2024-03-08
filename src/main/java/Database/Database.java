@@ -50,8 +50,8 @@ public class Database {
                         "Location varchar(50)," +
                         "Country varchar(50)," +
                         "Latitude varchar(10)," +
-                        "Logitude varchar(10)," +
-                        "Apperance integer DEFAULT 1," +
+                        "Longitude varchar(10)," +
+                        "Appearance integer DEFAULT 1," +
                         "PRIMARY KEY (Name))";
             statement.executeUpdate(createSQL);
             statement.close();
@@ -107,7 +107,7 @@ public class Database {
 
 
     public void insertNewCity(String Name, String Country, String Region, String Latitude,
-                              String Logitude, int Apperance, String Search_Date) throws SQLException {
+                              String Longitude, int Appearance, String Search_Date) throws SQLException {
         // SQL INSERT to add city data to the db
         try {
             Connection connection = connect();
@@ -119,8 +119,8 @@ public class Database {
             preparedStatement.setString(2, Region);
             preparedStatement.setString(3, Country);
             preparedStatement.setString(4, Latitude);
-            preparedStatement.setString(5, Logitude);
-            preparedStatement.setInt(6, Apperance);
+            preparedStatement.setString(5, Longitude);
+            preparedStatement.setInt(6, Appearance);
             preparedStatement.executeUpdate();
             preparedStatement2.setString(1, Name);
             preparedStatement2.setString(2, Search_Date);
@@ -131,7 +131,7 @@ public class Database {
             System.out.println(throwables.getLocalizedMessage());
             Connection connection = connect();
             String insertSQL2 = "Insert into CityDate values(?,?)";
-            String updateSQL = String.format("Update City SET APPERANCE = APPERANCE + 1 WHERE NAME = '%s' ", Name);
+            String updateSQL = String.format("Update City SET APPEARANCE = APPEARANCE + 1 WHERE NAME = '%s' ", Name);
             PreparedStatement preparedStatement = connection.prepareStatement(updateSQL);
             PreparedStatement preparedStatement2 = connection.prepareStatement(insertSQL2);
             preparedStatement2.setString(1, Name);
@@ -171,7 +171,19 @@ public class Database {
 
                 notification.setVisible(true);
             } else {
-                showMessageDialog(null, "Something went wrong. Check the exception");
+                PopupDialogInfo notification = new PopupDialogInfo(parentFrame);
+                notification.init();
+                notification.setInfo("Something went wrong. Check the exception");
+                Timer timer = new Timer(1500, new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        notification.setVisible(false);
+                        notification.dispose();
+                    }
+                });
+                timer.setRepeats(false);
+                timer.start();
+
+                notification.setVisible(true);
             }
             preparedStatement.close();
             connection.close();
@@ -214,22 +226,22 @@ public class Database {
         return CityList;
     }
 
-    public List<List> selectCitysbyApperance() {
+    public List<List> selectCitysbyAppearance() {
         // SQL SELECT to select all city data and sort them by appearance
         List<String> data;
         List<List> CityList = new ArrayList<>();
         try {
             Connection connection = connect();
             Statement statement = connection.createStatement();
-            String selectSQL = "Select * from City ORDER BY APPERANCE DESC";
+            String selectSQL = "Select * from City ORDER BY APPEARANCE DESC";
             ResultSet rs = statement.executeQuery(selectSQL);
             while (rs.next()) {
                 String City = rs.getString("NAME");
                 String Region = rs.getString("LOCATION");
                 String Country = rs.getString("COUNTRY");
                 String Lat = rs.getString("LATITUDE");
-                String Lon = rs.getString("LOGITUDE");
-                String Appearance = rs.getString("APPERANCE");
+                String Lon = rs.getString("LONGITUDE");
+                String Appearance = rs.getString("APPEARANCE");
                 data = List.of(new String[]{City, Region, Country, Lat, Lon, Appearance});
                 CityList.add(data);
             }

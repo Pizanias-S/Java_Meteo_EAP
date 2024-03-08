@@ -13,6 +13,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
 
 public class PopupDialogDelete extends JDialog {
 
+    private JFrame parentFrame;
     private final JFrame frame;
     private final String city;
     private ImageIcon icon;
@@ -162,7 +163,19 @@ public class PopupDialogDelete extends JDialog {
         Database connectDB = Database.getConnectionInstance();
         connectDB.DeleteDataByCity(city);
         dispose();
-        showMessageDialog(null, "Meteo Data for city " + city+ " got deleted from the db");
+        PopupDialogInfo notification = new PopupDialogInfo(parentFrame);
+        notification.init();
+        notification.setInfo("Meteo Data for city " + city+ " got deleted from the db");
+        Timer timer = new Timer(2000, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                notification.setVisible(false);
+                notification.dispose();
+            }
+        });
+        timer.setRepeats(false);
+        timer.start();
+
+        notification.setVisible(true);
     }//GEN-LAST:event_deleteButtonActionPerformed
 
 

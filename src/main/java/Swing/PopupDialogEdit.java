@@ -22,6 +22,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
 public class PopupDialogEdit extends JDialog {
 
     private final String selectedCity;
+    private JFrame parentFrame;
     private JFrame parent;
     private ImageIcon icon;
     
@@ -303,7 +304,19 @@ public class PopupDialogEdit extends JDialog {
         try {
             temp = Double.parseDouble(tempTxtField.getText());
         } catch (NumberFormatException e) {
-            showMessageDialog(null, "Value of Temperature must be a of type double");
+            PopupDialogInfo info = new PopupDialogInfo(parentFrame);
+            info.init();
+            info.setInfo("Value of Temperature must be a of type double");
+            Timer timer = new Timer(1500, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    info.setVisible(false);
+                    info.dispose();
+                }
+            });
+            timer.setRepeats(false);
+            timer.start();
+            info.setVisible(true);
             return;
         }
         int humidity;
@@ -311,21 +324,57 @@ public class PopupDialogEdit extends JDialog {
             humidity = Integer.parseInt(huTxtField.getText());
 
             } catch (NumberFormatException e) {
-                showMessageDialog(null, "Value of humidity must be a of type integer");
-                return;
-            }
+            PopupDialogInfo info = new PopupDialogInfo(parentFrame);
+            info.init();
+            info.setInfo("Value of humidity must be a of type integer");
+            Timer timer = new Timer(1500, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    info.setVisible(false);
+                    info.dispose();
+                }
+            });
+            timer.setRepeats(false);
+            timer.start();
+            info.setVisible(true);
+            return;
+        }
         double wind;
             try {
                 wind = Double.parseDouble(wsTxtField.getText());
             } catch (NumberFormatException e) {
-                showMessageDialog(null, "Value of Windspeed must be a of type double");
+                PopupDialogInfo info = new PopupDialogInfo(parentFrame);
+                info.init();
+                info.setInfo("Value of Windspeed must be a of type double");
+                Timer timer = new Timer(1500, new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        info.setVisible(false);
+                        info.dispose();
+                    }
+                });
+                timer.setRepeats(false);
+                timer.start();
+                info.setVisible(true);
                 return;
             }
         int uv;
             try {
                 uv = Integer.parseInt(uvTxtField.getText());
             } catch (NumberFormatException e) {
-                showMessageDialog(null, "Value of Uv must be a of type double");
+                PopupDialogInfo info = new PopupDialogInfo(parentFrame);
+                info.init();
+                info.setInfo("Value of Uv must be a of type double");
+                Timer timer = new Timer(1500, new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        info.setVisible(false);
+                        info.dispose();
+                    }
+                });
+                timer.setRepeats(false);
+                timer.start();
+                info.setVisible(true);
                 return;
             }
         String desc = jTextField1.getText();
@@ -336,6 +385,24 @@ public class PopupDialogEdit extends JDialog {
 
     private void button1MouseClicked(MouseEvent evt) {//GEN-FIRST:event_button1MouseClicked
         String selectedDate = String.valueOf(comboBox1.getSelectedItem());
+        System.out.println(selectedDate);
+        String IsNull = "null";
+        if (selectedDate.equals(IsNull)){
+            PopupDialogInfo notification = new PopupDialogInfo(parentFrame);
+            notification.init();
+            notification.setInfo("Please select a date first");
+            Timer timer = new Timer(1500, new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    notification.setVisible(false);
+                    notification.dispose();
+                }
+            });
+            timer.setRepeats(false);
+            timer.start();
+
+            notification.setVisible(true);
+            return;
+        }
         Database connectDB = Database.getConnectionInstance();
         List<String> DateCityList = connectDB.selectMeteoDataByDateandCity(selectedCity, selectedDate);
         tempTxtField.setText(DateCityList.get(0));
