@@ -22,9 +22,6 @@ public class Menu extends javax.swing.JPanel {
         addItem("2", 1);
         addItem("3", 2);
         addItem("4", 3);
-        //addItem("5", 4);
-        //addItem("6", 5);
-        //addItem("7", 6);
         addSpace(10);
         repaint();
         revalidate();

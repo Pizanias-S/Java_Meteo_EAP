@@ -15,16 +15,16 @@ public class PopupDialogInfo extends javax.swing.JDialog {
         super(parent, true);
         this.parent = parent;
         initComponents();
+        setLocationRelativeTo(null);
     }
     
-    private void init(){
-       
-       icon = iconRender("/Icons/info.png", 36, 36);
+    public void init(){
+       icon = iconRender("/Icons/info.png", 28, 28);
        titleLabel.setIcon(icon);
     }
     
-    private void setInfo(String str){
-        infoLabel.setText(str);
+    public void setInfo(String str){
+        infoLabel.setText("<html>"+str+"<html>");
     }
     
     private ImageIcon iconRender(String path, int w, int h){
@@ -34,7 +34,7 @@ public class PopupDialogInfo extends javax.swing.JDialog {
         ImageIcon newIcon = new ImageIcon(newimg);
         return newIcon;        
     }
-
+ 
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -56,11 +56,11 @@ public class PopupDialogInfo extends javax.swing.JDialog {
         jPanel1.setForeground(new java.awt.Color(120, 120, 120));
 
         titleLabel.setFont(new java.awt.Font("Avenir Next", 1, 24)); // NOI18N
-        titleLabel.setForeground(new java.awt.Color(255, 112, 38));
+        titleLabel.setForeground(new java.awt.Color(255, 255, 255));
         titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         titleLabel.setText("INFO");
         titleLabel.setToolTipText("");
-        titleLabel.setIconTextGap(6);
+        titleLabel.setIconTextGap(8);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -68,7 +68,7 @@ public class PopupDialogInfo extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(titleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(titleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -80,28 +80,29 @@ public class PopupDialogInfo extends javax.swing.JDialog {
         );
 
         infoLabel.setFont(new java.awt.Font("Avenir Next", 0, 18)); // NOI18N
-        infoLabel.setForeground(new java.awt.Color(255, 148, 1));
+        infoLabel.setForeground(new java.awt.Color(255, 255, 255));
         infoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         infoLabel.setText("<html>Displayed Message<html>");
         infoLabel.setToolTipText("");
+        infoLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout popupBackground1Layout = new javax.swing.GroupLayout(popupBackground1);
         popupBackground1.setLayout(popupBackground1Layout);
         popupBackground1Layout.setHorizontalGroup(
             popupBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(popupBackground1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(infoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, popupBackground1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(infoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16))
         );
         popupBackground1Layout.setVerticalGroup(
             popupBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(popupBackground1Layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(infoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(infoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

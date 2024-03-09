@@ -7,21 +7,19 @@ import Menu.CityList;
 import Menu.About;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.sql.Date;
-import java.util.List;
 import javax.swing.JComponent;
 import Swing.PopupDialogExit;
 import javax.swing.*;
 
 public class Mavenproject1 extends javax.swing.JFrame{
 
-    private JFrame parentFrame;
+    public JFrame parentFrame;
+    
     public Mavenproject1() {
         Database connectDB = Database.getConnectionInstance();
         connectDB.createTableCity();
         connectDB.createTableMeteoData();
         connectDB.createCityDate();
-        connectDB.selectMeteoDataByCity();
         initComponents();
         setBackground(new Color(0.0f,0.0f,0.0f,0.0f));
         parentFrame = (JFrame) this.getParent();
