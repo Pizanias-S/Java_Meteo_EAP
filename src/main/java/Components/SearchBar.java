@@ -49,8 +49,6 @@ public class SearchBar extends JTextField {
     private Color backgroundColor = new Color(50,50,50);
     private Color animationColor = new Color(90, 90, 90);
     private final Icon iconSearch;
-    //private final Icon iconClose;
-    //private final Icon iconLoading;
     private String hintText = "Search...";
     private boolean show;
     private double location = -1;
@@ -63,12 +61,8 @@ public class SearchBar extends JTextField {
         super.setBackground(new Color(255, 255, 255, 0)); //  Remove background
         setOpaque(false);
         setBorder(new EmptyBorder(10, 10, 10, 50)); //  Set Right border 50
-        //setFont(new java.awt.Font("sansserif", 0, 14));
         setSelectionColor(new Color(80, 80, 80));
         iconSearch = new ImageIcon(getClass().getResource("/Icons/search.png"));
-        //iconClose = new ImageIcon(getClass().getResource("/swing/close.png"));
-        //iconLoading = new ImageIcon(getClass().getResource("/swing/loading.gif"));
-        //  Create and check if mouse over button
         addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent me) {
@@ -85,34 +79,9 @@ public class SearchBar extends JTextField {
             public void mousePressed(MouseEvent me) {
                 if (SwingUtilities.isLeftMouseButton(me)) {
                     if (checkMouseOver(me.getPoint())) {
-                        if (!animator.isRunning()) {
-                            if (show) {
-                                setEditable(true);
-                                show = false;
-                                location = 0;
-                                animator.start();
-                                if (thread != null) {
-                                    thread.interrupt();
-                                }
-                                if (event != null) {
-                                    event.onCancel();
-                                }
-                            } else {
-                                setEditable(false);
-                                show = true;
-                                location = getWidth();
-                                animator.start();
-                                if (event != null) {
-                                    thread = new Thread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            event.onPressed(callBack);
-                                        }
-                                    });
-                                    thread.start();
-                                }
-                            }
-                        }
+                      searchBar1ActionPerformed(); 
+
+
                     }
                 }
             }

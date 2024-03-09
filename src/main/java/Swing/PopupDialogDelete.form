@@ -84,7 +84,7 @@
               <Color blue="dc" green="dc" red="dc" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="&lt;html&gt;This action will permanently delete all data from the selected city. Do you want to proceed?&lt;/html&gt; "/>
+            <Property name="text" type="java.lang.String" value="&lt;html&gt;This action will permanently delete all Meteo Data from the selected city. Do you want to proceed?&lt;/html&gt; "/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
           </Properties>
         </Component>

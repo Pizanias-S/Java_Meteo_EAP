@@ -56,7 +56,7 @@ public class PopupDialogInfo extends javax.swing.JDialog {
         jPanel1.setForeground(new java.awt.Color(120, 120, 120));
 
         titleLabel.setFont(new java.awt.Font("Avenir Next", 1, 24)); // NOI18N
-        titleLabel.setForeground(new java.awt.Color(255, 112, 38));
+        titleLabel.setForeground(new java.awt.Color(255, 255, 255));
         titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         titleLabel.setText("INFO");
         titleLabel.setToolTipText("");
@@ -80,10 +80,11 @@ public class PopupDialogInfo extends javax.swing.JDialog {
         );
 
         infoLabel.setFont(new java.awt.Font("Avenir Next", 0, 18)); // NOI18N
-        infoLabel.setForeground(new java.awt.Color(255, 148, 1));
+        infoLabel.setForeground(new java.awt.Color(255, 255, 255));
         infoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         infoLabel.setText("<html>Displayed Message<html>");
         infoLabel.setToolTipText("");
+        infoLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout popupBackground1Layout = new javax.swing.GroupLayout(popupBackground1);
         popupBackground1.setLayout(popupBackground1Layout);

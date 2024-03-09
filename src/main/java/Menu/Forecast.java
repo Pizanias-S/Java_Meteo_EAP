@@ -1332,8 +1332,6 @@ public class Forecast extends JPanel {
         materialTabbedPane2.addTab("Day After", jPanel3);
         jPanel3.getAccessibleContext().setAccessibleName("");
 
-        materialTabbedPane2.setSelectedIndex(1);
-
         dateLabel.setFont(new java.awt.Font("Avenir Next", 2, 10)); // NOI18N
         dateLabel.setForeground(new java.awt.Color(200, 200, 200));
         dateLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
