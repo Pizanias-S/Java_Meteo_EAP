@@ -14,6 +14,7 @@ public class Database {
     
     // create an object of Database
     private static Database connectionInstance = new Database();
+    private static final String JDBC_DRIVER_NAME = "org.apache.derby.jdbc.EmbeddedDriver";
     private JFrame parentFrame;
 
     private Database() {
@@ -27,8 +28,9 @@ public class Database {
     }
     
     // connect to the database
-    public Connection connect() {
+    public Connection connect() throws ClassNotFoundException {
         // Method to connect to the db and create it if it doesn't exist
+        Class.forName(JDBC_DRIVER_NAME);
         String connectionString = "jdbc:derby:derbydb2;create=true";
         Connection connection= null;
         try {
@@ -58,7 +60,7 @@ public class Database {
             connection.close();
             System.out.println("Done!");
 
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             System.out.println(throwables.getLocalizedMessage());
         }
     }
@@ -83,7 +85,7 @@ public class Database {
             statement.close();
             connection.close();
             System.out.println("Done!");
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             System.out.println(throwables.getLocalizedMessage());
         }
     }
@@ -100,14 +102,14 @@ public class Database {
             statement.close();
             connection.close();
             System.out.println("Done!");
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             System.out.println(throwables.getLocalizedMessage());
         }
     }
 
 
     public void insertNewCity(String Name, String Country, String Region, String Latitude,
-                              String Longitude, int Appearance, String Search_Date) throws SQLException {
+                              String Longitude, int Appearance, String Search_Date) throws SQLException, ClassNotFoundException {
         // SQL INSERT to add city data to the db
         try {
             Connection connection = connect();
@@ -127,7 +129,7 @@ public class Database {
             preparedStatement2.executeUpdate();
             preparedStatement.close();
             connection.close();
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             System.out.println(throwables.getLocalizedMessage());
             Connection connection = connect();
             String insertSQL2 = "Insert into CityDate values(?,?)";
@@ -187,7 +189,7 @@ public class Database {
             }
             preparedStatement.close();
             connection.close();
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             System.out.println(throwables.getLocalizedMessage());
             PopupDialogInfo notification = new PopupDialogInfo(parentFrame);
             notification.init();
@@ -220,7 +222,7 @@ public class Database {
             }
             statement.close();
             connection.close();
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             System.out.println(throwables.getLocalizedMessage());
         }
         return CityList;
@@ -249,6 +251,8 @@ public class Database {
             connection.close();
         } catch (SQLException throwables) {
             System.out.println(throwables.getLocalizedMessage());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
         return CityList;
     }
@@ -275,7 +279,7 @@ public class Database {
             }
             statement.close();
             connection.close();
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             System.out.println(throwables.getLocalizedMessage());
         }
         return CityData;
@@ -298,7 +302,7 @@ public class Database {
             }
             statement.close();
             connection.close();
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             System.out.println(throwables.getLocalizedMessage());
         }
         return SearchedDate;
@@ -312,7 +316,7 @@ public class Database {
             statement.executeUpdate(deleteSQL);
             statement.close();
             connection.close();
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             System.out.println(throwables.getLocalizedMessage());
         };
     }
@@ -331,7 +335,7 @@ public class Database {
             }
             statement.close();
             connection.close();
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             System.out.println(throwables.getLocalizedMessage());
         }
         return DateList;
@@ -359,7 +363,7 @@ public class Database {
             }
             statement.close();
             connection.close();
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             System.out.println(throwables.getLocalizedMessage());
         }
         return DateCityList;
@@ -391,7 +395,7 @@ public class Database {
 
             preparedStatement.close();
             connection.close();
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             System.out.println(throwables.getLocalizedMessage());
             PopupDialogInfo notification = new PopupDialogInfo(parentFrame);
             notification.init();
