@@ -28,6 +28,7 @@ import org.jdesktop.animation.timing.TimingTargetAdapter;
 import Menu.EventCallBack;
 import Menu.EventTextField;
 
+
 public class SearchBar extends JTextField {
 
     public String getHintText() {
@@ -74,18 +75,16 @@ public class SearchBar extends JTextField {
             }
         });
         //  Create mouse click
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent me) {
-                if (SwingUtilities.isLeftMouseButton(me)) {
-                    if (checkMouseOver(me.getPoint())) {
-                      searchBar1ActionPerformed(); 
-
-
-                    }
-                }
-            }
-        });
+//        addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mousePressed(MouseEvent me) {
+//                if (SwingUtilities.isLeftMouseButton(me)) {
+//                    if (checkMouseOver(me.getPoint())) {
+//                      show();
+//                    }
+//                }
+//            }
+//        });
         callBack = new EventCallBack() {
             @Override
             public void done() {
