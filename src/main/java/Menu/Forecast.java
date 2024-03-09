@@ -82,10 +82,6 @@ public class Forecast extends JPanel {
         ImageIcon newIcon = new ImageIcon(newimg);
         return newIcon;        
     }
-    
-    
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -1486,7 +1482,6 @@ public class Forecast extends JPanel {
                        for (JsonElement jsonElement2 : areaName) {
                            JsonObject object1 = jsonElement2.getAsJsonObject();
                            name = object1.get("value").getAsString();
-                           //cityLabel.setText(name);
                        }
                        for (JsonElement jsonCountry : countryName) {
                            JsonObject objectCountry = jsonCountry.getAsJsonObject();

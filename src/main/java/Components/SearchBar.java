@@ -11,7 +11,6 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.RenderingHints;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Area;
@@ -20,7 +19,6 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
@@ -74,17 +72,7 @@ public class SearchBar extends JTextField {
                 }
             }
         });
-        //  Create mouse click
-//        addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mousePressed(MouseEvent me) {
-//                if (SwingUtilities.isLeftMouseButton(me)) {
-//                    if (checkMouseOver(me.getPoint())) {
-//                      show();
-//                    }
-//                }
-//            }
-//        });
+
         callBack = new EventCallBack() {
             @Override
             public void done() {
@@ -133,11 +121,8 @@ public class SearchBar extends JTextField {
             Area area = new Area(new RoundRectangle2D.Double(0, 0, width, height, height, height));
             area.intersect(new Area(new RoundRectangle2D.Double(location, 0, width - location, height, height, height)));
             g2.fill(area);
-            //  Create Loading icon
-            //int iconSize = iconLoading.getIconHeight();
             //  Create Alpha
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, getAlpha()));
-            //g2.drawImage(((ImageIcon) iconLoading).getImage(), (int) (location + 5), (height - iconSize) / 2, this);
         }
         //  Create Button Icon
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f)); //  Set to default
