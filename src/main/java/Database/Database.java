@@ -14,7 +14,6 @@ public class Database {
     
     // create an object of Database
     private static Database connectionInstance = new Database();
-    private static final String JDBC_DRIVER_NAME = "org.apache.derby.jdbc.EmbeddedDriver";
     private JFrame parentFrame;
 
     private Database() {
@@ -30,7 +29,6 @@ public class Database {
     // connect to the database
     public Connection connect() throws ClassNotFoundException {
         // Method to connect to the db and create it if it doesn't exist
-        Class.forName(JDBC_DRIVER_NAME);
         String connectionString = "jdbc:derby:derbydb2;create=true";
         Connection connection= null;
         try {
