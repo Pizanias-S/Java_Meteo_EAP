@@ -1,10 +1,8 @@
 package Swing;
-
-//import Swing.PanelBackground;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
-import Swing.PopupDialogExit;
+
 
 public class WinButton extends javax.swing.JPanel {
 
