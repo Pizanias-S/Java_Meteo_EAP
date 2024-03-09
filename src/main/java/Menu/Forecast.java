@@ -1,32 +1,22 @@
 package Menu;
 
-import Components.DeleteButton;
-import Components.EditButton;
-import Components.SaveButton;
-import Components.SearchBar;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.time.format.DateTimeFormatter;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import javax.swing.*;
-
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import Database.Database;
 import Swing.PopupDialogInfo;
 import okhttp3.Response;
@@ -34,7 +24,7 @@ import okhttp3.Response;
 public class Forecast extends JPanel {
     
     private ImageIcon c_icon, cur_con_icon, h_icn, ws_icn, uv_icn, fm_icn, fn_icn, fe_icn, fnt_icn;
-    private JFrame parentFrame;
+    public JFrame parentFrame;
     
         
     public Forecast() {
@@ -1342,8 +1332,6 @@ public class Forecast extends JPanel {
         materialTabbedPane2.addTab("Day After", jPanel3);
         jPanel3.getAccessibleContext().setAccessibleName("");
 
-        materialTabbedPane2.setSelectedIndex(1);
-
         dateLabel.setFont(new java.awt.Font("Avenir Next", 2, 10)); // NOI18N
         dateLabel.setForeground(new java.awt.Color(200, 200, 200));
         dateLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -2114,9 +2102,7 @@ public class Forecast extends JPanel {
                    searchError.setText("City not found");
                }      
            } catch (Exception e) {
-                   System.out.println("It doesn't exist1");
                    System.out.println(e);
-                   //searchError.setText("City not found");
            }
 
      } catch (Exception e) {
@@ -2126,33 +2112,40 @@ public class Forecast extends JPanel {
     }//GEN-LAST:event_searchBar1ActionPerformed
 
     private void saveButton1MouseClicked(MouseEvent evt) {//GEN-FIRST:event_saveButton1MouseClicked
-        double cityTemp = Double.parseDouble(cur_temp.getText().split("°")[0]);
+        double cityTemp;
+        try {
+            cityTemp = Double.parseDouble(cur_temp.getText().split("°")[0]);
+        } catch (NumberFormatException e) {
+            PopupDialogInfo info = new PopupDialogInfo(parentFrame);
+            info.init();
+            info.setInfo("Please search for a city first");
+            Timer timer = new Timer(2000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    info.setVisible(false);
+                    info.dispose();
+                }
+            });
+            timer.setRepeats(false);
+            timer.start();
+            info.setVisible(true);
+            return;
+        }
+
         int cityHumidity = Integer.parseInt(h.getText().split("%")[0]);
         int cityUv = Integer.parseInt(uv.getText());
         double cityWind = Double.parseDouble(ws.getText().split(" ")[0]);
         String cityName = cityLabel.getText().split(",")[0];
         String[] bits = dateLabel.getText().split(": ");
-        String dateLast = bits[bits.length-1];
-             Database connectDB = Database.getConnectionInstance();
-             connectDB.insertMeteoData(cityName, dateLast, cityTemp,
-                     cityHumidity, cityUv, cityWind, description.getText());
+        String dateLast = bits[bits.length - 1];
+        Database connectDB = Database.getConnectionInstance();
+        connectDB.insertMeteoData(cityName, dateLast, cityTemp,
+                cityHumidity, cityUv, cityWind, description.getText());
     }//GEN-LAST:event_saveButton1MouseClicked
 
     private void saveButton1ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_saveButton1ActionPerformed
         // TODO add your handling code here:
-        PopupDialogInfo notification = new PopupDialogInfo(parentFrame);
-        notification.init();
-        notification.setInfo("Weather data saved to DB");
-        Timer timer = new Timer(1500, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                notification.setVisible(false);
-                notification.dispose();
-            }
-        });
-        timer.setRepeats(false);
-        timer.start();
 
-        notification.setVisible(true); // if modal, application will pause here
     }//GEN-LAST:event_saveButton1ActionPerformed
 
     private void searchInfoButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchInfoButton1ActionPerformed
@@ -2160,7 +2153,7 @@ public class Forecast extends JPanel {
         PopupDialogInfo info = new PopupDialogInfo(parentFrame);
         info.init();
         info.setInfo("Tip: Search location by city & province/country, ICAO airport code or coordinates");
-        Timer timer = new Timer(3000, new ActionListener() {
+        Timer timer = new Timer(4000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 info.setVisible(false);

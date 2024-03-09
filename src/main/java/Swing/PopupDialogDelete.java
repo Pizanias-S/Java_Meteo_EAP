@@ -1,20 +1,24 @@
 package Swing;
 
-import java.awt.Color;
-import java.awt.Image;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.*;
+import Database.Database;
 
 
-public class PopupDialogDelete extends javax.swing.JDialog {
+public class PopupDialogDelete extends JDialog {
 
+    private JFrame parentFrame;
     private final JFrame frame;
+    private final String city;
     private ImageIcon icon;
     
-    public PopupDialogDelete(JFrame frame) {
+    public PopupDialogDelete(JFrame frame, String city) {
         super(frame, true);
         initComponents();
         this.frame = frame;
+        this.city = city;
         setLocationRelativeTo(null);
         init();
     }
@@ -29,7 +33,7 @@ public class PopupDialogDelete extends javax.swing.JDialog {
     private ImageIcon iconRender(String path, int w, int h){
         ImageIcon tempIcon = new ImageIcon(getClass().getResource(path));
         Image img = tempIcon.getImage();
-        Image newimg = img.getScaledInstance(w, h, java.awt.Image.SCALE_SMOOTH);
+        Image newimg = img.getScaledInstance(w, h, Image.SCALE_SMOOTH);
         ImageIcon newIcon = new ImageIcon(newimg);
         return newIcon;        
     }
@@ -57,7 +61,7 @@ public class PopupDialogDelete extends javax.swing.JDialog {
         jLabel3.setFont(new java.awt.Font("Avenir Next", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(220, 220, 220));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("<html>This action will permanently delete all data from the current city. Do you want to proceed?</html> ");
+        jLabel3.setText("<html>This action will permanently delete all Meteo Data from the selected city. Do you want to proceed?</html> ");
         jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         cancelButton.setForeground(new java.awt.Color(220, 220, 220));
@@ -145,22 +149,29 @@ public class PopupDialogDelete extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+    private void cancelButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
-    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+    private void deleteButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         // TODO add your handling code here:
-        try {
-//            tx.begin();                      
-//            City city = cityController.findCity(jTextField7.getText());
-//            Query query = em.createQuery("DELETE FROM Citydata c WHERE c.cityareaname = :cityareaname");       // Διαγραφή δεδομένων πόλης
-//            query.setParameter("cityareaname", city).executeUpdate();
-//            tx.commit();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        Database connectDB = Database.getConnectionInstance();
+        connectDB.DeleteDataByCity(city);
+        dispose();
+        PopupDialogInfo notification = new PopupDialogInfo(parentFrame);
+        notification.init();
+        notification.setInfo("Meteo Data for city " + city+ " got deleted from the db");
+        Timer timer = new Timer(2000, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                notification.setVisible(false);
+                notification.dispose();
+            }
+        });
+        timer.setRepeats(false);
+        timer.start();
+
+        notification.setVisible(true);
     }//GEN-LAST:event_deleteButtonActionPerformed
 
 
