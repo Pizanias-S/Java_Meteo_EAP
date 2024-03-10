@@ -16,8 +16,6 @@ import Components.DialogButton;
 import Components.PopupBackground;
 import Database.Database;
 
-import static javax.swing.JOptionPane.showMessageDialog;
-
 
 public class PopupDialogEdit extends JDialog {
 
