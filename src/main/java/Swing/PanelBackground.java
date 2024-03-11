@@ -14,7 +14,10 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-
+/**
+ * A custom bg.
+ * 
+ */
 public class PanelBackground extends JPanel {
 
     public Icon getImage() {

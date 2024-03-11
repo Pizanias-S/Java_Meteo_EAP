@@ -8,6 +8,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import net.miginfocom.swing.MigLayout;
 
+/**
+   * This is the main method which manages the sidemenu's layout, look & feel.
+   * 
+   */
+
 public class Menu extends javax.swing.JPanel {
 
     private List<EventMenu> events;
@@ -26,11 +31,13 @@ public class Menu extends javax.swing.JPanel {
         repaint();
         revalidate();
     }
-
+    
+    /**  Simple methods for layout modifications.  */
     private void addSpace(int size) {
         panel.add(new JLabel(), "h " + size + "!");
     }
-
+    
+    /**  @see Above. */
     private void addItem(String icon, int index) {
         MenuItem item = new MenuItem();
         item.setImage(new ImageIcon(getClass().getResource("/Icons/" + icon + ".png")).getImage());

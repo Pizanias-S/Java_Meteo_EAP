@@ -28,6 +28,10 @@ import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 
+/**
+ * A custom combo box creator method.
+ * 
+ */
 public class ComboBox<E> extends JComboBox<E> {
 
     public String getLabeText() {
@@ -76,7 +80,8 @@ public class ComboBox<E> extends JComboBox<E> {
         setBorder(new EmptyBorder(15, 3, 5, 3));
         installUI();
     }
-
+    
+    /*  Custom Combo Box design & animation.    */
     private class ComboUI extends BasicComboBoxUI {
 
         private final Animator animator;
@@ -186,7 +191,11 @@ public class ComboBox<E> extends JComboBox<E> {
             pop.setBorder(new LineBorder(new Color(30, 30, 30), 1));
             return pop;
         }
-
+        
+        /**
+         * {@inheritDoc }
+         * 
+         */
         @Override
         public void paint(Graphics grphcs, JComponent jc) {
             super.paint(grphcs, jc);
@@ -241,6 +250,10 @@ public class ComboBox<E> extends JComboBox<E> {
                 setBackground(new Color(220, 220, 220));
             }
 
+           /**
+               * {@inheritDoc }
+               * 
+               */
             @Override
             public void paint(Graphics grphcs) {
                 super.paint(grphcs);

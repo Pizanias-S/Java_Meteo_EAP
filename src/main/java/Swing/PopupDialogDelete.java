@@ -6,7 +6,10 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import Database.Database;
 
-
+/**
+   * This method creates custom popup windows for displaying warnings.
+   * 
+   */
 public class PopupDialogDelete extends JDialog {
 
     private JFrame parentFrame;
@@ -30,6 +33,11 @@ public class PopupDialogDelete extends JDialog {
        warningLabel.setIcon(icon);
     }
     
+    /**
+     * 
+     * {@inheritDoc }
+     *  
+     */
     private ImageIcon iconRender(String path, int w, int h){
         ImageIcon tempIcon = new ImageIcon(getClass().getResource(path));
         Image img = tempIcon.getImage();

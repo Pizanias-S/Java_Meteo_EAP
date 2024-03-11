@@ -21,6 +21,10 @@ import Database.Database;
 import Swing.PopupDialogInfo;
 import okhttp3.Response;
 
+/**
+   * This is the main method which manages the weather forecast frame.
+   * 
+   */
 public class Forecast extends JPanel {
     
     private ImageIcon c_icon, cur_con_icon, h_icn, ws_icn, uv_icn, fm_icn, fn_icn, fe_icn, fnt_icn;
@@ -31,17 +35,18 @@ public class Forecast extends JPanel {
         initComponents();
         setOpaque(false);
         parentFrame = (JFrame) this.getParent();
-        // City Label & Location Icon
+        
+        // Default city Label & Location Icon
         c_icon = iconRender("/Icons/location.png", 27, 27);
         city_icon.setIcon(c_icon);
         cityLabel.repaint();
         cityLabel.setText("--");
         
-        // Current Conditions icon
+        // Default current conditions icon
         cur_con_icon =  iconRender("/Icons/cur_partly_cloudy.png", 100, 100);
         cur_conditions.setIcon(cur_con_icon);
         
-        // Humidity - Winspeed - UV icons
+        // Default Humidity - Winspeed - UV icons
         h_icn = iconRender("/Icons/humidity.png", 25, 25);
         h_icon.setIcon(h_icn);
         ws_icn = iconRender("/Icons/windspeed.png", 25, 25);
@@ -49,32 +54,34 @@ public class Forecast extends JPanel {
         uv_icn = iconRender("/Icons/uv.png", 25, 25);
         uv_icon.setIcon(uv_icn);
         
-        // Morning Forecast
+        // Default Morning Forecast
         fm_icn = iconRender("/Icons/no_data.png", 50, 50);
         fm_icon.setIcon(fm_icn);
         fm_icon1.setIcon(fm_icn);
         fm_icon2.setIcon(fm_icn);
 
-        //Noon Forecast
+        // Default Noon Forecast
         fn_icn = iconRender("/Icons/no_data.png", 50, 50);
         fn_icon.setIcon(fn_icn);
         fn_icon1.setIcon(fn_icn);
         fn_icon2.setIcon(fn_icn);
 
-        //Evening Forecast
+        // Default Evening Forecast
         fe_icn = iconRender("/Icons/no_data.png", 50, 50);
         fe_icon.setIcon(fe_icn);
         fe_icon1.setIcon(fe_icn);
         fe_icon2.setIcon(fe_icn);
 
-        //Night Forecast
+        // Default Night Forecast
         fnt_icn = iconRender("/Icons/no_data.png", 50, 50);
         fnt_icon.setIcon(fnt_icn);
         fnt_icon1.setIcon(fnt_icn);
         fnt_icon2.setIcon(fnt_icn);
     }
     
-    
+    /**
+        *   { @inheritDoc } 
+        */
     private ImageIcon iconRender(String path, int w, int h){
         ImageIcon tempIcon = new ImageIcon(getClass().getResource(path));
         Image img = tempIcon.getImage();
@@ -1434,10 +1441,13 @@ public class Forecast extends JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-
+    /**
+        * This method updates the displayed weather forecast data for each day of the week.
+        * 
+        */
     private void searchBar1ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_searchBar1ActionPerformed
 
-        
+        /*  Local Variables  */
         Date currentDate = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Calendar c = Calendar.getInstance();
@@ -1448,7 +1458,8 @@ public class Forecast extends JPanel {
         String formattedDayAfterTomorrowDate = dateFormat.format(c.getTime());
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HHmm");
         LocalDateTime now = LocalDateTime.now();
-             
+        
+        /*  Get searched text   */
         try {
             String city = searchBar1.getText();                                      
             String urlToCall = "https://wttr.in/" + city + "?format=j1";              
@@ -1544,7 +1555,7 @@ public class Forecast extends JPanel {
                        }
                    }
 
-
+                   /*   TODAY   */
                    for (JsonElement jsonElement4 : forecast_array) {
                        JsonObject wObj0 = jsonElement4.getAsJsonObject();
                        String stringDate = wObj0.get("date").getAsString();
@@ -1554,7 +1565,8 @@ public class Forecast extends JPanel {
                            for (JsonElement jsonElement5 : fcast0) {
                                JsonObject h2 = jsonElement5.getAsJsonObject();
                                String stringTime = h2.get("time").getAsString();
-
+                               
+                               // Morning
                                if (stringTime.equalsIgnoreCase("600")) {
                                    fm_temp.setText(h2.get("tempC").getAsString() + "°C");
                                    fm_h.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
@@ -1597,6 +1609,8 @@ public class Forecast extends JPanel {
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
                                        fm_icon.setIcon(cur_con_icon);
                                    }
+                               
+                               // Noon
                                } else if (stringTime.equalsIgnoreCase("1200")) {
                                    fn_temp.setText(h2.get("tempC").getAsString() + "°C");
                                    fn_h.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
@@ -1639,6 +1653,8 @@ public class Forecast extends JPanel {
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
                                        fn_icon.setIcon(cur_con_icon);
                                    }
+                                   
+                               // Evening
                                } else if (stringTime.equalsIgnoreCase("1800")) {
                                    fe_temp.setText(h2.get("tempC").getAsString() + "°C");
                                    fe_h.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
@@ -1680,9 +1696,9 @@ public class Forecast extends JPanel {
                                        };
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
                                        fe_icon.setIcon(cur_con_icon);
-
-
                                    }
+                                   
+                               // Night
                                } else if (stringTime.equalsIgnoreCase("2100")) {
                                    fnt_temp.setText(h2.get("tempC").getAsString() + "°C");
                                    fnt_h.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
@@ -1728,14 +1744,15 @@ public class Forecast extends JPanel {
                                    }
                                }
                            }
-                           // TOMORROW
+                       /*   TOMORROW  */
                        }else if (stringDate.equalsIgnoreCase(dateTomorrow)) {
                            materialTabbedPane2.setTitleAt(1, dateTomorrow); // change tab title
                            JsonArray fcast0 = wObj0.get("hourly").getAsJsonArray();
                            for (JsonElement jsonElement5 : fcast0) {
                                JsonObject h2 = jsonElement5.getAsJsonObject();
                                String stringTime = h2.get("time").getAsString();
-
+                               
+                               // Morning
                                if (stringTime.equalsIgnoreCase("600")) {
                                    fm_temp1.setText(h2.get("tempC").getAsString() + "°C");
                                    fm_h1.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
@@ -1778,6 +1795,8 @@ public class Forecast extends JPanel {
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
                                        fm_icon1.setIcon(cur_con_icon);
                                    }
+                                   
+                               // Noon
                                } else if (stringTime.equalsIgnoreCase("1200")) {
                                    fn_temp1.setText(h2.get("tempC").getAsString() + "°C");
                                    fn_h1.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
@@ -1820,13 +1839,15 @@ public class Forecast extends JPanel {
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
                                        fn_icon1.setIcon(cur_con_icon);
                                    }
+                               
+                               // Evening
                                } else if (stringTime.equalsIgnoreCase("1800")) {
                                    fe_temp1.setText(h2.get("tempC").getAsString() + "°C");
                                    fe_h1.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
                                    fe_ws1.setText("WindSpeed: " + h2.get("windspeedKmph").getAsString() + " kmph");
                                    fe_uv1.setText("UV: " + h2.get("uvIndex").getAsString());
                                    JsonArray description_subarray = h2.get("weatherDesc").getAsJsonArray();
-
+                                   
                                    for (JsonElement jsonElement9 : description_subarray) {
                                        JsonObject e = jsonElement9.getAsJsonObject();
                                        fe_description1.setText(e.get("value").getAsString());
@@ -1861,9 +1882,9 @@ public class Forecast extends JPanel {
                                        };
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
                                        fe_icon1.setIcon(cur_con_icon);
-
-
                                    }
+                                   
+                               // Night
                                } else if (stringTime.equalsIgnoreCase("2100")) {
                                    fnt_temp1.setText(h2.get("tempC").getAsString() + "°C");
                                    fnt_h1.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
@@ -1909,7 +1930,8 @@ public class Forecast extends JPanel {
                                    }
                                }
                            }
-                           // DAY AFTER TOMORROW
+                           
+                       /*   DAY AFTER TOMORROW    */
                        }else if (stringDate.equalsIgnoreCase(formattedDayAfterTomorrowDate)) {
                            materialTabbedPane2.setTitleAt(2, formattedDayAfterTomorrowDate); // change tab title
 
@@ -1918,6 +1940,7 @@ public class Forecast extends JPanel {
                                JsonObject h2 = jsonElement5.getAsJsonObject();
                                String stringTime = h2.get("time").getAsString();
 
+                               // Morning
                                if (stringTime.equalsIgnoreCase("600")) {
                                    fm_temp2.setText(h2.get("tempC").getAsString() + "°C");
                                    fm_h2.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
@@ -1960,6 +1983,8 @@ public class Forecast extends JPanel {
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
                                        fm_icon2.setIcon(cur_con_icon);
                                    }
+                                   
+                               // Noon
                                } else if (stringTime.equalsIgnoreCase("1200")) {
                                    fn_temp2.setText(h2.get("tempC").getAsString() + "°C");
                                    fn_h2.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
@@ -2002,6 +2027,8 @@ public class Forecast extends JPanel {
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
                                        fn_icon2.setIcon(cur_con_icon);
                                    }
+                                   
+                               // Evening
                                } else if (stringTime.equalsIgnoreCase("1800")) {
                                    fe_temp2.setText(h2.get("tempC").getAsString() + "°C");
                                    fe_h2.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
@@ -2043,9 +2070,9 @@ public class Forecast extends JPanel {
                                        };
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
                                        fe_icon2.setIcon(cur_con_icon);
-
-
                                    }
+                                   
+                               // Night
                                } else if (stringTime.equalsIgnoreCase("2100")) {
                                    fnt_temp2.setText(h2.get("tempC").getAsString() + "°C");
                                    fnt_h2.setText("Humidity: " + h2.get("humidity").getAsString() + "%");

@@ -1,5 +1,5 @@
-
 package mavenproject1;
+
 import Database.Database;
 import Menu.EventMenu;
 import Menu.Forecast;
@@ -11,6 +11,16 @@ import javax.swing.JComponent;
 import Swing.PopupDialogExit;
 import javax.swing.*;
 
+/**
+* The Mavenproject1 program implements an application that
+* displays and manages weather data from all over the world. 
+*
+* @author   Aggelos Kaptanis
+* @author   Dimitris Kafasis
+* @author   Stefanos Pizanias
+* @version 1.0
+* @since     2024
+*/
 public class Mavenproject1 extends javax.swing.JFrame{
 
     public JFrame parentFrame;
@@ -44,6 +54,7 @@ public class Mavenproject1 extends javax.swing.JFrame{
           }); 
     }
     
+    /*  Simple method to display a new frame.   */
     private void setForm(JComponent com) {
         mainPanel.removeAll();
         mainPanel.add(com, BorderLayout.CENTER);

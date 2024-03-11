@@ -26,7 +26,10 @@ import org.jdesktop.animation.timing.TimingTargetAdapter;
 import Menu.EventCallBack;
 import Menu.EventTextField;
 
-
+/**
+ * A custom search bar.
+ * 
+ */
 public class SearchBar extends JTextField {
 
     public String getHintText() {
@@ -116,7 +119,7 @@ public class SearchBar extends JTextField {
         GradientPaint gra = new GradientPaint(0, 0, new Color(50, 50, 50), width, 0, animationColor);
         g2.setPaint(gra);
         g2.fillOval(width - height + 3, marginButton, buttonSize, buttonSize);
-        //  Create Animation when click button
+        //  Create Animation when button is clicked
         if (location > -1) {
             Area area = new Area(new RoundRectangle2D.Double(0, 0, width, height, height, height));
             area.intersect(new Area(new RoundRectangle2D.Double(location, 0, width - location, height, height, height)));

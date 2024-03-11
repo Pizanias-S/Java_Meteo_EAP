@@ -4,7 +4,10 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-
+/**
+   * This method creates custom popup windows for info display.
+   * 
+   */
 public class PopupDialogInfo extends javax.swing.JDialog {
 
  
@@ -27,6 +30,14 @@ public class PopupDialogInfo extends javax.swing.JDialog {
         infoLabel.setText("<html>"+str+"<html>");
     }
     
+    /**
+        *   This is a method that resizes an icon to the desired dimensions.
+        *   It implements high quality rendering.
+        * 
+        * @param path           The icon's file path.
+        * @params w, h          Desired width & height.
+        * @return newIcon     The rendered icon. 
+        */
     private ImageIcon iconRender(String path, int w, int h){
         ImageIcon tempIcon = new ImageIcon(getClass().getResource(path));
         Image img = tempIcon.getImage();
