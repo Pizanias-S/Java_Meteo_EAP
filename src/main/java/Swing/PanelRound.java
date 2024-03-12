@@ -11,6 +11,10 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import javax.swing.JPanel;
 
+/**
+ * A custom bg with rounded corners.
+ * 
+ */
 public class PanelRound extends JPanel {
     
     public int getRoundTopLeft() {

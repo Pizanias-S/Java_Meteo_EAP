@@ -13,8 +13,11 @@ import java.util.logging.Logger;
 public class About extends javax.swing.JPanel {
     
     private ImageIcon logo, javaIcon, gitLogo, TrelloLogo, gitLogo2;
-
-
+    
+    /** 
+    * Class constructor.
+    * 
+    */
     public About() {
         initComponents();
         setOpaque(false);
@@ -273,6 +276,7 @@ public class About extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void gitLabelSPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gitLabelSPMouseClicked
+        // action for projects GitHub URL
         if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
             try {
                 Desktop.getDesktop().browse(new URI("https://github.com/Pizanias-S/Java_Meteo_EAP/tree/main"));
@@ -282,6 +286,7 @@ public class About extends javax.swing.JPanel {
     }//GEN-LAST:event_gitLabelSPMouseClicked
 
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
+        // action for wttr.in GitHub URL
         if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
             try {
                 Desktop.getDesktop().browse(new URI("https://github.com/chubin/wttr.in"));
@@ -291,14 +296,17 @@ public class About extends javax.swing.JPanel {
     }//GEN-LAST:event_jLabel9MouseClicked
 
     private void jLabel9MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseEntered
+        // action to change the mouse type when hovering button
            setCursor(new Cursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_jLabel9MouseEntered
 
     private void jLabel9MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseExited
+        // action to reset the mouse to default when not hovering the button
            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_jLabel9MouseExited
 
     private void javaLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_javaLabelMouseClicked
+        // action to open URL of javadoc when clicked
         if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
             try {
                 Desktop.getDesktop().browse(new URI("https://javadoc.scijava.org/Java17/java.desktop/javax/swing/package-summary.html"));
@@ -308,22 +316,27 @@ public class About extends javax.swing.JPanel {
     }//GEN-LAST:event_javaLabelMouseClicked
 
     private void javaLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_javaLabelMouseEntered
+        // action to change the mouse type when hovering button
            setCursor(new Cursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_javaLabelMouseEntered
 
     private void javaLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_javaLabelMouseExited
+        // action to reset the mouse to default when not hovering the button
            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_javaLabelMouseExited
 
     private void gitLabelSPMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gitLabelSPMouseEntered
+        // action to change the mouse type when hovering button
            setCursor(new Cursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_gitLabelSPMouseEntered
 
     private void gitLabelSPMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gitLabelSPMouseExited
+        // action to reset the mouse to default when not hovering the button
            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_gitLabelSPMouseExited
 
     private void gitLabelSP1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gitLabelSP1MouseClicked
+        // action to open URL of tello when clicked
         if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
             try {
                 Desktop.getDesktop().browse(new URI("https://trello.com/b/yHaaGp7J/project-java-meteo"));
@@ -333,10 +346,12 @@ public class About extends javax.swing.JPanel {
     }//GEN-LAST:event_gitLabelSP1MouseClicked
 
     private void gitLabelSP1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gitLabelSP1MouseEntered
+        // action to change the mouse type when hovering button
            setCursor(new Cursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_gitLabelSP1MouseEntered
 
     private void gitLabelSP1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gitLabelSP1MouseExited
+        // action to reset the mouse to default when not hovering the button
            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_gitLabelSP1MouseExited
 

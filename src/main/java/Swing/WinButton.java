@@ -4,6 +4,10 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 
 
+/**
+ * Custom round buttons.
+ * 
+ */
 public class WinButton extends javax.swing.JPanel {
 
     public JFrame parentFrame;

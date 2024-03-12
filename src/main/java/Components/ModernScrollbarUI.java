@@ -11,6 +11,10 @@ import javax.swing.JComponent;
 import javax.swing.JScrollBar;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
+/**
+ * A custom scroll bar.
+ * 
+ */
 public class ModernScrollbarUI extends BasicScrollBarUI {
 
     private final int THUMB_SIZE = 80;

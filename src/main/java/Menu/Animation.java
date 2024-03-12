@@ -5,6 +5,10 @@ import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.interpolation.PropertySetter;
 
+/**
+ * A zoom effect animation.
+ * 
+ */
 public class Animation {
 
     private final MenuItem item;

@@ -9,12 +9,16 @@ import java.awt.RenderingHints;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-
+/**
+   * This is a button creator method.
+   * 
+   */
 public class DeleteButton extends JButton {
     
     private final Image img;
     private final Dimension imageSize = new Dimension(25, 25);
 
+    /*  Initializer */
     public DeleteButton() {
         setContentAreaFilled(false);
         setBorder(null);
@@ -22,6 +26,9 @@ public class DeleteButton extends JButton {
         img = new ImageIcon(getClass().getResource("/Icons/delete.png")).getImage();
     }
         
+    /**
+        * {@inheritDoc }
+        */
     @Override
      public void paintComponent(Graphics grphcs) {
         Graphics2D g2 = (Graphics2D) grphcs.create();

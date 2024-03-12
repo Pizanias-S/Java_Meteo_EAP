@@ -9,19 +9,28 @@ import java.awt.RenderingHints;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-
+/**
+   * This is a button creator method.
+   * 
+   */
 public class SearchInfoButton extends JButton {
     
     private final Image img;
     private final Dimension imageSize = new Dimension(15, 15);
-
+    
+    /*  Initializer.    */
     public SearchInfoButton() {
         setContentAreaFilled(false);
         setBorder(null);
         setCursor(new Cursor(Cursor.HAND_CURSOR));
         img = new ImageIcon(getClass().getResource("/Icons/infoSearch.png")).getImage();
     }
-        
+    
+    /**
+        *   This is a method for custom modern design buttons.
+        * 
+        * @param grphcs Graphics modifications to apply.
+        */
     @Override
      public void paintComponent(Graphics grphcs) {
         Graphics2D g2 = (Graphics2D) grphcs.create();
