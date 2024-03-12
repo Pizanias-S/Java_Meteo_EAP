@@ -28,6 +28,10 @@ import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 
+/**
+ * A custom combo box creator method.
+ * 
+ */
 public class ComboBox<E> extends JComboBox<E> {
 
     public String getLabeText() {
@@ -64,7 +68,7 @@ public class ComboBox<E> extends JComboBox<E> {
                 Component com = super.getListCellRendererComponent(jlist, o, i, bln, bln1);
                 setBorder(new EmptyBorder(5, 5, 5, 5));
                 if (bln) {
-                    com.setBackground(new Color(40, 40, 40));
+                    com.setBackground(new Color(220, 220, 220));
                 }
                 return com;
             }
@@ -76,7 +80,8 @@ public class ComboBox<E> extends JComboBox<E> {
         setBorder(new EmptyBorder(15, 3, 5, 3));
         installUI();
     }
-
+    
+    /*  Custom Combo Box design & animation.    */
     private class ComboUI extends BasicComboBoxUI {
 
         private final Animator animator;
@@ -147,7 +152,6 @@ public class ComboBox<E> extends JComboBox<E> {
             TimingTarget target = new TimingTargetAdapter() {
                 @Override
                 public void begin() {
-                    //animateHinText = getSelectedIndex() == -1;
                 }
 
                 @Override
@@ -163,10 +167,6 @@ public class ComboBox<E> extends JComboBox<E> {
             animator.setDeceleration(0.5f);
         }
 
-//        @Override
-//        public void paintCurrentValueBackground(Graphics grphcs, Rectangle rctngl, boolean bln) {
-//
-//        }
 
         @Override
         protected JButton createArrowButton() {
@@ -180,7 +180,7 @@ public class ComboBox<E> extends JComboBox<E> {
                 protected JScrollPane createScroller() {
                     list.setFixedCellHeight(30);
                     JScrollPane scroll = new JScrollPane(list);
-                    scroll.setBackground(new Color(45,45,45));
+                    scroll.setBackground(new Color(150,150,150));
                     ScrollBarCustom sb = new ScrollBarCustom();
                     sb.setUnitIncrement(30);
                     sb.setForeground(new Color(220, 220, 220));
@@ -191,7 +191,11 @@ public class ComboBox<E> extends JComboBox<E> {
             pop.setBorder(new LineBorder(new Color(30, 30, 30), 1));
             return pop;
         }
-
+        
+        /**
+         * {@inheritDoc }
+         * 
+         */
         @Override
         public void paint(Graphics grphcs, JComponent jc) {
             super.paint(grphcs, jc);
@@ -246,6 +250,10 @@ public class ComboBox<E> extends JComboBox<E> {
                 setBackground(new Color(220, 220, 220));
             }
 
+           /**
+               * {@inheritDoc }
+               * 
+               */
             @Override
             public void paint(Graphics grphcs) {
                 super.paint(grphcs);

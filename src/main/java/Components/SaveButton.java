@@ -9,19 +9,26 @@ import java.awt.RenderingHints;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-
+/**
+   * This is a button creator method.
+   * 
+   */
 public class SaveButton extends JButton {
     
     private final Image img;
     private final Dimension imageSize = new Dimension(16, 16);
 
+    /*  Initializer */
     public SaveButton() {
         setContentAreaFilled(false);
         setBorder(null);
         setCursor(new Cursor(Cursor.HAND_CURSOR));
         img = new ImageIcon(getClass().getResource("/Icons/save.png")).getImage();
     }
-        
+     
+    /**
+        * {@inheritDoc }
+        */
     @Override
      public void paintComponent(Graphics grphcs) {
         Graphics2D g2 = (Graphics2D) grphcs.create();

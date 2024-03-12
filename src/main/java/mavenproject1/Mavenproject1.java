@@ -1,5 +1,5 @@
-
 package mavenproject1;
+
 import Database.Database;
 import Menu.EventMenu;
 import Menu.Forecast;
@@ -7,18 +7,26 @@ import Menu.CityList;
 import Menu.About;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.sql.Date;
-import java.util.List;
 import javax.swing.JComponent;
 import Swing.PopupDialogExit;
 import javax.swing.*;
 
+/**
+* The Mavenproject1 program implements an application that
+* displays and manages weather data from all over the world. 
+*
+* @author   Aggelos Kaptanis
+* @author   Dimitris Kafasis
+* @author   Stefanos Pizanias
+* @version 1.0
+* @since     2024
+*/
 public class Mavenproject1 extends javax.swing.JFrame{
 
-    private JFrame parentFrame;
+    public JFrame parentFrame;
+    
     public Mavenproject1() {
         Database connectDB = Database.getConnectionInstance();
-        System.out.println(connectDB);
         connectDB.createTableCity();
         connectDB.createTableMeteoData();
         connectDB.createCityDate();
@@ -26,25 +34,27 @@ public class Mavenproject1 extends javax.swing.JFrame{
         setBackground(new Color(0.0f,0.0f,0.0f,0.0f));
         parentFrame = (JFrame) this.getParent();
         init();
-        connectDB.selectCitysbyApperance();
         mainPanel.setBackground(new Color(30,30,30));
+        setForm(new Forecast());
         menu.addEvent(new EventMenu() {
             @Override
             public void menuSelected(int index) {
-                if (index == 0) {
-                    setForm(new Forecast());
-                } else if (index == 1) {
-                    setForm(new CityList());
-                } else if (index == 2){
-                    setForm(new About());
-                } else if (index == 3){
-                    PopupDialogExit obj = new PopupDialogExit(parentFrame);
-                    obj.setVisible(true);
+                switch (index) {
+                    case 0 -> setForm(new Forecast());
+                    case 1 -> setForm(new CityList());
+                    case 2 -> setForm(new About());
+                    case 3 -> {
+                        PopupDialogExit obj = new PopupDialogExit(parentFrame);
+                        obj.setVisible(true);
+                    }
+                    default -> {
+                    }
                 }
             }
           }); 
     }
     
+    /*  Simple method to display a new frame.   */
     private void setForm(JComponent com) {
         mainPanel.removeAll();
         mainPanel.add(com, BorderLayout.CENTER);

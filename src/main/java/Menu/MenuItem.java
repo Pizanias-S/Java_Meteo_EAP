@@ -10,6 +10,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 
+/**
+ * Sets the sidemenu icons' look & feel.
+ * 
+ */
 public class MenuItem extends JButton {
 
     public Image getImage() {

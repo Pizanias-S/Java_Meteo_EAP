@@ -1,6 +1,15 @@
 # Java_Meteo_EAP
 A Java Meteo project for EAP
 
+Created by:
+
+- Aggelos Kaptanis
+- Dimitris Kafasis
+- Stefanos Pizanias
+
+
+Using wttr.in API: 
+https://wttr.in/:help
 
 ## Περιγραφή
 

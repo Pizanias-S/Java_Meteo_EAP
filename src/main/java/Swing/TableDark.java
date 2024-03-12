@@ -6,15 +6,15 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
-import Components.ScrollBarCustom;
 
+/**
+ * A custom table.
+ * 
+ */
 public class TableDark extends JTable {
 
     private TableDarkHeader header;

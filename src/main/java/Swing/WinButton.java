@@ -1,12 +1,16 @@
 package Swing;
-
-//import Swing.PanelBackground;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 
+
+/**
+ * Custom round buttons.
+ * 
+ */
 public class WinButton extends javax.swing.JPanel {
 
+    public JFrame parentFrame;
     public WinButton() {
         initComponents();
         setOpaque(false);
@@ -16,7 +20,8 @@ public class WinButton extends javax.swing.JPanel {
         cmdClose.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                System.exit(0);
+                PopupDialogExit obj = new PopupDialogExit(parentFrame);
+                obj.setVisible(true);
             }
         });
         cmdMi.addActionListener(new ActionListener() {

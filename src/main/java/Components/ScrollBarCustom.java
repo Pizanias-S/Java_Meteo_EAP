@@ -4,6 +4,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JScrollBar;
 
+/**
+ * Sets the scrollbar's UI and colors.
+ * 
+ */
 public class ScrollBarCustom extends JScrollBar {
 
     public ScrollBarCustom() {

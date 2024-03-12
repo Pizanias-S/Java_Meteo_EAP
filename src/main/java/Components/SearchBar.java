@@ -11,7 +11,6 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.RenderingHints;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Area;
@@ -20,7 +19,6 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
@@ -28,6 +26,10 @@ import org.jdesktop.animation.timing.TimingTargetAdapter;
 import Menu.EventCallBack;
 import Menu.EventTextField;
 
+/**
+ * A custom search bar.
+ * 
+ */
 public class SearchBar extends JTextField {
 
     public String getHintText() {
@@ -49,8 +51,6 @@ public class SearchBar extends JTextField {
     private Color backgroundColor = new Color(50,50,50);
     private Color animationColor = new Color(90, 90, 90);
     private final Icon iconSearch;
-    //private final Icon iconClose;
-    //private final Icon iconLoading;
     private String hintText = "Search...";
     private boolean show;
     private double location = -1;
@@ -63,12 +63,8 @@ public class SearchBar extends JTextField {
         super.setBackground(new Color(255, 255, 255, 0)); //  Remove background
         setOpaque(false);
         setBorder(new EmptyBorder(10, 10, 10, 50)); //  Set Right border 50
-        //setFont(new java.awt.Font("sansserif", 0, 14));
         setSelectionColor(new Color(80, 80, 80));
         iconSearch = new ImageIcon(getClass().getResource("/Icons/search.png"));
-        //iconClose = new ImageIcon(getClass().getResource("/swing/close.png"));
-        //iconLoading = new ImageIcon(getClass().getResource("/swing/loading.gif"));
-        //  Create and check if mouse over button
         addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent me) {
@@ -79,44 +75,7 @@ public class SearchBar extends JTextField {
                 }
             }
         });
-        //  Create mouse click
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent me) {
-                if (SwingUtilities.isLeftMouseButton(me)) {
-                    if (checkMouseOver(me.getPoint())) {
-                        if (!animator.isRunning()) {
-                            if (show) {
-                                setEditable(true);
-                                show = false;
-                                location = 0;
-                                animator.start();
-                                if (thread != null) {
-                                    thread.interrupt();
-                                }
-                                if (event != null) {
-                                    event.onCancel();
-                                }
-                            } else {
-                                setEditable(false);
-                                show = true;
-                                location = getWidth();
-                                animator.start();
-                                if (event != null) {
-                                    thread = new Thread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            event.onPressed(callBack);
-                                        }
-                                    });
-                                    thread.start();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        });
+
         callBack = new EventCallBack() {
             @Override
             public void done() {
@@ -160,16 +119,13 @@ public class SearchBar extends JTextField {
         GradientPaint gra = new GradientPaint(0, 0, new Color(50, 50, 50), width, 0, animationColor);
         g2.setPaint(gra);
         g2.fillOval(width - height + 3, marginButton, buttonSize, buttonSize);
-        //  Create Animation when click button
+        //  Create Animation when button is clicked
         if (location > -1) {
             Area area = new Area(new RoundRectangle2D.Double(0, 0, width, height, height, height));
             area.intersect(new Area(new RoundRectangle2D.Double(location, 0, width - location, height, height, height)));
             g2.fill(area);
-            //  Create Loading icon
-            //int iconSize = iconLoading.getIconHeight();
             //  Create Alpha
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, getAlpha()));
-            //g2.drawImage(((ImageIcon) iconLoading).getImage(), (int) (location + 5), (height - iconSize) / 2, this);
         }
         //  Create Button Icon
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f)); //  Set to default
