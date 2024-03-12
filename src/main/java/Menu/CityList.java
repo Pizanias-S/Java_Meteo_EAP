@@ -29,13 +29,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 
-import static javax.swing.JOptionPane.showMessageDialog;
-
-/**
-   * This is the main method which manages the DB tables.
-   * 
-   */
-
 public class CityList extends javax.swing.JPanel {
     
     private JFrame parentFrame;
