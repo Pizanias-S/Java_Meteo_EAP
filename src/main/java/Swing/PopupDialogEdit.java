@@ -16,7 +16,12 @@ import Components.DialogButton;
 import Components.PopupBackground;
 import Database.Database;
 
+import static javax.swing.JOptionPane.showMessageDialog;
 
+/**
+   * This method creates custom popup windows with editable fields.
+   * 
+   */
 public class PopupDialogEdit extends JDialog {
 
     private final String selectedCity;
@@ -42,6 +47,11 @@ public class PopupDialogEdit extends JDialog {
        saveButton.setColor2(Color.decode("#995c00"));
     }
     
+    /**
+     * 
+     * {@inheritDoc }
+     *  
+     */
     private ImageIcon iconRender(String path, int w, int h){
         ImageIcon tempIcon = new ImageIcon(getClass().getResource(path));
         Image img = tempIcon.getImage();

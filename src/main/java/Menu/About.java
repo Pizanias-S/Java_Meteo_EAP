@@ -13,8 +13,11 @@ import java.util.logging.Logger;
 public class About extends javax.swing.JPanel {
     
     private ImageIcon logo, javaIcon, gitLogo, TrelloLogo, gitLogo2;
-
-
+    
+    /** 
+    * Class constructor.
+    * 
+    */
     public About() {
         initComponents();
         setOpaque(false);

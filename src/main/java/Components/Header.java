@@ -8,6 +8,10 @@ import java.awt.event.MouseMotionAdapter;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+/**
+ * A custom window header for MacOS look & feel.
+ * 
+ */
 public class Header extends javax.swing.JPanel {
 
     public Header() {

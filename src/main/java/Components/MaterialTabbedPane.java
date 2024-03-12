@@ -15,12 +15,17 @@ import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.interpolation.PropertySetter;
 
+/**
+ * A custom tabbed pane for ''material'' look & feel.
+ * 
+ */
 public class MaterialTabbedPane extends JTabbedPane {
 
     public MaterialTabbedPane() {
         setUI(new MaterialTabbedUI());
     }
-
+    
+    /*  Custom UI   */
     public class MaterialTabbedUI extends MetalTabbedPaneUI {
 
         public void setCurrentRectangle(Rectangle currentRectangle) {

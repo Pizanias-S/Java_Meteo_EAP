@@ -308,12 +308,13 @@ public class CityList extends javax.swing.JPanel {
                 .addGap(40, 40, 40)
                 .addComponent(materialTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(pdfButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(deleteButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(comboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(editButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button1, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(button1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(pdfButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(deleteButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(comboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(editButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(29, 29, 29))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -324,6 +325,7 @@ public class CityList extends javax.swing.JPanel {
         // Initializing the delete button
         String selectedCity = String.valueOf(comboBox1.getSelectedItem());
         String IsNull = "null";
+        // Timed Popups & exceptions
         if (selectedCity.equals(IsNull)){
             PopupDialogInfo notification = new PopupDialogInfo(parentFrame);
             notification.init();
@@ -367,6 +369,7 @@ public class CityList extends javax.swing.JPanel {
         // Initializing the Data editing process
         String selectedCity = String.valueOf(comboBox1.getSelectedItem());
         String IsNull = "null";
+        // Timed Popups & exceptions
         if (selectedCity.equals(IsNull)){
             PopupDialogInfo notification = new PopupDialogInfo(parentFrame);
             notification.init();
@@ -418,7 +421,7 @@ public class CityList extends javax.swing.JPanel {
     }//GEN-LAST:event_comboBox1FocusGained
 
     private void button1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button1MouseClicked
-        // Inserting data on tables Meteo Data, City Searched Data and City's
+        // Inserting data on tables Meteo Data, City Searched Data and Cities
         String selectedCity = String.valueOf(comboBox1.getSelectedItem()); 
         String IsNull = "null";
         if (selectedCity.equals(IsNull)){
