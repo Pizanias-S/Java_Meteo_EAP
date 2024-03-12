@@ -11,7 +11,10 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 
-
+/**
+ * A custom table.
+ * 
+ */
 public class TableDark extends JTable {
 
     private TableDarkHeader header;

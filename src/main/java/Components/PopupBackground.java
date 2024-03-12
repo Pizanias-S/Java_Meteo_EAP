@@ -8,6 +8,10 @@ import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import javax.swing.JPanel;
 
+/**
+ * Custom bg for popup dialogs.
+ * 
+ */
 public class PopupBackground extends JPanel {
 
     public PopupBackground() {

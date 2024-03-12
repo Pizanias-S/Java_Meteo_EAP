@@ -10,6 +10,10 @@ import java.awt.image.BufferedImage;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
 
+/**
+   * This is a button creator method.
+   * 
+   */
 public class DialogButton extends JButton {
 
     private Color color1 = Color.decode("#dc143c");
@@ -23,7 +27,8 @@ public class DialogButton extends JButton {
     public void setColor2(Color color2) {
         this.color2 = color2;
     }
-
+    
+    /*  Initializer */
     public DialogButton() {
         setContentAreaFilled(false);
         setForeground(Color.WHITE);
@@ -31,6 +36,9 @@ public class DialogButton extends JButton {
         setBorder(new EmptyBorder(10, 20, 10, 20));
     }
 
+    /**
+        * {@inheritDoc }
+        */
     @Override
     protected void paintComponent(Graphics grphcs) {
         int width = getWidth();

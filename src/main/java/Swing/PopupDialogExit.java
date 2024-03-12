@@ -5,7 +5,10 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-
+/**
+   * This method creates custom exit popup windows.
+   * 
+   */
 public class PopupDialogExit extends javax.swing.JDialog {
 
     private final JFrame frame;
@@ -29,6 +32,11 @@ public class PopupDialogExit extends javax.swing.JDialog {
        msg.setIcon(logo);
     }
     
+    /**
+     * 
+     * {@inheritDoc }
+     *  
+     */
     private ImageIcon iconRender(String path, int w, int h){
         ImageIcon tempIcon = new ImageIcon(getClass().getResource(path));
         Image img = tempIcon.getImage();
