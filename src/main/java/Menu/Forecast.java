@@ -22,7 +22,7 @@ import Swing.PopupDialogInfo;
 import okhttp3.Response;
 
 /**
-   * This is the main method which manages the weather forecast frame.
+   * This is the main method that manages the weather forecast frame.
    * 
    */
 public class Forecast extends JPanel {
