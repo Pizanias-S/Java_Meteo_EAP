@@ -29,8 +29,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 
-import static javax.swing.JOptionPane.showMessageDialog;
-
 public class CityList extends javax.swing.JPanel {
     
     private JFrame parentFrame;

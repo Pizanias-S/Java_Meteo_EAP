@@ -41,7 +41,7 @@ public class Forecast extends JPanel {
         cur_con_icon =  iconRender("/Icons/cur_partly_cloudy.png", 100, 100);
         cur_conditions.setIcon(cur_con_icon);
         
-        // Humidity - Winspeed - UV icons
+        // Humidity - Wind speed - UV icons
         h_icn = iconRender("/Icons/humidity.png", 25, 25);
         h_icon.setIcon(h_icn);
         ws_icn = iconRender("/Icons/windspeed.png", 25, 25);
@@ -1436,7 +1436,7 @@ public class Forecast extends JPanel {
 
 
     private void searchBar1ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_searchBar1ActionPerformed
-
+    // action when a city is searched in the search bar
         
         Date currentDate = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -1450,12 +1450,14 @@ public class Forecast extends JPanel {
         LocalDateTime now = LocalDateTime.now();
              
         try {
+            // get the text of the city
             String city = searchBar1.getText();                                      
             String urlToCall = "https://wttr.in/" + city + "?format=j1";              
             OkHttpClient client = new OkHttpClient();                               
             Request request = new Request.Builder().url(urlToCall).build();  
             searchError.setText("");
-            
+
+            // getting the http response
             try (Response response = client.newCall(request).execute()) {
                if (response.isSuccessful() && response.body() != null) {
                    String responseString = response.body().string();
@@ -1472,6 +1474,8 @@ public class Forecast extends JPanel {
 
                    String longitude = null;
                    String latitude = null;
+
+                   // iterate over the json Element of the response
                    for (JsonElement jsonElement : city_array) {
                        JsonObject object = jsonElement.getAsJsonObject();
                        JsonArray areaName = object.get("areaName").getAsJsonArray();
@@ -1479,23 +1483,29 @@ public class Forecast extends JPanel {
                        JsonArray regionName = object.get("region").getAsJsonArray();
                        latitude = object.get("latitude").getAsString();
                        longitude = object.get("longitude").getAsString();
+                       // get city
                        for (JsonElement jsonElement2 : areaName) {
                            JsonObject object1 = jsonElement2.getAsJsonObject();
                            name = object1.get("value").getAsString();
                        }
+                       // get country
                        for (JsonElement jsonCountry : countryName) {
                            JsonObject objectCountry = jsonCountry.getAsJsonObject();
                            country = objectCountry.get("value").getAsString();
                        }
+                       // get region
                        for (JsonElement jsonRegion : regionName) {
                            JsonObject objectRegion = jsonRegion.getAsJsonObject();
                            region = objectRegion.get("value").getAsString();
                        }
                        cityLabel.setText(name+", "+region+", "+country);
                    }
+                   // connect to DB to insert the newly seached city data
                    Database connectDB = Database.getConnectionInstance();
                    connectDB.insertNewCity(name, country, region, latitude, longitude, 1,
                            LocalDateTime.now().withNano(0).toString());
+
+                   // iterate over the json Element to get the Meteo data
                    for (JsonElement jsonElement2 : conditions_array) {
                        JsonObject cndObj = jsonElement2.getAsJsonObject();
                        cur_temp.setText(cndObj.get("temp_C").getAsString() + "°C");
@@ -1508,6 +1518,7 @@ public class Forecast extends JPanel {
                            JsonObject cndObj2 = jsonElement3.getAsJsonObject();
                            description.setText(cndObj2.get("value").getAsString());
 
+                           // Switch condition for the main shown image with regard of the weather desc
                            String desc = cndObj2.get("value").getAsString();
                            String temp_cur_icn = switch (desc) {
                                case "Moderate or heavy snow in area with thunder",
@@ -1544,17 +1555,18 @@ public class Forecast extends JPanel {
                        }
                    }
 
-
+                   // iterate over the json Element to get the forecast Meteo data
                    for (JsonElement jsonElement4 : forecast_array) {
                        JsonObject wObj0 = jsonElement4.getAsJsonObject();
                        String stringDate = wObj0.get("date").getAsString();
+                       // get the today forecast data
                        if (stringDate.equalsIgnoreCase(formattedDate)) {
-                           materialTabbedPane2.setTitleAt(0, formattedDate); // change tab title
+                           materialTabbedPane2.setTitleAt(0, formattedDate);
                            JsonArray fcast0 = wObj0.get("hourly").getAsJsonArray();
                            for (JsonElement jsonElement5 : fcast0) {
                                JsonObject h2 = jsonElement5.getAsJsonObject();
                                String stringTime = h2.get("time").getAsString();
-
+                                // get the morning forecast data
                                if (stringTime.equalsIgnoreCase("600")) {
                                    fm_temp.setText(h2.get("tempC").getAsString() + "°C");
                                    fm_h.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
@@ -1565,6 +1577,7 @@ public class Forecast extends JPanel {
                                    for (JsonElement jsonElement11 : description_subarray) {
                                        JsonObject m = jsonElement11.getAsJsonObject();
                                        fm_description.setText(m.get("value").getAsString());
+                                       // Switch condition for the today/morning shown image with regard of the weather desc
                                        String desc = m.get("value").getAsString();
                                        String temp_cur_icn = switch (desc) {
                                            case "Moderate or heavy snow in area with thunder",
@@ -1597,6 +1610,7 @@ public class Forecast extends JPanel {
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
                                        fm_icon.setIcon(cur_con_icon);
                                    }
+                                   // get the noon forecast data
                                } else if (stringTime.equalsIgnoreCase("1200")) {
                                    fn_temp.setText(h2.get("tempC").getAsString() + "°C");
                                    fn_h.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
@@ -1607,6 +1621,7 @@ public class Forecast extends JPanel {
                                    for (JsonElement jsonElement10 : description_subarray) {
                                        JsonObject n = jsonElement10.getAsJsonObject();
                                        fn_description.setText(n.get("value").getAsString());
+                                       // Switch condition for the today/noon shown image with regard of the weather desc
                                        String desc = n.get("value").getAsString();
                                        String temp_cur_icn = switch (desc) {
                                            case "Moderate or heavy snow in area with thunder",
@@ -1639,6 +1654,7 @@ public class Forecast extends JPanel {
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
                                        fn_icon.setIcon(cur_con_icon);
                                    }
+                                   // get the evening forecast data
                                } else if (stringTime.equalsIgnoreCase("1800")) {
                                    fe_temp.setText(h2.get("tempC").getAsString() + "°C");
                                    fe_h.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
@@ -1649,6 +1665,7 @@ public class Forecast extends JPanel {
                                    for (JsonElement jsonElement9 : description_subarray) {
                                        JsonObject e = jsonElement9.getAsJsonObject();
                                        fe_description.setText(e.get("value").getAsString());
+                                       // Switch condition for the today/evening shown image with regard of the weather desc
                                        String desc = e.get("value").getAsString();
                                        String temp_cur_icn = switch (desc) {
                                            case "Moderate or heavy snow in area with thunder",
@@ -1683,6 +1700,7 @@ public class Forecast extends JPanel {
 
 
                                    }
+                                   // get the night forecast data
                                } else if (stringTime.equalsIgnoreCase("2100")) {
                                    fnt_temp.setText(h2.get("tempC").getAsString() + "°C");
                                    fnt_h.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
@@ -1693,7 +1711,7 @@ public class Forecast extends JPanel {
                                    for (JsonElement jsonElement8 : description_subarray) {
                                        JsonObject nt = jsonElement8.getAsJsonObject();
                                        fnt_description.setText(nt.get("value").getAsString());
-
+                                       // Switch condition for the today/night shown image with regard of the weather desc
                                        String desc = nt.get("value").getAsString();
                                        String temp_cur_icn = switch (desc) {
                                            case "Moderate or heavy snow in area with thunder",
@@ -1728,14 +1746,14 @@ public class Forecast extends JPanel {
                                    }
                                }
                            }
-                           // TOMORROW
+                           // get the tomorrow forecast data
                        }else if (stringDate.equalsIgnoreCase(dateTomorrow)) {
                            materialTabbedPane2.setTitleAt(1, dateTomorrow); // change tab title
                            JsonArray fcast0 = wObj0.get("hourly").getAsJsonArray();
                            for (JsonElement jsonElement5 : fcast0) {
                                JsonObject h2 = jsonElement5.getAsJsonObject();
                                String stringTime = h2.get("time").getAsString();
-
+                               // get the morning forecast data
                                if (stringTime.equalsIgnoreCase("600")) {
                                    fm_temp1.setText(h2.get("tempC").getAsString() + "°C");
                                    fm_h1.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
@@ -1746,6 +1764,7 @@ public class Forecast extends JPanel {
                                    for (JsonElement jsonElement11 : description_subarray) {
                                        JsonObject m = jsonElement11.getAsJsonObject();
                                        fm_description1.setText(m.get("value").getAsString());
+                                       // Switch condition for the tomorrow/morning shown image with regard of the weather desc
                                        String desc = m.get("value").getAsString();
                                        String temp_cur_icn = switch (desc) {
                                            case "Moderate or heavy snow in area with thunder",
@@ -1778,6 +1797,7 @@ public class Forecast extends JPanel {
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
                                        fm_icon1.setIcon(cur_con_icon);
                                    }
+                                   // get the noon forecast data
                                } else if (stringTime.equalsIgnoreCase("1200")) {
                                    fn_temp1.setText(h2.get("tempC").getAsString() + "°C");
                                    fn_h1.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
@@ -1788,6 +1808,7 @@ public class Forecast extends JPanel {
                                    for (JsonElement jsonElement10 : description_subarray) {
                                        JsonObject n = jsonElement10.getAsJsonObject();
                                        fn_description1.setText(n.get("value").getAsString());
+                                       // Switch condition for the tomorrow/noon shown image with regard of the weather desc
                                        String desc = n.get("value").getAsString();
                                        String temp_cur_icn = switch (desc) {
                                            case "Moderate or heavy snow in area with thunder",
@@ -1820,6 +1841,7 @@ public class Forecast extends JPanel {
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
                                        fn_icon1.setIcon(cur_con_icon);
                                    }
+                                   // get the evening forecast data
                                } else if (stringTime.equalsIgnoreCase("1800")) {
                                    fe_temp1.setText(h2.get("tempC").getAsString() + "°C");
                                    fe_h1.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
@@ -1830,6 +1852,7 @@ public class Forecast extends JPanel {
                                    for (JsonElement jsonElement9 : description_subarray) {
                                        JsonObject e = jsonElement9.getAsJsonObject();
                                        fe_description1.setText(e.get("value").getAsString());
+                                       // Switch condition for the tomorrow/evening shown image with regard of the weather desc
                                        String desc = e.get("value").getAsString();
                                        String temp_cur_icn = switch (desc) {
                                            case "Moderate or heavy snow in area with thunder",
@@ -1864,6 +1887,7 @@ public class Forecast extends JPanel {
 
 
                                    }
+                                   // get the night forecast data
                                } else if (stringTime.equalsIgnoreCase("2100")) {
                                    fnt_temp1.setText(h2.get("tempC").getAsString() + "°C");
                                    fnt_h1.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
@@ -1874,7 +1898,7 @@ public class Forecast extends JPanel {
                                    for (JsonElement jsonElement8 : description_subarray) {
                                        JsonObject nt = jsonElement8.getAsJsonObject();
                                        fnt_description1.setText(nt.get("value").getAsString());
-
+                                        // Switch condition for the tomorrow/night shown image with regard of the weather desc
                                        String desc = nt.get("value").getAsString();
                                        String temp_cur_icn = switch (desc) {
                                            case "Moderate or heavy snow in area with thunder",
@@ -1909,7 +1933,7 @@ public class Forecast extends JPanel {
                                    }
                                }
                            }
-                           // DAY AFTER TOMORROW
+                           // // get the day after tomorrow forecast data
                        }else if (stringDate.equalsIgnoreCase(formattedDayAfterTomorrowDate)) {
                            materialTabbedPane2.setTitleAt(2, formattedDayAfterTomorrowDate); // change tab title
 
@@ -1917,7 +1941,7 @@ public class Forecast extends JPanel {
                            for (JsonElement jsonElement5 : fcast0) {
                                JsonObject h2 = jsonElement5.getAsJsonObject();
                                String stringTime = h2.get("time").getAsString();
-
+                                // get the morning forecast data
                                if (stringTime.equalsIgnoreCase("600")) {
                                    fm_temp2.setText(h2.get("tempC").getAsString() + "°C");
                                    fm_h2.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
@@ -1928,6 +1952,7 @@ public class Forecast extends JPanel {
                                    for (JsonElement jsonElement11 : description_subarray) {
                                        JsonObject m = jsonElement11.getAsJsonObject();
                                        fm_description2.setText(m.get("value").getAsString());
+                                       // Switch condition for the day after/morning shown image with regard of the weather desc
                                        String desc = m.get("value").getAsString();
                                        String temp_cur_icn = switch (desc) {
                                            case "Moderate or heavy snow in area with thunder",
@@ -1960,6 +1985,7 @@ public class Forecast extends JPanel {
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
                                        fm_icon2.setIcon(cur_con_icon);
                                    }
+                                   // get the noon forecast data
                                } else if (stringTime.equalsIgnoreCase("1200")) {
                                    fn_temp2.setText(h2.get("tempC").getAsString() + "°C");
                                    fn_h2.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
@@ -1970,6 +1996,7 @@ public class Forecast extends JPanel {
                                    for (JsonElement jsonElement10 : description_subarray) {
                                        JsonObject n = jsonElement10.getAsJsonObject();
                                        fn_description2.setText(n.get("value").getAsString());
+                                       // Switch condition for the day after/noon shown image with regard of the weather desc
                                        String desc = n.get("value").getAsString();
                                        String temp_cur_icn = switch (desc) {
                                            case "Moderate or heavy snow in area with thunder",
@@ -2002,6 +2029,7 @@ public class Forecast extends JPanel {
                                        cur_con_icon = iconRender("/Icons/" + temp_cur_icn + ".png", 50, 50);
                                        fn_icon2.setIcon(cur_con_icon);
                                    }
+                                   // get the evening forecast data
                                } else if (stringTime.equalsIgnoreCase("1800")) {
                                    fe_temp2.setText(h2.get("tempC").getAsString() + "°C");
                                    fe_h2.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
@@ -2012,6 +2040,7 @@ public class Forecast extends JPanel {
                                    for (JsonElement jsonElement9 : description_subarray) {
                                        JsonObject e = jsonElement9.getAsJsonObject();
                                        fe_description2.setText(e.get("value").getAsString());
+                                       // Switch condition for the day after/evening shown image with regard of the weather desc
                                        String desc = e.get("value").getAsString();
                                        String temp_cur_icn = switch (desc) {
                                            case "Moderate or heavy snow in area with thunder",
@@ -2046,6 +2075,7 @@ public class Forecast extends JPanel {
 
 
                                    }
+                                   // get the night forecast data
                                } else if (stringTime.equalsIgnoreCase("2100")) {
                                    fnt_temp2.setText(h2.get("tempC").getAsString() + "°C");
                                    fnt_h2.setText("Humidity: " + h2.get("humidity").getAsString() + "%");
@@ -2056,7 +2086,7 @@ public class Forecast extends JPanel {
                                    for (JsonElement jsonElement8 : description_subarray) {
                                        JsonObject nt = jsonElement8.getAsJsonObject();
                                        fnt_description2.setText(nt.get("value").getAsString());
-
+                                       // Switch condition for the day after/night shown image with regard of the weather desc
                                        String desc = nt.get("value").getAsString();
                                        String temp_cur_icn = switch (desc) {
                                            case "Moderate or heavy snow in area with thunder",
@@ -2107,6 +2137,7 @@ public class Forecast extends JPanel {
     }//GEN-LAST:event_searchBar1ActionPerformed
 
     private void saveButton1MouseClicked(MouseEvent evt) {//GEN-FIRST:event_saveButton1MouseClicked
+        // save button action to save meteo data to the db
         double cityTemp;
         try {
             cityTemp = Double.parseDouble(cur_temp.getText().split("°")[0]);
@@ -2144,7 +2175,7 @@ public class Forecast extends JPanel {
     }//GEN-LAST:event_saveButton1ActionPerformed
 
     private void searchInfoButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchInfoButton1ActionPerformed
-        // TODO add your handling code here:
+        // Info button popup
         PopupDialogInfo info = new PopupDialogInfo(parentFrame);
         info.init();
         info.setInfo("Tip: Search location by city & province/country, ICAO airport code or coordinates");
