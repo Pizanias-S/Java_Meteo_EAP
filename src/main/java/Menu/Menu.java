@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import net.miginfocom.swing.MigLayout;
 
 /**
-   * This is the main method which manages the sidemenu's layout, look & feel.
+   * This is the main method that manages the sidemenu's layout, look & feel.
    * 
    */
 
@@ -36,8 +36,7 @@ public class Menu extends javax.swing.JPanel {
     private void addSpace(int size) {
         panel.add(new JLabel(), "h " + size + "!");
     }
-    
-    /**  @see Above. */
+
     private void addItem(String icon, int index) {
         MenuItem item = new MenuItem();
         item.setImage(new ImageIcon(getClass().getResource("/Icons/" + icon + ".png")).getImage());
